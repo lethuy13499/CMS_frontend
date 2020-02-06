@@ -1,0 +1,115 @@
+<div class="container">
+  <div class="divtrong">
+    <div class="divphai">
+      <div class="vip">
+        <h4>Nhập Thông Tin Demo</h4>
+        <form [formGroup]="fromthongtin" style="padding:0px;" class="col-md-12">
+
+          <div class="form-group">
+            <label class="col-lg-12 control-label">
+              Chủ đề:
+            </label>
+            <div id="fu">
+              <div id="filter_select">
+                <select  [attr.disabled]="disable ? '' : null"  formControlName="combobox"  class="form-control col-xs-2" (change)="filterByType($event)">
+                  <option *ngFor="let ta of _listSubject" [value]="ta.id">{{ta.name}}</option>
+                </select> &nbsp;&nbsp;
+                <mat-error *ngIf="fromthongtin.get('combobox').hasError('required')&&
+                fromthongtin.get('combobox').touched" style="color: red">
+                chủ đề không được để trống
+              </mat-error>
+              <mat-error style="color: red" *ngIf="isSu">Không có bài thi, chọn chủ đề khác!</mat-error>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-12 control-label">
+              Họ tên: *
+            </label>
+            <div class="col-lg-14">
+              <input class="form-control" type="text" formControlName="fullName" />
+            </div>
+            <label for="">
+              <mat-error *ngIf="fromthongtin.get('fullName').hasError('required')&&
+                fromthongtin.get('fullName').touched" style="color: red">
+                họ tên không được để trống
+              </mat-error>
+              <mat-error *ngIf="fromthongtin.get('fullName').hasError('minlength')" style="color: red">
+                họ tên không nhỏ hơn 03 ký tự
+              </mat-error>
+              <mat-error *ngIf="fromthongtin.get('fullName').hasError('maxlength')" style="color: red">
+                họ tên không quá 50 ký tự
+              </mat-error>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-12 control-label">
+              Địa chỉ Email *:
+            </label>
+            <div class="col-lg-14">
+              <input class="form-control" type="text" formControlName="email" />
+            </div>
+            <mat-error *ngIf="fromthongtin.get('email').hasError('required')&&
+            fromthongtin.get('email').touched" style="color: red">
+              Email Address không được để trống
+            </mat-error>
+            <mat-error *ngIf="fromthongtin.get('email').hasError('maxlength')" style="color: red">không được quá 50 ký
+              tự!</mat-error>
+            <mat-error *ngIf="
+            fromthongtin.hasError('email', ['email']) &&
+            fromthongtin.touched " style="color: red">
+              Email Không đúng định dạng!
+            </mat-error>
+            <mat-error *ngIf="fromthongtin.get('email').hasError('maxlength')">không được vượt quá 50 ký tự!
+            </mat-error>
+            <mat-error *ngIf="fromthongtin.get('email').hasError('pattern')">Email không hợp lệ!</mat-error>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-12 control-label">
+              Số điện thoại (Optional):
+            </label>
+            <div class="col-lg-14">
+              <input class="form-control" type="text" formControlName="mobile" />
+            </div>
+            <mat-error *ngIf="fromthongtin.get('mobile').hasError('required')&&
+            fromthongtin.get('mobile').touched" style="color: red">
+              số điện thoại không được để trống
+            </mat-error>
+            <mat-error *ngIf="fromthongtin.get('mobile').hasError('minlength')" style="color: red">
+              số điện thoại nhỏ hơn 08 ký tự
+            </mat-error>
+            <mat-error *ngIf="fromthongtin.get('mobile').hasError('maxlength')" style="color: red">
+              số điện thoại không quá 12 ký tự
+            </mat-error>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-12 control-label">
+              Đơn vị (Optional):
+            </label>
+            <div class="col-lg-14">
+              <input class="form-control" type="text" formControlName="school" />
+            </div>
+          </div>
+
+          <div class="sudmitbutton">
+            <input [disabled]="!fromthongtin.valid" (click)="onSubmitAdd()" type="submit" class="btn btn-primary"
+              style="width: 312px" value="LAUNCH DEMO" />
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="divtrai">
+      <div class="vip1">
+        <h4>Những gì bạn nhận được với bản Demo</h4>
+        <div *ngFor="let ta of _listExam">
+          <h6>{{ta['4']}}</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,156 @@
+<div class="container total" style="padding: 55px; width: 75%;height: auto;">
+  <h1 style="text-align: left;font-size: 28px;">Create unit</h1>
+  <form [formGroup]="insertUnit">
+    <div class="row">
+      <div class="col-xs-8 col-sm-8	col-md-8 col-lg-8">
+        <div class="form-group">
+          <label style="font-size: 16px">Tên bài học <span class="required_field">*</span>
+            <label>
+              <mat-error *ngIf="
+                insertUnit.get('name').hasError('whitespace') &&
+                insertUnit.get('name').touched
+              " style="font-size: 16px">
+                Không được để trống hay chỉ nhập khoảng trắng không!
+              </mat-error>
+              <mat-error *ngIf="insertUnit.get('name').hasError('minlength')">Không được dưới 5 kí tự!</mat-error>
+              <mat-error *ngIf="insertUnit.get('name').hasError('maxlength')">Không được vượt quá 50 kí tự!
+              </mat-error>
+            </label>
+          </label>
+          <input type="text" class="form-control  " formControlName="name" placeholder="Nhập tên bài học..." [ngClass]="{
+                'is-invalid':
+                  (insertUnit.get('name').hasError('whitespace') &&
+                    insertUnit.get('name').touched) ||
+                  insertUnit.get('name').hasError('maxlength') ||
+                  insertUnit.get('name').hasError('minlength'),
+                'is-valid':
+                  (!insertUnit.get('name').hasError('whitespace') &&
+                    insertUnit.get('name').touched) ||
+                  !insertUnit.get('name').hasError('maxlength') ||
+                  !insertUnit.get('name').hasError('minlength')
+              }" />
+        </div>
+      </div>
+      <div class="col-xs-4	col-sm-4	col-md-4	col-lg-4">
+        <div class="form-group">
+          <label style="font-size: 16px">Loại bài học <span class="required_field">*</span>
+          </label>
+          <select class="form-control" formControlName="contentType" (change)="onChange($event.target.value)">
+            <option value="0" selected>Text</option>
+            <option value="1">PDF</option>
+            <option value="2">Video</option>
+            <option value="3">Quiz</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="lsType == 3">
+      <div class="col-md-10 col-xs-10 col-sm-10 col-lg-10">
+        <div class="form-group">
+          <label style="font-size: 16px">
+            Chọn bài quiz <span class="required_field">*</span>
+          </label>
+          <select class="form-control" formControlName="exam">
+            <option *ngFor="let ex of listExam" [value]="ex['0']" selected>{{ex['8']}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-2 col-xs-2 col-sm-2 col-lg-2"
+        style="display: flex; align-items: center; justify-content: left;">
+        <div class="form-group">
+          <button class="btn btn-success" style=" margin-top: 30px;">Bổ sung</button>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="lsType == 1">
+      <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+        <div class="form-group">
+          <label style="font-size: 16px">
+            PDF file<span class="required_field">*</span>
+            <label>
+              <mat-error *ngIf=" insertUnit.get('document').hasError('required') &&
+              insertUnit.get('document').touched" style="font-size: 16px">
+                Không được để trống !
+              </mat-error>
+              <mat-error *ngIf="
+              insertUnit.get('document').hasError('pattern') &&
+              insertUnit.get('document').touched
+            ">
+              Chỉ chọn file pdf!
+            </mat-error>
+            </label>
+          </label>
+          <input type="file" id="file" formControlName="document" #filePdf accept="application/pdf"  (change)="onSelectPdf(filePdf.files)"  class="form-control">
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="lsType == 2">
+      <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+        <div class="form-group">
+          <label style="font-size: 16px">
+            Media link <span class="required_field">*</span>
+            <label for="">
+              <mat-error *ngIf="
+                insertUnit.get('medialink').hasError('whitespace') &&
+                insertUnit.get('medialink').touched
+                " style="font-size: 16px">
+                Không được để trống hay chỉ nhập khoảng trắng không!
+              </mat-error>
+              <mat-error *ngIf="
+                insertUnit.get('medialink').hasError('pattern') &&
+                insertUnit.get('medialink').touched
+              ">
+                Không đúng định dạng url!
+              </mat-error>
+            </label>
+          </label>
+          <input type="url" formControlName="medialink" placeholder="Youtube link" class="form-control">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12	col-md-12 col-lg-12">
+        <div class="form-group">
+          <label style="font-size: 16px">
+            Nội dung <span class="required_field">*</span>
+            <label for="">
+              <mat-error *ngIf="
+                insertUnit.get('description').hasError('whitespace') &&
+                insertUnit.get('description').touched
+                " style="font-size: 16px">
+                Không được để trống hay chỉ nhập khoảng trắng không!
+              </mat-error>
+              <mat-error *ngIf="insertUnit.get('description').hasError('minlength')">Không được dưới 5 kí tự!
+              </mat-error>
+              <mat-error *ngIf="insertUnit.get('description').hasError('maxlength')">Không được vượt quá 10000 ký tự!
+              </mat-error>
+            </label>
+          </label>
+          <angular-editor [config]="config" formControlName="description" [ngClass]="{
+            'is-invalid':
+              (insertUnit.get('description').hasError('whitespace') &&
+              insertUnit.get('description').touched) ||
+              (insertUnit.get('description').hasError('required') &&
+                insertUnit.get('description').touched) ||
+              insertUnit.get('description').hasError('minlength') ||
+              insertUnit.get('description').hasError('maxlength'),
+            'is-valid':
+              (!insertUnit.get('description').hasError('whitespace') &&
+              insertUnit.get('description').touched) ||
+              (!insertUnit.get('description').hasError('required') &&
+                insertUnit.get('description').touched) ||
+              !insertUnit.get('description').hasError('minlength') ||
+              !insertUnit.get('description').hasError('maxlength')
+          }"></angular-editor>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class=" col-xs-4 col-sm-4 col-lg-4 col-md-4">
+        <button type="submit" (click)="onSubmit()" [disabled]="!insertUnit.valid" class="btn btn-primary"
+          style="margin-right: 10px">Thêm mới</button>
+        <button class="btn btn-secondary" (click)="close()"> Đóng </button>
+      </div>
+    </div>
+  </form>
+</div>

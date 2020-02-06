@@ -1,0 +1,285 @@
+<div class="content-container">
+  <div class="col-md-12">
+    <div class="widget">
+      <header class="widget-header">
+        <h4 class="widget-title">Quản lý subject</h4>
+      </header>
+      <hr class="widget-separator">
+      <div class="widget-body">
+        <div class="row">
+          <div id="fu" class="col-md-12">
+            <input id="search_box" class="form-control" type="search" placeholder="Tìm kiếm theo tên"
+              aria-label="Search" (keyup)="search($event)" />
+              <a href="#" style="float:right;" data-toggle="modal"
+              data-target="#myModal" *ngIf="showTable && checkRolePermission('insertusers'); else disable">
+              Thêm nội dung</a>
+            <ng-template #disable></ng-template>
+          </div>
+          <div class="col-md-12">
+            <table class="table table-bordered " style="margin-top: 10px;">
+              <thead>
+                <tr>
+                  <th style="text-align: center">STT</th>
+                  <th style="vertical-align: middle;text-align: left;">
+                    Name
+                  </th>
+                  <th style="vertical-align: middle;text-align: left;">
+                    Created Date
+                  </th>
+                  <th>Update Date</th>
+                  <th style="vertical-align: middle;text-align: center;">Trạng thái</th>
+                  <th style="text-align: center">Thiết lập</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="
+                let sub of (listSubject
+                                  | paginate: { itemsPerPage: [perPage], currentPage: p });
+                                trackBy: trackByFn;let myIndex = index
+                              ">
+                  <td style="text-align: center">{{ myIndex +1 }}</td>
+                  <td style="text-align: left">{{ sub.name }}</td>
+                  <td style="text-align: left">{{ sub.created_at | date: 'dd/MM/yyyy' }}</td>
+                  <td style="text-align: left"> {{ sub.updated_at | date: 'dd/MM/yyyy' }}</td>
+                                         
+                  <td style="text-align: left;">
+                    <div style="text-align: center">
+                        <span class="labelStatus active" *ngIf="sub?.status===1 ;else block" style="width: 80px">Active</span>
+                        <ng-template #block>
+                          <span class="labelStatus inactive" style="width: 80px">InActive</span>
+                        </ng-template>
+                      
+                    </div>
+                  </td>
+                  <td style="text-align: center">                     
+                    <i class="fa fa-pencil btn btn-primary icon" [routerLink]="['/cms','subject',sub.id]"></i>
+                    <i *ngIf="checkRolePermission('deletesubject'); else disable"
+                      class="fa fa-trash-o btn btn-danger icon" (click)="onClickDelete(sub.id)"></i>             
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="widget-footer">
+        <div class="phantrang">
+          <div class="lt">
+            <span for="sel1">Results per page: </span>
+            <select class="ft" id="sel1" (change)="onChange($event)">
+              <option>5</option>
+              <option>10</option>            
+            </select>
+          </div>
+          <div class="pagi">
+            <pagination-controls *ngIf="showTable" class="text-center" (pageChange)="p = $event"></pagination-controls>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div id="content" *ngIf="showTable">
+
+  <div id="fu">
+    <input id="search_box" class="form-control" type="search" placeholder="Tìm kiếm theo tên" aria-label="Search"
+      (keyup)="search($event)" />
+    <a href="#" data-toggle="modal" data-target="#myModal" *ngIf="checkRolePermission('insertsubject')">
+      Thêm nội dung</a>
+  </div>
+  <table class="table table-bordered text-center " style="margin-top: 10px;">
+    <thead>
+      <tr>
+        <th style="text-align: center">STT</th>
+        <th style="vertical-align: middle;text-align: left;" colspan="3">
+          Tên
+        </th>
+        <th style="vertical-align: middle;text-align: left;" colspan="3">
+          Ngày tạo
+        </th>
+        <th style="vertical-align: middle;text-align: left;" colspan="3">
+          Ngày sửa
+        </th>
+        <th style="vertical-align: middle;text-align: left;" colspan="3">
+          Trạng Thái
+        </th>
+        <th>Thiết lập</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="
+          let sub of (listSubject
+            | paginate: { itemsPerPage: [perPage], currentPage: p });
+          trackBy: trackByFn;let myIndex = index
+        ">
+        <td style="text-align: center">{{ myIndex +1 }}</td>
+        <td style="text-align: left" colspan="3">{{ sub.name }}</td>
+        <td style="text-align: left" colspan="3">
+          {{ sub.created_at | date: 'dd/MM/yyyy' }}
+        </td>
+        <td style="text-align: left" colspan="3">
+          {{ sub.updated_at | date: 'dd/MM/yyyy' }}
+        </td>
+        <td style="text-align: left" colspan="3">
+          <span class="badge badge-success" *ngIf="sub?.status===1 ;else block">Active</span>
+          <ng-template #block>
+            <span class="badge badge-warning">InActive</span>
+          </ng-template>
+        </td>
+        <td>
+          <i style="color:white" class="fa fa-pencil btn btn-primary" [routerLink]="['/cms','subject',sub.id]"></i>
+
+          <i style="color:white; margin-left: 10px;" *ngIf="checkRolePermission('deletesubject')"
+            class="fa fa-trash-o btn btn-danger" (click)="onClickDelete(sub.id)"></i>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="phantrang">
+    <div class="lt">
+      <span for="sel1">Results per page: </span>
+      <select class="ft" id="sel1" (change)="onChange($event)">
+        <option>5</option>
+        <option>10</option>
+      </select>
+    </div>
+    <div class="pagi">
+      <pagination-controls *ngIf="showTable" class="text-center" (pageChange)="p = $event"></pagination-controls>
+    </div>
+  </div>
+</div> -->
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title" style="margin-left: 15px;">Nhập thông tin</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form [formGroup]="insertForm" enctype="multipart/form-data">
+          <div class="modal-body">
+            <div class="form-group">
+              <label> Tên bộ môn <span class="required_field">*</span> </label>
+              <input type="text" class="form-control" formControlName="name" (change)="checkSpaceName($event)" />
+            </div>
+            <div class="form-group alert alert-danger" role="alert"
+              *ngIf="insertForm.get('name').errors && insertForm.get('name').touched">
+              <span *ngIf="insertForm.hasError('required', ['name'])">
+                Bạn không được để trống tên!
+              </span>
+              <span *ngIf="insertForm.hasError('maxlength', ['name'])">
+                Tên không được quá 50 kí tự!
+              </span>
+              <span *ngIf="insertForm.hasError('minlength', ['name'])">
+                Tên không được nhỏ hơn 2 kí tự!
+              </span>
+              <span *ngIf="insertForm.get('name').hasError('pattern')">
+                Tên không được nhập khoảng trắng không!
+              </span>
+            </div>
+            <div class="form-group alert alert-danger" role="alert" *ngIf="errSubject != ''">
+              <span> {{ errSubject }} </span>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer" style="margin-right: 15px">
+        <button type="button" [disabled]="!insertForm.valid" data-dismiss="modal" class="btn btn-primary"
+          (click)="onSubmitInsert()">
+          Save
+        </button>
+        <button type="button" class="btn btn-danger" (click)="onClickCloseForm()" data-dismiss="modal">
+          Close
+        </button>
+        <!-- <button type="button" class="btn btn-danger" >Close</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="containerss">
+  <!-- <form [formGroup]="insertForm" (ngSubmit)="onSubmitInsert()" enctype="multipart/form-data" *ngIf="showInsertForm">
+    <div style="text-align: center">
+      <h1>THÊM MỚI BỘ MÔN</h1>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label> Tên bộ môn <span class="required_field">*</span> </label>
+        <input type="text" class="form-control" formControlName="name" (change)="checkSpaceName($event)" />
+      </div>
+      <div class="form-group alert alert-danger" role="alert"
+        *ngIf="insertForm.get('name').errors && insertForm.get('name').touched">
+        <span *ngIf="insertForm.hasError('required', ['name'])">
+          Bạn không được để trống tên!
+        </span>
+        <span *ngIf="insertForm.hasError('maxlength', ['name'])">
+          Tên không được quá 50 kí tự!
+        </span>
+        <span *ngIf="insertForm.hasError('minlength', ['name'])">
+          Tên không được nhỏ hơn 2 kí tự!
+        </span>
+        <span *ngIf="insertForm.get('name').hasError('pattern')">
+          Tên không được nhập khoảng trắng không!
+        </span>
+      </div>
+      <div class="form-group alert alert-danger" role="alert" *ngIf="errSubject != ''">
+        <span> {{ errSubject }} </span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" [disabled]="!insertForm.valid" class="btn btn-success">
+        Thêm mới
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="onClickCloseForm()">
+        Đóng
+      </button>
+    </div>
+  </form> -->
+  <!-- Form update -->
+  <form [formGroup]="updateForm" (ngSubmit)="onSubmitUpdate()" enctype="multipart/form-data" *ngIf="showUpdateForm">
+    <div style="text-align: center">
+      <h1>CẬP NHẬT BỘ MÔN</h1>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label> Tên bộ môn <span class="required_field">*</span></label>
+        <input type="text" class="form-control" formControlName="name" (change)="checkSpaceNameupdate($event)" />
+      </div>
+      <div class="form-group alert alert-danger" role="alert"
+        *ngIf="updateForm.get('name').errors && updateForm.get('name').touched">
+        <span *ngIf="updateForm.hasError('required', ['name'])">
+          Bạn không được để trống tên!
+        </span>
+        <span *ngIf="updateForm.hasError('maxlength', ['name'])">
+          Tên không được quá 50 kí tự!
+        </span>
+        <span *ngIf="updateForm.get('name').hasError('pattern')">
+          Tên không được nhập khoảng trắng không!
+        </span>
+      </div>
+      <div class="form-group alert alert-danger" role="alert" *ngIf="errSubject != ''">
+        <span> {{ errSubject }} </span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" [disabled]="!updateForm.valid" class="btn btn-success">
+        Cập nhật
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="onClickCloseForm()">
+        Đóng
+      </button>
+    </div>
+  </form>
+</div>
+
+<popup #popupDelete (confirmClick)="confirmDeleteClick()">
+  Bạn có chắc chắn muốn xóa ?
+</popup>
+
+<popup #popupApplyFailed> Cần ít nhất 2 bản ghi được kích hoạt ! </popup>

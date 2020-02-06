@@ -1,0 +1,318 @@
+<notifier-container></notifier-container>
+<div class="container" style="margin-left: 80px">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Chapter Name:</label>
+        <input type="text" class="form-control" id="exampleFormControlInput1" [value]="chapter?.name" disabled>
+      </div>
+    </div>
+
+  </div>
+  <div class="row" style="margin-top: 50px">
+    <div class="col-sm-9">
+      <span><button type="button" style="float:right;margin-top: -40px" class="btn btn-primary" data-toggle="modal"
+          data-target="#myModal">Add Chapter</button></span>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th style="text-align: center;">ID</th>
+            <th style="vertical-align: middle;text-align: left;" colspan="3">Name</th>
+            <th style="vertical-align: middle;text-align: left;" colspan="3">Assignment</th>
+            <th style="vertical-align: middle;text-align: left;" colspan="3">Quiz Name</th>
+             <th style="vertical-align: middle;text-align: left;" colspan="3">Create up</th>
+            <th style="vertical-align: middle;text-align: left;" colspan="3">Update</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr  *ngFor="
+          let chap1 of (_chapterlist
+            | paginate: { itemsPerPage: [perPage], currentPage: p });
+          trackBy: trackByFn
+        ">
+            <td  style="text-align: center;">{{chap1.id}}</td>
+            <td style="text-align: left" colspan="3">{{chap1.name}}</td>
+             <td style="text-align: left" colspan="3">{{chap1.assignment}}</td>
+            <td style="text-align: left" colspan="3">{{chap1?.exam?.name}}</td>
+            <td style="text-align: left" colspan="3">{{chap1.created_at | date: 'dd/MM/yyyy'}}</td>
+            <td style="text-align: left" colspan="3">{{chap1.updated_at | date: 'dd/MM/yyyy'}}</td>
+
+            <td>
+              <i style="color:white" class="fa fa-pencil btn btn-primary" data-toggle="modal"
+                data-target="#myModalUpdate" (click)="onClickUpdate(chap1)" title="chỉnh sửa"></i>
+              <i style="color:white; margin-left: 10px;" class="fa fa-trash-o btn btn-danger"
+                (click)="onClickDelete(chap1)" title="xóa"></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="phantrang">
+        <div class="lt">
+          <span for="sel1">Results per page: </span>
+          <select class="ft" id="sel1" (change)="onChanges($event)">
+            <option>5</option>
+            <option>10</option>
+            <option>15</option>
+          </select>
+        </div>
+        <div class="pagi">
+          <pagination-controls
+          *ngIf="showTable"
+            class="text-center"
+            (pageChange)="p = $event"
+          ></pagination-controls>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- start modal insert -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Nhập thông tin</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form novalidate [formGroup]="insertChapter">
+          <div class="row" >
+            <div class="col-xs-8 col-sm-8	col-md-8 col-lg-8" >
+              <div class="form-group">
+                <label style="font-size: 16px">Tên Chapter <span class="required_field">*</span>
+                  <label>
+                    <mat-error *ngIf="
+                    insertChapter.get('name').hasError('whitespace') &&
+                    insertChapter.get('name').touched
+                    " style="font-size: 16px">
+                      Không được để trống hay chỉ nhập khoảng trắng không!
+                    </mat-error>
+                    <mat-error *ngIf="insertChapter.get('name').hasError('minlength')">Không được dưới 5 kí tự!</mat-error>
+                    <mat-error *ngIf="insertChapter.get('name').hasError('maxlength')">Không được vượt quá 50 kí tự!
+                    </mat-error>
+                  </label>
+                </label>
+                <input type="text" class="form-control  " formControlName="name" placeholder="Nhập tên Section..." [ngClass]="{
+                      'is-invalid':
+                        (insertChapter.get('name').hasError('whitespace') &&
+                        insertChapter.get('name').touched) ||
+                        insertChapter.get('name').hasError('maxlength') ||
+                        insertChapter.get('name').hasError('minlength'),
+                      'is-valid':
+                        (!insertChapter.get('name').hasError('whitespace') &&
+                        insertChapter.get('name').touched) ||
+                        !insertChapter.get('name').hasError('maxlength') ||
+                        !insertChapter.get('name').hasError('minlength')
+                    }" />
+              </div>
+            </div>
+            <div class="col-xs-4	col-sm-4	col-md-4	col-lg-4">
+              <div class="form-group">
+                <label style="font-size: 16px">Type <span class="required_field">*</span>
+                </label>
+                <select class="form-control" formControlName="contentType" (change)="onChange($event.target.value)">
+                  <option value="0" selected>Standard lesson</option>
+                  <option value="1">Assignment</option>
+                   </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8 col-xs-8 col-sm-8 col-lg-8">
+              <div class="form-group">
+                <label style="font-size: 16px">
+                  Chọn bài quiz <span class="required_field">*</span>
+                </label>
+                <select class="form-control" formControlName="exam_name">
+                  <option *ngFor="let ex of listExam" [value]="ex['0']" selected>{{ex['1']}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4 col-xs-4 col-sm-4 col-lg-4"
+              style="display: flex; align-items: center; justify-content: left;">
+              <div class="form-group">
+                <button class="btn btn-success" style=" margin-top: 30px;">Bổ sung</button>
+              </div>
+            </div>
+          </div>
+
+              <div class="row"  *ngIf="lsType == 1">
+            <div class="col-xs-12 col-sm-12	col-md-12 col-lg-12">
+              <div class="form-group">
+                <label style="font-size: 16px">
+                  Nội dung <span class="required_field">*</span>
+                  <label for="">
+                    <mat-error *ngIf="
+                    insertChapter.get('assignment').hasError('whitespace') &&
+                    insertChapter.get('assignment').touched
+                      " style="font-size: 16px">
+                      Không được để trống hay chỉ nhập khoảng trắng không!
+                    </mat-error>
+                    <mat-error *ngIf="insertChapter.get('assignment').hasError('minlength')">Không được dưới 3000 kí tự!
+                    </mat-error>
+                    <mat-error *ngIf="insertChapter.get('assignment').hasError('maxlength')">Không được vượt quá 10000 ký tự!
+                    </mat-error>
+                  </label>
+                </label>
+                <angular-editor [config]="config" formControlName="assignment" [ngClass]="{
+                  'is-invalid':
+                    (insertChapter.get('assignment').hasError('whitespace') &&
+                    insertChapter.get('assignment').touched) ||
+                    (insertChapter.get('assignment').hasError('required') &&
+                    insertChapter.get('assignment').touched) ||
+                    insertChapter.get('assignment').hasError('minlength') ||
+                    insertChapter.get('assignment').hasError('maxlength'),
+                  'is-valid':
+                    (!insertChapter.get('assignment').hasError('whitespace') &&
+                    insertChapter.get('assignment').touched) ||
+                    (!insertChapter.get('assignment').hasError('required') &&
+                    insertChapter.get('assignment').touched) ||
+                    !insertChapter.get('assignment').hasError('minlength') ||
+                    !insertChapter.get('assignment').hasError('maxlength')
+                }"></angular-editor>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary"
+             (click)="onSubmit()" data-dismiss="modal">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end -->
+<!-- start modal update -->
+<div class="modal" id="myModalUpdate">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Nhập thông tin</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form novalidate [formGroup]="updateChapter">
+          <div class="row" >
+            <div class="col-xs-8 col-sm-8	col-md-8 col-lg-8" >
+              <div class="form-group">
+                <label style="font-size: 16px">Tên Chapter <span class="required_field">*</span>
+                  <label>
+                    <mat-error *ngIf="
+                    updateChapter.get('name').hasError('whitespace') &&
+                    updateChapter.get('name').touched
+                    " style="font-size: 16px">
+                      Không được để trống hay chỉ nhập khoảng trắng không!
+                    </mat-error>
+                    <mat-error *ngIf="updateChapter.get('name').hasError('minlength')">Không được dưới 5 kí tự!</mat-error>
+                    <mat-error *ngIf="updateChapter.get('name').hasError('maxlength')">Không được vượt quá 50 kí tự!
+                    </mat-error>
+                  </label>
+                </label>
+                <input type="text" class="form-control  " formControlName="name" placeholder="Nhập tên Section..." [ngClass]="{
+                      'is-invalid':
+                        (updateChapter.get('name').hasError('whitespace') &&
+                        updateChapter.get('name').touched) ||
+                        updateChapter.get('name').hasError('maxlength') ||
+                        updateChapter.get('name').hasError('minlength'),
+                      'is-valid':
+                        (!updateChapter.get('name').hasError('whitespace') &&
+                        updateChapter.get('name').touched) ||
+                        !updateChapter.get('name').hasError('maxlength') ||
+                        !updateChapter.get('name').hasError('minlength')
+                    }" />
+              </div>
+            </div>
+            <div class="col-xs-4	col-sm-4	col-md-4	col-lg-4">
+              <div class="form-group">
+                <label style="font-size: 16px">Type <span class="required_field">*</span>
+                </label>
+                <select class="form-control" formControlName="contentType" (change)="onChange($event.target.value)">
+                  <option value="0" selected>Standard lesson</option>
+                  <option value="1">Assignment</option>
+                   </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8 col-xs-8 col-sm-8 col-lg-8">
+              <div class="form-group">
+                <label style="font-size: 16px">
+                  Chọn bài quiz <span class="required_field">*</span>
+                </label>
+                <select class="form-control" formControlName="exam_name">
+                  <option *ngFor="let ex of listExam" [value]="ex['0']" selected>{{ex['1']}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4 col-xs-4 col-sm-4 col-lg-4"
+              style="display: flex; align-items: center; justify-content: left;">
+              <div class="form-group">
+                <button class="btn btn-success" style=" margin-top: 30px;">Bổ sung</button>
+              </div>
+            </div>
+          </div>
+
+              <div class="row"  *ngIf="lsType == 1">
+            <div class="col-xs-12 col-sm-12	col-md-12 col-lg-12">
+              <div class="form-group">
+                <label style="font-size: 16px">
+                  Nội dung <span class="required_field">*</span>
+                  <label for="">
+                    <mat-error *ngIf="
+                    updateChapter.get('assignment').hasError('whitespace') &&
+                    updateChapter.get('assignment').touched
+                      " style="font-size: 16px">
+                      Không được để trống hay chỉ nhập khoảng trắng không!
+                    </mat-error>
+                    <mat-error *ngIf="updateChapter.get('assignment').hasError('minlength')">Không được dưới 3000 kí tự!
+                    </mat-error>
+                    <mat-error *ngIf="updateChapter.get('assignment').hasError('maxlength')">Không được vượt quá 10000 ký tự!
+                    </mat-error>
+                  </label>
+                </label>
+                <angular-editor [config]="config" formControlName="assignment" [ngClass]="{
+                  'is-invalid':
+                    (updateChapter.get('assignment').hasError('whitespace') &&
+                    updateChapter.get('assignment').touched) ||
+                    (updateChapter.get('assignment').hasError('required') &&
+                    updateChapter.get('assignment').touched) ||
+                    updateChapter.get('assignment').hasError('minlength') ||
+                    updateChapter.get('assignment').hasError('maxlength'),
+                  'is-valid':
+                    (!updateChapter.get('assignment').hasError('whitespace') &&
+                    updateChapter.get('assignment').touched) ||
+                    (!updateChapter.get('assignment').hasError('required') &&
+                    updateChapter.get('assignment').touched) ||
+                    !updateChapter.get('assignment').hasError('minlength') ||
+                    !updateChapter.get('assignment').hasError('maxlength')
+                }"></angular-editor>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary"
+             (click)="onSubmitUpdate()" data-dismiss="modal">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end -->
+<popup #popupDelete (confirmClick)="confirmDeleteClick()">
+  Bạn có chắc chắn muốn xóa ?
+</popup>
+

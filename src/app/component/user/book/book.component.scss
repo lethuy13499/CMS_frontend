@@ -1,0 +1,31 @@
+.detail {
+    display: flex;
+    flex-direction: row;
+    padding-top: 100px;
+  
+  }
+  .tong {
+
+    min-height: 100vh;
+    background-color: #80808054;
+  }
+
+  @media all and (max-width: 1200px) {
+
+    .detail-left {
+     width: 90%;
+  
+   }
+
+
+ }
+ 
+ @media all and (max-width: 800px) {
+
+   .detail-left {
+     width: 100%;
+     margin-left: 0%;
+     min-width: 550px;
+   }
+ }
+ 

@@ -1,0 +1,429 @@
+<div class="content-container">
+  <div class="col-md-12">
+    <div class="widget">
+      <header class="widget-header">
+        <h4 class="widget-title">Sửa Subject</h4>
+      </header>
+      <hr class="widget-separator">
+      <div class="widget-body">
+        <div class="row">
+          <div id="fu" class="col-md-12">
+            <div class="container" style="font-size:15px ;margin-top: 30px">
+              <div class="container">
+                <div class="row" [formGroup]="updateSubjectForm">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="exampleFormControlInput1">Subject Name:</label>
+                      <input type="text" class="form-control" id="exampleFormControlInput1" formControlName="name"
+                        (keyup)="checkNameSubjectUpdate($event.target.value)">
+                    </div>
+                    <ng-container
+                      *ngIf="updateSubjectForm.get('name').hasError('required')&& updateSubjectForm.get('name').touched">
+                      <p class="valid-color">
+                        Trường này không được để trống</p>
+                    </ng-container>
+                    <span style="color: red ">{{message2}}</span>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="exampleFormControlSelect1">Status</label>
+                      <select class="form-control" id="exampleFormControlSelect1" formControlName="status">
+                        <option value="1">Active</option>
+                        <option value="0">InActive</option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- <div class="col-sm-3">
+                  </div> -->
+                </div>
+              </div>
+              <div class="container" style="margin-top: 25px">
+                <ul class="nav nav-tabs" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#home">Chapter</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#menu1">Domain</a>
+                  </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="tab-content" style="margin-left: -15px">
+                      <div id="home" class="container tab-pane active"><br>
+                        <div class="row" style="margin-top: 35px">
+                          <div class="col-sm-12">
+                            <span><a href="#" style="float:right;margin-top: -40px" data-toggle="modal"
+                                data-target="#myModalChapter">Add Chapter</a></span>
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <th>ID</th>
+                                  <th>Chapter</th>
+                                  <th>Order</th>
+                                  <th style="text-align: center;">Status</th>
+                                  <th style="text-align: center">Action</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let chapter of (chapters | paginate: { itemsPerPage: [perPage], currentPage: p ,id: 'chapter'});
+                                    trackBy: trackByFn ">
+                                  <td>{{chapter?.id}}</td>
+                                  <td><span *ngIf="chapter?.parent_id !==0">--</span>
+                                    {{chapter?.name}}</td>
+                                  <td>{{chapter?.chapterOrder}}</td>
+                                  <td style="text-align: left;">
+                                    <div style="text-align: center">
+                                      <span class="labelStatus active1" *ngIf="chapter?.status===1 ;else block"
+                                        style="width: 80px">Active</span>
+                                      <ng-template #block>
+                                        <span class="labelStatus inactive" style="width: 80px">InActive</span>
+                                      </ng-template>
+                                    </div>
+                                  </td>
+                                  <td style="text-align: center">
+                                    <i style="color:white" class="fa fa-pencil btn btn-primary" data-toggle="modal"
+                                      data-target="#myModalUpdateChapter" (click)="getChapter(chapter.id)"></i>
+                                    <i style="color:white; margin-left: 10px;" class="fa fa-trash-o btn btn-danger"
+                                      (click)="onClickDelete(chapter?.id,'chapter')"></i>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        <div style="float: right;">
+                          <pagination-controls *ngIf="showTable" class="text-center" (pageChange)="p = $event"
+                            id="chapter">
+                          </pagination-controls>
+                        </div>
+                      </div>
+                      <div id="menu1" class="container tab-pane fade"><br>
+                        <div class="row" style="margin-top: 25px">
+                          <div class="col-sm-12">
+                            <span><a href="#" style="float:right;margin-top: -40px" data-toggle="modal"
+                                data-target="#myModal">Add
+                                Domain</a></span>
+                            <table class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <th>ID</th>
+                                  <th>Domain</th>
+                                  <th style="text-align: center;">Status</th>
+                                  <th style="text-align: center">Action</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let item of (domains | paginate: { itemsPerPage: [perPageChapter], currentPage: pa ,id: 'domain'});
+                                trackBy: trackByFn ">
+                                  <td>{{item?.id}}</td>
+                                  <td>{{item?.name}}</td>
+                                  <td style="text-align: left;">
+                                    <div style="text-align: center">
+                                      <span class="labelStatus active1" *ngIf="item?.status===1 ;else block"
+                                        style="width: 80px">Active</span>
+                                      <ng-template #block>
+                                        <span class="labelStatus inactive" style="width: 80px">InActive</span>
+                                      </ng-template>
+                                    </div>
+                                  </td>
+                                  <td style="text-align: center">
+                                    <i style="color:white" class="fa fa-pencil btn btn-primary" data-toggle="modal"
+                                      data-target="#myModalupdate" (click)="getDomain(item?.id)"></i>
+                                    <i style="color:white; margin-left: 10px;" class="fa fa-trash-o btn btn-danger"
+                                      (click)="onClickDelete(item?.id,'domain')"></i>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                          <div class="col-sm-3"></div>
+                        </div>
+                        <div style="float: right;">
+                          <pagination-controls *ngIf="showTable1" class="text-center" (pageChange)="pa = $event"
+                            id="domain">
+                          </pagination-controls>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="row col-md-10" style="margin:-30px 0 0 -15px">
+                <div class="col-md-2">
+                  <button type="button" class="btn btn-success" (click)="update()"
+                    [disabled]="updateSubjectForm.invalid || checkUpdateSubject">Cập nhật</button>
+                </div>
+                <div class="col-md-2"><button type="button" class="btn btn-secondary" (click)="backClicked()">Đóng</button>
+                </div>
+              </div>
+              <!-- start modal insert -->
+              <div class="modal" id="myModal">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header ">
+                      <h4 class="modal-title">Nhập thông tin</h4>
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                      <form novalidate [formGroup]="insertForm">
+                        <div class="form-group row">
+                          <label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>
+                          <div class="col-sm-10">
+                            <input type="text" class="form-control" id="exampleFormControlInput1" formControlName="name"
+                              style="width: 325px" (keyup)="checkName($event.target.value)">
+                            <!-- <span style="color: red ">{{message}}</span> -->
+                            <ng-container
+                              *ngIf="insertForm.get('name').hasError('required')&& insertForm.get('name').touched">
+                              <p class="valid-color">
+                                Trường này không được để trống</p>
+                            </ng-container>
+                          </div>
+                        </div>
+                        <!-- <div class="form-group row">
+                          <div style="margin:8px 60px 0 15px"><label for="exampleFormControlInput1">Status:</label></div>
+                          <div class="row">
+                            <div class="form-check form-check-inline">
+                              <label class="form-check-label" for="inlineRadio1">Active</label>
+                              <input class="form-check-input" type="radio" id="inlineRadio1" [value]="1" formControlName="status">
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <label class="form-check-label" for="inlineRadio2">InActive</label>
+                              <input class="form-check-input" type="radio" id="inlineRadio2" [value]="0" formControlName="status">
+                            </div>
+                          </div>
+                        </div> -->
+                        <div class="modal-footer" style="margin-right: 45px">
+                          <button type="button" class="btn btn-primary" (click)="addDomain()" data-dismiss="modal"
+                            [disabled]="insertForm.invalid">Save</button>
+                          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- end -->
+
+              <!-- start modal update -->
+              <div class="modal" id="myModalupdate">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                      <h4 class="modal-title">Nhập thông tin</h4>
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                      <form novalidate [formGroup]="updateForm">
+                        <div class="form-group row">
+                          <label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>
+                          <div class="col-sm-10">
+                            <input type="text" class="form-control" id="exampleFormControlInput1" formControlName="name"
+                              style="width: 325px" (keyup)="checkNameUpdate($event.target.value)">
+                            <!-- <span style="color: red ">{{message1}}</span> -->
+                            <ng-container
+                              *ngIf="updateForm.get('name').hasError('required')&& updateForm.get('name').touched">
+                              <p class="valid-color">
+                                Trường này không được để trống</p>
+                            </ng-container>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <div style="margin:8px 60px 0 15px"><label for="exampleFormControlInput1">Status:</label>
+                          </div>
+                          <div class="row">
+                            <div class="form-check form-check-inline">
+                              <label class="form-check-label" for="inlineRadio1">Active</label>
+                              <input class="form-check-input" type="radio" id="inlineRadio1" [value]="1"
+                                formControlName="status">
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <label class="form-check-label" for="inlineRadio2">InActive</label>
+                              <input class="form-check-input" type="radio" id="inlineRadio2" [value]="0"
+                                formControlName="status">
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="modal-footer" style="margin-right: 45px">
+                          <button type="button" [disabled]="updateForm.invalid" class="btn btn-primary"
+                            data-dismiss="modal" (click)="updateDomain()">Save</button>
+                          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- end -->
+
+              <!-- <start modal update chapter> -->
+              <div class="modal" id="myModalUpdateChapter">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                      <h4 class="modal-title">Nhập thông tin</h4>
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <!-- Modal body -->
+
+                    <div class="modal-body">
+                      <form [formGroup]="updateChapterForm">
+                        <div class="form-group row">
+                          <label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>
+                          <div class="col-sm-10">
+                            <input type="text" class="form-control" formControlName="name"
+                              (keyup)="checkNameChapterUpdateDoNotExit($event.target.value)">
+                          </div>
+                          <ng-container
+                            *ngIf="updateChapterForm.get('name').hasError('required')&& updateChapterForm.get('name').touched">
+                            <p class="valid-color" style="margin-left: 96px;">
+                              Trường này không được để trống</p>
+                          </ng-container>
+                          <!-- <span style="color: red ;margin-left: 96px;">{{message4}}</span> -->
+                        </div>
+                        <div class="form-group row">
+                          <label for="inputEmail3" class="col-sm-2 col-form-label">Parent</label>
+                          <div class="col-sm-10">
+                            <select class="form-control" id="exampleFormControlSelect1" formControlName="parent_id">
+                              <option selected>Chọn Parent</option>
+                              <option *ngFor="let item of chaptersByParent" [value]="item.id">{{item.name}}</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="inputPassword3" class="col-sm-2 col-form-label" style="margin-top: -10px;">Order
+                            Num</label>
+                          <div class="col-sm-10">
+                            <input type="number" class="form-control" formControlName="chapterOrder">
+                          </div>
+                          <ng-container
+                            *ngIf="updateChapterForm.get('chapterOrder').hasError('required')&& updateChapterForm.get('chapterOrder').touched">
+                            <p class="valid-color" style="margin-left: 96px;">
+                              Trường này không được để trống</p>
+                          </ng-container>
+                        </div>
+                        <div class="form-group row">
+                          <div style="margin:8px 60px 0 15px"><label for="exampleFormControlInput1">Status:</label>
+                          </div>
+                          <div class="row">
+                            <div class="form-check form-check-inline">
+                              <label class="form-check-label" for="inlineRadio1">Active</label>
+                              <input class="form-check-input" type="radio" id="inlineRadio1" [value]="1"
+                                formControlName="status" checked>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <label class="form-check-label" for="inlineRadio2">InActive</label>
+                              <input class="form-check-input" type="radio" id="inlineRadio2" [value]="0"
+                                formControlName="status" checked>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="modal-footer" style="margin-right: -15px">
+                          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="updateChapter()"
+                            [disabled]="updateChapterForm.invalid">Save</button>
+                          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- end -->
+              <!-- <start modal insert chapter> -->
+              <div class="modal" id="myModalChapter">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                      <h4 class="modal-title">Nhập thông tin</h4>
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <!-- Modal body -->
+
+                    <div class="modal-body">
+                      <form [formGroup]="insertFormChapter">
+                        <div class="form-group row">
+                          <label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>
+                          <div class="col-sm-10">
+                            <input type="text" class="form-control" formControlName="name"
+                              (keyup)="checkNameChapterInsert($event.target.value)">
+                          </div>
+                          <ng-container
+                            *ngIf="insertFormChapter.get('name').hasError('required')&& insertFormChapter.get('name').touched">
+                            <p class="valid-color" style="margin-left: 96px;">
+                              Trường này không được để trống</p>
+                          </ng-container>
+                          <!-- <span style="color: red ;margin-left: 96px;">{{message3}}</span> -->
+                        </div>
+                        <div class="form-group row">
+                          <label for="inputEmail3" class="col-sm-2 col-form-label">Parent</label>
+                          <div class="col-sm-10">
+                            <select class="form-control" id="exampleFormControlSelect1" formControlName="parent_id"
+                              [(ngModel)]='nrSelect'>
+                              <option selected value="0">Chọn Parent</option>
+                              <option *ngFor="let item of chaptersByParent" [value]="item.id">{{item.name}}</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label for="inputPassword3" class="col-sm-2 col-form-label" style="margin-top: -10px;">Order
+                            Num</label>
+                          <div class="col-sm-10">
+                            <input type="number" class="form-control" formControlName="chapterOrder">
+                          </div>
+
+                          <ng-container
+                            *ngIf="insertFormChapter.get('chapterOrder').hasError('required')&& insertFormChapter.get('chapterOrder').touched">
+                            <p class="valid-color" style="margin-left: 96px;">
+                              Trường này không được để trống</p>
+                          </ng-container>
+
+                        </div>
+                        <!-- <div class="form-group row">
+                          <div style="margin:8px 60px 0 15px"><label for="exampleFormControlInput1">Status:</label></div>
+                          <div class="row">
+                            <div class="form-check form-check-inline">
+                              <label class="form-check-label" for="inlineRadio1">Active</label>
+                              <input class="form-check-input" type="radio" id="inlineRadio1" [value]="1" formControlName="status">
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <label class="form-check-label" for="inlineRadio2">InActive</label>
+                              <input class="form-check-input" type="radio" id="inlineRadio2" [value]="0" formControlName="status">
+                            </div>
+                          </div>
+                        </div> -->
+                        <div class="modal-footer" style="margin-right: -15px">
+                          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addChapter()"
+                            [disabled]="insertFormChapter.invalid">Save</button>
+                          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                      </form>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- end -->
+<popup #popupDelete (confirmClick)="confirmDeleteClick()">
+  Bạn có chắc chắn muốn xóa ?
+</popup>

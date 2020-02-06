@@ -1,0 +1,46 @@
+<div class="container" style="background: #eee">
+  <div class="divtrong">
+  <div class="divtongtintuc">
+    <div class="row">
+
+      <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+        <div class="divtrai">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+
+
+      <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="margin-top: 1.4%">
+        <div class="divphai">
+
+
+          <div class="pinnednews">
+            <div class="title-left">Tin mới</div>
+
+            <div class="box-item-news-left" *ngFor="let pinnednews of listPinnedNews">
+              <div class="item-news-right" (click)="onViews(pinnednews['0'])">
+                <div class="row">
+               
+                  <div class="col-sm-5">
+                    <a [routerLink]="['/hometotal','pagenews','news','viewnews',pinnednews['0']]"> <img src="{{ baseURL }}/resources/images/new/{{ pinnednews['2'] }}"
+                        onerror="this.src='../../../../assets/images/default_news_avatar.png'" height="100px"
+                        width="100%" /></a>
+
+                  </div>
+                  <div class="col-sm-7">
+                    <a [routerLink]="['/hometotal','pagenews','news','viewnews',pinnednews['0']]" title=""
+                      style="font-size: 15px">{{ pinnednews['1'] | truncate: 23 }}</a>
+                    <div class="createdate" style="font-size: 12px">
+                      {{ pinnednews['7'] | date: 'dd/MM/yyyy' }}</div>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>

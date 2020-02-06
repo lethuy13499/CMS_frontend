@@ -1,0 +1,23 @@
+.radio{
+    margin-left: 35px;
+    font-size: 14px;
+    display: inline-block;
+}
+.checkValidBt {
+  margin-left: 10px;
+  border: 1px solid rgb(0, 100, 194);
+  background: rgb(0, 100, 194);
+  border-radius: 50%;
+  height: 24px;
+  color: white;
+  font-size: 16px;
+  margin-top: 5px
+}
+.container-fluid {
+  margin: 2% 2.5% 0% 2.5%;
+  padding-bottom: 2.5%;
+  width: 95%;
+}
+button[disabled],input[disabled]:hover{
+  cursor: not-allowed;
+}

@@ -1,0 +1,233 @@
+<!-- Page Content -->
+<div class="content-container">
+  <div class="col-md-12">
+    <div class="widget">
+      <header class="widget-header">
+        <h4 class="widget-title">Class</h4>
+      </header>
+      <hr class="widget-separator">
+      <div class="widget-body">
+        <div *ngIf="showTable" id="content">
+          <div id="fu">
+            <input (keyup)="searchClassByName($event)" id="search_box" class="form-control" type="search"
+              placeholder="Search Class Name" aria-label="Search" />
+            <button type="button" class="btn btn-primary abtn" (click)="onClickAddNew()">
+              + Thêm nội dung
+            </button>
+            <ng-template #disable></ng-template>
+          </div>
+          <table class=" table table-bordered text-center " style=" margin-top: 10px;">
+            <thead>
+              <tr>
+                <th style="text-align: center"><i class="fa fa-sort float-right" aria-hidden="true"
+                    (click)="sortClass(index,'id')"></i>ID</th>
+                <th style="vertical-align: middle;text-align: left;" colspan="3">
+
+                  Class<i class="fa fa-sort float-right" aria-hidden="true" (click)="sortClass(index,'name')"></i>
+                </th>
+                <th style="vertical-align: middle;text-align: left;" colspan="3">
+                  Trainers
+                </th>
+                <th style="vertical-align: middle;text-align: left;" colspan="3">
+                  Manager
+                </th>
+                <th style="vertical-align: middle;text-align: left;" colspan="3">
+                  Start<i class="fa fa-sort float-right" aria-hidden="true" (click)="sortClass(index,'start_date')"></i>
+                </th>
+                <th style="vertical-align: middle;text-align: left;" colspan="3">
+                  End<i class="fa fa-sort float-right" aria-hidden="true" (click)="sortClass(index,'end_date')"></i>
+                </th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="
+          let dom of (listClass  | paginate: { itemsPerPage: [perPage], currentPage: p });
+          trackBy: trackByFn
+        ">
+                <td style="text-align: center">{{ dom.classId }}</td>
+                <td style="text-align: left" colspan="3">{{ dom.name }}</td>
+                <td style="text-align: left" colspan="3">{{ dom.trainer}}</td>
+                <td style="text-align: left" colspan="3">{{ dom.manager.fullname}}</td>
+
+                <td style="text-align: left" colspan="3">
+                  {{ dom.startDate | date: 'dd/MM/yyyy' }}
+                </td>
+                <td style="text-align: left" colspan="3">
+                  {{ dom.endDate | date: 'dd/MM/yyyy' }}
+                </td>
+                <td>
+                  <div class="custom-control custom-switch">
+                    <div *ngIf="dom.isDefault==1">
+                      <input (click)="onClickChangeStatus($event,dom.classId)" checked type="checkbox"
+                        class="custom-control-input" id="{{ dom.classId }}">
+                      <label tooltip="Change status" placement="top" show-delay="500" style="
+              cursor: pointer;
+          " class="custom-control-label" for="{{ dom.classId }}"></label>
+                    </div>
+                    <div *ngIf="dom.isDefault==0">
+                      <input (click)="onClickChangeStatus($event,dom.classId)" type="checkbox"
+                        class="custom-control-input" id="{{ dom.classId }}">
+                      <label tooltip="Change status" placement="top" show-delay="500" style="
+              cursor: pointer;
+          " class="custom-control-label" for="{{ dom.classId }}"></label>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <i tooltip="Detail information" placement="top" show-delay="500" aria-label="Detail"
+                    class="fa fa-sign-in btn btn-success" style="color:white"
+                    [routerLink]="['/cms','traineeassignments',dom.classId]">
+
+                  </i>
+                  <i tooltip="Edit class" placement="top" show-delay="500" aria-label="Edit class"
+                    style="color:white; margin-left: 10px;" class="fa fa-pencil btn btn-primary"
+                    [routerLink]="['/cms','class','detail',dom.classId]">
+
+                  </i>
+
+                  <i tooltip="Delete class" placement="top" show-delay="500" aria-label="Delete class"
+                    style="color:white; margin-left: 10px;" class="fa fa-trash-o btn btn-danger"
+                    (click)="onClickDelete(dom.classId)"></i>
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="phantrang">
+            <div class="lt">
+              <span for="sel1">Results per page: </span>
+              <select class="ft" id="sel1" (change)="onChange($event)">
+                <option>5</option>
+                <option>10</option>
+                <!-- <option>15</option> -->
+              </select>
+            </div>
+            <div class="pagi">
+              <pagination-controls class="text-center" (pageChange)="p = $event"></pagination-controls>
+            </div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="container">
+            <form *ngIf="showInsertForm" [formGroup]="updateForm" (ngSubmit)="updateForm.valid "
+              enctype="multipart/form-data">
+              <div style="text-align: center">
+                <h4>Cập nhật lớp học</h4>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <label> Tên bài thi<span class="required_field">*</span></label>
+                  <input type="text" class="form-control" formControlName="name"
+                    [ngClass]="{'is-invalid': updateForm.get('name').touched && updateForm.get('name').invalid}"
+                    required />
+                  <div class="invalid-feedback">
+                    <div *ngIf="updateForm.hasError('whitespace', ['name'])">Không được để trống!!</div>
+                    <div *ngIf="updateForm.hasError('maxlength', ['name'])">Độ dài không vượt quá 50 kí tự</div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-md-6">
+                    <label> Sản Phẩm <span class="required_field">*</span></label>
+
+                    <select class="form-control" formControlName="product"
+                      [ngClass]="{'is-invalid': updateForm.get('product').touched && updateForm.get('product').invalid}"
+                      required>
+                      <option *ngFor="let products of product" [value]="products.productId">{{products.name}}</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      <div>Không được để trống!!</div>
+                    </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label> Status <span class="required_field">*</span></label>
+
+                    <select class="form-control" formControlName="status" required>
+                      <option value="1">Active</option>
+                      <option value="2">Pending</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      <div>Không được để trống!!</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-md-6">
+                    <label> Trainner:</label>
+                    <ng-multiselect-dropdown [placeholder]="'custom placeholder'" [data]="user"
+                      [(ngModel)]="trainner_before" [settings]="dropdownSettingUser" (onSelect)="onItemSelect($event)"
+                      (onSelectAll)="onSelectAll($event)" formControlName="trainner">
+                    </ng-multiselect-dropdown>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label> Manager :</label>
+
+                    <ng-multiselect-dropdown [placeholder]="'custom placeholder'" [data]="user"
+                      [(ngModel)]="selectedManager" [settings]="dropdownSettingManage" (onSelect)="onItemSelect($event)"
+                      (onSelectAll)="onSelectAll($event)" formControlName="manager">
+                    </ng-multiselect-dropdown>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-md-6" formGroupName="date">
+                    <label> Ngày bắt đầu<span class="required_field">*</span></label>
+                    <input class="form-control" type="date" formControlName="start_date"
+                      [ngClass]="{'is-invalid': updateForm.get('date.start_date').touched && updateForm.get('date.start_date').invalid}"
+                      required>
+                    <div class="invalid-feedback" *ngIf="updateForm.get('date.start_date').hasError('required')">
+                      <div>Không được để trống!!</div>
+                    </div>
+                    <!-- <div class="invalid-feedback" *ngIf="updateForm.get('date.start_date').hasError('datenotsatisfy') && updateForm.get('date.start_date').hasError('required')=== false" >
+                            <div>Ngày bắt đầu không nhỏ hơn ngày hiện tại!!</div>
+                          </div> -->
+                  </div>
+                  <div class="form-group col-md-6" formGroupName="date">
+                    <label> Ngày kết thúc<span class="required_field">*</span></label>
+                    <input class="form-control" type="date" formControlName="end_date"
+                      [ngClass]="{'is-invalid': updateForm.get('date.end_date').touched && updateForm.get('date.end_date').invalid}"
+                      required>
+                    <div class="invalid-feedback" *ngIf="updateForm.get('date.end_date').hasError('required')">
+                      <div>Không được để trống!!</div>
+                    </div>
+                    <!-- <div class="invalid-feedback" *ngIf="updateForm.get('date.end_date').hasError('datenotsatisfy') && updateForm.get('date.end_date').hasError('required')=== false" >
+                                  <div>Ngày kết thúc không nhỏ hơn ngày hiện tại!!</div>
+                                </div> -->
+                  </div>
+                </div>
+
+                <div class="form-group alert alert-danger" role="alert"
+                  *ngIf="updateForm.get('date').errors && (updateForm.get('date.start_date').valid && updateForm.get('date.end_date').valid)">
+                  <span *ngIf="updateForm.hasError('twodatenotmatch', ['date'])">
+                    Ngày kết thúc không nhỏ hơn ngày bắt đầu!!
+                  </span>
+
+                </div>
+                <!-- <div class="form-group alert alert-danger" role="alert" *ngIf="error !== ''">
+          <span> {{ error }} </span>
+        </div> -->
+              </div>
+              <div class="modal-footer">
+                <button [disabled]="!updateForm.valid" type="submit" class="btn btn-success" (click)="onSubmitCreate()">
+                  Cập nhật
+                </button>
+                <button type="button" class="btn btn-secondary" (click)="onClickCloseForm()">
+                  Đóng
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <popup #popupDelete (confirmClick)="confirmDeleteClick()">
+    Bạn có chắc chắn muốn xóa ?
+  </popup>
+
+  <popup #popupChangeStatus (confirmClick)="confirmChangeStatus()">
+    Bạn có chắc chắn muốn thay đổi trạng thái lớp học ?
+  </popup>
+
+  <popup #popupApplyFailed> Cần ít nhất 2 bản ghi được kích hoạt ! </popup>

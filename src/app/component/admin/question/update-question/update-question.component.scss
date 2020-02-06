@@ -1,0 +1,123 @@
+.tong {
+  margin: 2.5%;
+  margin-left: 15% !important;
+  width: 70% !important;
+  font-size: 16px !important;
+}
+.answer {
+  float: left;
+  clear: both;
+}
+.correct {
+  float: left;
+}
+.kk {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  //color: rgb(177, 3, 3);
+  margin-top: 1px;
+  border-radius: 4px;
+  width: 70%;
+}
+.timemedia {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+}
+input[type='checkbox'] {
+  transform: scale(1.5);
+}
+.timemedia {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+}
+.modal-footer {
+  border-top: 0px !important;
+}
+
+label.asterisk-if-mandatory::after {
+  content: " *";
+}
+.hello{
+  width: 15%;
+  position: relative;
+}
+.dapan{
+  width: 100%;
+}
+.saudapan{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+  border-radius: 4px;
+  width: 100%;
+  margin-top: 10px;
+  height: auto;
+}
+.caigi{
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+  margin-top: -5px;
+  border-radius: 4px;
+  width: 89%;
+}
+.crush{
+  margin-right: 0px !important;
+  margin-left: 0px !important;
+}
+.day{
+  width: 100px;
+  height: 50px;
+}
+.di{
+  color: red;
+   font-size: 16px ;
+  padding-left: 10px;
+}
+.he{
+  margin-right: -135px !important;
+}
+.inpp{
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  padding: 6px 12px;
+  border: 1px solid rgb(187, 187, 187);
+}
+.vip{
+  margin-left: 5%;
+  width: 45%;
+  padding-right: 0px !important;
+  padding-left: 0px !important;
+}
+.widget {
+  background-color: #fff;
+  margin-bottom: 1.5rem;
+  -webkit-box-shadow: 0 1px 2px #ccc;
+  box-shadow: 0 1px 2px #ccc;
+}
+.widget-body, .widget-footer, .widget-header {
+  padding: 1rem;
+}
+.widget-header h4 { font-size: 20px !important;}
+hr { margin:  0 !important;}
+.content-container { margin-top: 30px;}
+* {
+  outline: 0 !important;
+  font-size: 15px !important;
+}

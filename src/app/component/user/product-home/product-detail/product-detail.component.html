@@ -1,0 +1,78 @@
+<div class="tong">
+    <div class="divtrong">
+    <div class="full-width full-width--streamer streamer--complete">
+        <div class="container">
+            <div class="row" style="padding-top: 35px;" *ngIf="exam != undefined">
+                <div class="col-xxs-8 left-col">
+                    <div class="cl-lead">
+                        <h1 class="clp-lead__title ">
+                            {{exam?.name}}
+                        </h1>
+                        <div class="clp-lead__headline">
+                            <p>Thời gian thi</p>
+                            {{exam?.start_date| date: 'dd/MM/yyyy'}} đến {{exam?.end_date| date: 'dd/MM/yyyy'}}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-xxs-4 right-col">
+                    <div class="right-col__module">
+                        <div class=".introduction-asset">
+                            <img class="group list-group-image " height="175px" width="100%"
+                                src="{{ baseURL }}/resources/images/exam/{{exam.image}}"  onerror="this.src='../../../../assets/images/testerror.jpg'"/>
+                        </div>
+                        <div class="right-col__inner">
+                            <div class="clp-component-render">
+                                <div class="buy-box-element">
+                                    <div >
+                                        <div >
+                                            <button id="cmdActionInCourse" data-toggle="modal" data-target="#exampleModalCenter" class="btn-add">
+                                                    <i class="fas fa-edit" style="padding-right: 3px"></i>
+                                                <a 
+                                                class="btnDk">Vào thi</a>
+                                            </button>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container container--component-margin">
+        <div class="row " *ngIf="exam != undefined">
+            <div class="detail-pd">
+                <div class="clp-component-render">
+                    <div class="what-you-get">
+                        {{exam?.decription}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body" style="background-color: rgb(165, 211, 241); color: black;">
+          <div class="text-center">
+            <div class="chu" style="font-size: 16px;">Bạn có chắc muốn thi chứ ?</div>
+            <div class="form-group">
+              <button class="btn btn-primary" id="bss1" (click)="clickVaoThi1(exam?.id,exam?.name,exam?.subject?.name)" data-dismiss="modal" >
+                    Yes
+              </button>&nbsp;&nbsp;&nbsp;&nbsp;
+              <button class="btn btn-dark" id="bss2"  data-dismiss="modal">
+                    No
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+<notifier-container></notifier-container>

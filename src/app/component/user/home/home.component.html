@@ -1,0 +1,256 @@
+<div id="page_content" class="container-fluid">
+    <div class="container-fluid home-masthead-background">
+        <div class="container" id="home-masthead">
+            <div class="row no-gutter-col">
+                <div class="col-md-8" id="masthead-image-wrapper">
+                    <div class="header-masthead">
+                        <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig1"
+                        (init)="slickInit($event)" (breakpoint)="breakpoint($event)"
+                        (afterChange)="afterChange($event)" (beforeChange)="beforeChange($event)">
+                        <div ngxSlickItem *ngFor="let sl of slideBarActive" class="slide">
+                               <a href="{{sl.link}}"><img class="img-responsive"
+                                src="{{ baseURL }}/resources/images/slidebars/{{ sl.img }}"
+                                onerror="this.src='../../../../assets/images/webslide1.jpg'" />
+                               </a>
+                            <a class="overlay-arrow">
+                                <h1 style=" text-transform: uppercase;">{{ sl.title }}</h1>
+                                <h2>{{ sl.slogan }}</h2>
+                            </a>
+
+                        </div>
+                    </ngx-slick-carousel>
+                        
+
+                    </div>
+                </div>
+                <div class="col-md-4 text-center" id="header-catalog-ad">
+
+                    <div class="card">
+                        <div class="masthead-callout">
+                            <div class="card-img"
+                                style="background: url(https://www.javacodegeeks.com/wp-content/uploads/2015/01/books_promo.png) no-repeat top center; background-size: 270px;">
+                                <div class="card-overlay-transparent">
+                                    <a class="btn btn-outline btn-outline-primary mb-6 btntoday"
+                                        [routerLink]="['/hometotal/fullexam']">TODAY TEST</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="container">
+        <!-- <div class="row">
+            <div class="col-md-12" style="padding: 1% 1%;background: rgb(214, 217, 219)">
+                xin chào các bạn ^-^ ^-^!!!!!
+            </div>
+        </div> -->
+        <div class="row" style="padding-bottom: 20px">
+            <div class="col-md-8">
+                <div class="left text-center"
+                    style="background:  rgb(214, 217, 219);margin-left: -1.8%;margin-right: -2%;margin-top: 1%">
+                    <a href="" class="text-content-top"> FEATURED TEST</a>
+                    <!-- <hr style="border: 1px solid #666">  -->
+                </div>
+                <div class="left-content">
+
+
+                    <p class="text-carousel" style="font-size: 20px">Entry test</p>
+                    <div class="row view-group">
+                        <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig"
+                            (init)="slickInit($event)" (breakpoint)="breakpoint($event)"
+                            (afterChange)="afterChange($event)" (beforeChange)="beforeChange($event)">
+                            <div ngxSlickItem *ngFor="let exam of entryTest" class="slide">
+
+                                <div class="item-cat">
+                                    <div class="pro-home-img">
+                                        <a><img src="{{ baseURL }}/resources/images/exam/{{exam.image}}" height="155px" width="100%"
+                                                onerror="this.src='../../../../assets/images/testerror.jpg'"></a>
+                                    </div>
+                                    <div class="item-cat-content item-height">
+                                        <h2 class="cat-name-home" style="text-justify: inherit">
+                                            <a>{{exam.name| truncate: 20}}</a>
+                                        </h2>
+                                        <div class="">
+                                        <button class="btnDk"  style="margin-right: 17%;background:#086dd6 " [routerLink]="['/hometotal','exam','detail',exam.id]">Chi tiết</button>
+                                        <button (click)="clickRegis(exam)" class="btnDk" data-toggle="modal" data-target="#exampleModalCenter" >Đăng ký</button>
+                                       
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </ngx-slick-carousel>
+
+
+                    </div>
+
+                    <p class="text-carousel" style="font-size: 20px">Bài thi sắp đến hạn</p>
+                    <div class="row view-group">
+                        <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig"
+                            (init)="slickInit($event)" (breakpoint)="breakpoint($event)"
+                            (afterChange)="afterChange($event)" (beforeChange)="beforeChange($event)">
+                            <div ngxSlickItem *ngFor="let exam of examOften" class="slide">
+
+                                <div class="item-cat">
+                                    <div class="pro-home-img">
+                                        <a><img src="{{ baseURL }}/resources/images/exam/{{exam.image}}" height="155px" width="100%"
+                                                onerror="this.src='../../../../assets/images/testerror.jpg'"></a>
+                                    </div>
+                                    <div class="item-cat-content item-height">
+                                        <h2 class="cat-name-home"><a>{{exam.name | truncate: 20}}</a>
+                                        </h2>
+                                        <p>{{exam.start_date| date: 'dd/MM/yyyy'}} đến
+                                            {{exam.end_date| date: 'dd/MM/yyyy'}}</p>
+                                        <div class="">
+                                                <button class="btnDk" style="margin-right: 17%;background:#086dd6 " [routerLink]="['/hometotal','exam','detail',exam.id]">Chi tiết</button>
+                                                <button class="btnDk" id="cmdActionInCourse" data-toggle="modal" data-target="#exampleModalCenter">Đăng ký</button>
+                                               
+                                                </div>
+                                               
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </ngx-slick-carousel>
+
+
+                    </div>
+                    <p class="text-carousel" style="font-size: 20px">Bài thi thử</p>
+                    <div class="row view-group">
+                        <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig"
+                            (init)="slickInit($event)" (breakpoint)="breakpoint($event)"
+                            (afterChange)="afterChange($event)" (beforeChange)="beforeChange($event)">
+                            <div ngxSlickItem *ngFor="let exam of exams" class="slide">
+
+                                <div class="item-cat">
+                                    <div class="pro-home-img">
+                                        <a><img src="{{ baseURL }}/resources/images/exam/{{exam.image}}" height="155px" width="100%"
+                                                onerror="this.src='../../../../assets/images/testerror.jpg'" /></a>
+                                    </div>
+                                    <div class="item-cat-content item-height">
+                                        <h2 class="cat-name-home"><a>{{exam.name| truncate: 20}}</a>
+                                        </h2>
+                                        <div class="">
+                                                <!-- <button class="btnDk" style="margin-right: 17%;background:#086dd6 "[routerLink]="['/hometotal','exam','detail',exam.id]">Chi tiết</button> -->
+                                                <button class="btnDk1" (click)="clickRegisExamDemo(exam)">Chi tiết</button>
+                                        </div>
+                                               
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </ngx-slick-carousel>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="right text-center"
+                    style="background: rgb(214, 217, 219);margin-right: -4%;margin-top: 2.1%">
+                    <a href="" class="text-content-top"> LATEST POSTS</a>
+
+                </div>
+                <div *ngIf="isMobile === false">
+
+                    <div class="box-item-news-left" *ngFor="let pinnednews of listPinnedNews">
+                        <div class="item-news-right" (click)="onViews(pinnednews['0'])">
+                            <div class="row">
+                                
+                                <div class="col-sm-4">
+                                    <a  [routerLink]="['/hometotal','pagenews','news','viewnews',pinnednews['0']]"> <img src="{{ baseURL }}/resources/images/new/{{ pinnednews['2'] }}"
+                                            onerror="this.src='../../../../assets/images/default_news_avatar.png'"
+                                            height="100px" width="100%" /></a>
+
+                                </div>
+                                <div class="col-sm-8">
+                                    <a  [routerLink]="['/hometotal','pagenews','news','viewnews',pinnednews['0']]" title=""
+                                        style="font-size: 15px">{{ pinnednews['1'] | truncate: 23 }}</a>
+                                    <div class="createdate" style="font-size: 12px">
+                                        {{ pinnednews['7'] | date: 'dd/MM/yyyy' }}</div>
+                                </div>
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="isMobile === true">
+                    <div class="row view-group">
+                        <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig"
+                            (init)="slickInit($event)" (breakpoint)="breakpoint($event)"
+                            (afterChange)="afterChange($event)" (beforeChange)="beforeChange($event)">
+                            <div ngxSlickItem *ngFor="let pinnednews of listPinnedNews">
+                                <div class="item-cat">
+                                    <div class="pro-home-img">
+                                        <a [routerLink]="['/hometotal','pagenews','news','viewnews',pinnednews['0']]"> <img src="{{ baseURL }}/resources/images/new/{{ pinnednews['2'] }}"
+                                                onerror="this.src='../../../../assets/images/default_news_avatar.png'"
+                                                height="100%" width="100%" /></a>
+                                    </div>
+                                    <div class="item-cat-content item-height">
+                                        <a [routerLink]="['/hometotal','pagenews','news','viewnews',pinnednews['0']]"
+                                            title="">{{ pinnednews['1'] | truncate: 23 }}</a>
+                                        <div class="createdate" style="font-size: 12px">
+                                            {{ pinnednews['7'] | date: 'dd/MM/yyyy' }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ngx-slick-carousel>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-body" style="background-color: rgb(165, 211, 241); color: black;">
+          <div class="text-center">
+            <div class="chu" style="font-size: 16px;">Bạn có chắc muốn thi chứ ?</div>
+            <div class="form-group">
+              <button class="btn btn-primary" id="bss1" (click)="clickVaoThi1(exam?.id,exam?.name,exam?.subject?.name)" data-dismiss="modal" >
+                    Yes
+              </button>&nbsp;&nbsp;&nbsp;&nbsp;
+              <button class="btn btn-dark" id="bss2"  data-dismiss="modal">
+                    No
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+<!-- <notifier-container></notifier-container> -->
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header" style="background-color: #2869bd; color: white;">
+              <h5 class="modal-title" id="exampleModalCenterTitle">Nhập code</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                    <input class="form-control" type="text" matInput [(ngModel)]="code">
+            </div>
+            <div class="modal-footer" style="color: white;">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" (click)="regis()" data-dismiss="modal">OK</button>
+            </div>
+          </div>
+        </div>
+</div>

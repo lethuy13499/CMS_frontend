@@ -1,0 +1,164 @@
+<div *ngIf="showTable" class="container-fluid" style=" padding-bottom: 40px">
+  <div style=" padding-bottom: 40px">
+    <div class="row">
+      <div class="form-group col-md-6 ">
+        <div class="row">
+          <ng-multiselect-dropdown [placeholder]="'custom placeholder'" [data]="users" [(ngModel)]="selectedUser"
+            [settings]="dropdownSettingUser" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)"
+            class="col-md-9" style="margin-top: 13px">
+          </ng-multiselect-dropdown>
+          <div class="col-md-2">
+            <button type="submit" class="btn btn-primary  " (click)="onSubmitUpdate()" style="margin-top: 10px">
+              + Add User
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="form-group col-md-6">
+        <div class="row">
+          <ng-multiselect-dropdown [placeholder]="'custom placeholder'" [data]="groups" [(ngModel)]="selectedGroup"
+            [settings]="dropdownSettingGroup" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)"
+            class="col-md-9" style="margin-top: 13px">
+          </ng-multiselect-dropdown>
+          <div class="col-md-2">
+            <button type="submit" class="btn btn-primary abtn " (click)="addGroup()" style="margin-top: 10px">
+              + Add Group
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <table class="table table-bordered text-center " style="margin-top: 10px; padding-bottom: 40px">
+    <thead>
+      <tr>
+        <th style="text-align: center">ID</th>
+        <th style="vertical-align: middle;text-align: left;" colspan="3">
+          Tên
+        </th>
+        <th style="text-align: center" colspan="2">Email</th>
+        <th>Thiết lập</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="
+            let user of listUser
+          ">
+        <td style="text-align: center">{{ user.id }}</td>
+        <td style="text-align: left" colspan="3">
+          <a>{{ user.fullname }}</a>
+        </td>
+        <td style="text-align: left" colspan="2">
+          <a>{{ user.email }}</a>
+        </td>
+        <td style="text-align: center">
+          <i style="color:white; margin-left: 10px;" class="fa fa-trash-o btn btn-danger "
+            (click)="onClickDelete(permission)"></i>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div id="content" *ngIf="showTableEntry">
+  <div id="fu">
+    <button type="button" (click)="getListQuestion2()" data-toggle="modal" data-target="#centralModalInfo"
+      class="btn btn-warning abtn">
+      Import Excel/Text
+    </button>
+    <button type="button" class="btn btn-warning abtn" style="margin-left:15px">
+      <a [href]="urlDownloadFile" style="color: black">Tải file mẫu</a>
+    </button>
+  </div>
+  <table class="table table-bordered text-center " style="margin-top: 10px;">
+    <thead>
+      <tr>
+        <th style="text-align: center">Email</th>
+        <th style="vertical-align: middle;text-align: left;" colspan="3">
+          Tên<i class="fa fa-sort float-right" aria-hidden="true"></i>
+        </th>
+        <th style="text-align: center" colspan="2">Exam Code</th>
+        <th>Thiết lập</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="
+            let user of listUserEntry
+          ">
+        <td style="text-align: center">{{ user['3'] }}</td>
+        <td style="text-align: left" colspan="3">
+          <a>{{ user['5'] }}</a>
+        </td>
+        <td style="text-align: left" colspan="2">
+          <a>{{ user['4'] }}</a>
+        </td>
+        <td style="text-align: center">
+          <i style="color:white; margin-left: 10px;" class="fa fa-trash-o btn btn-danger "
+            (click)="onClickDelete(permission)"></i>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<div class="container">
+  <form [formGroup]="insertForm" (ngSubmit)="(insertForm.valid)" enctype="multipart/form-data" *ngIf="showInsertForm">
+    <div style="text-align: center">
+      <h3>Thêm mới tài khoản</h3>
+    </div>
+    <div class="modal-body">
+      <div class="form-group col-md-6">
+        <label> Tài khoản :</label>
+        <ng-multiselect-dropdown [placeholder]="'custom placeholder'" [data]="users" [(ngModel)]="userBefore"
+          [settings]="dropdownSettingUser" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)"
+          formControlName="user_id">
+        </ng-multiselect-dropdown>
+      </div>
+    </div>
+    <br />
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-success" (click)="onSubmitUpdate()">
+        Thêm mới
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="onClickCloseForm()">
+        Đóng
+      </button>
+    </div>
+  </form>
+</div>
+<div class="modal fade" id="centralModalInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-notify modal-info" role="document">
+    <!--Content-->
+    <div class="modal-content">
+      <!--Header-->
+      <div class="modal-header" style="background-color: #2869bd; color: white;">
+        <p class="heading lead">Import User</p>
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" style="color: white;" class="white-text">&times;</span>
+        </button>
+      </div>
+      <!--Body-->
+      <div class="modal-body">
+        <div class="text-center">
+          <div class="form-group">
+            <input #myInput type="file" class="form-control" (change)="onAddExcel($event)"
+              accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+          </div>
+        </div>
+
+        <!--Footer-->
+        <div class="modal-footer">
+          <button class="btn btn-outline-dark" data-dismiss="modal" cdkFocusInitial [disabled]="this.fileExist !== 1"
+            (click)="getListQuestion()">
+            Import
+          </button>
+          <button type="button" class="btn btn-outline-dark" data-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+      <!--/.Content-->
+    </div>
+  </div>

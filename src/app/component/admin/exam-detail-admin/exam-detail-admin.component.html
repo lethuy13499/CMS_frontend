@@ -1,0 +1,251 @@
+<div class="content-container">
+  <div class="col-md-12">
+    <div class="widget">
+      <header class="widget-header">
+        <h4 class="widget-title">Quản lý Exam User</h4>
+      </header>
+      <hr class="widget-separator">
+      <div class="widget-body">
+        <div class="row">
+          <div id="fu" class="col-md-12">
+            <div class="container-fluid" style="margin: 50px auto;width: 90%;">
+              <a [href]="url">Export</a>
+              <div style="margin-top: 15px"></div>
+              <div class="card">
+                <div class="card-header text-center text-white" style="background-color: #2869bd;border:#2869bd;">
+                  <h3>THÔNG TIN BÀI THI</h3>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-4">
+                      Tên bài thi: <strong class="text-muted">{{exam?.name}}</strong> </div>
+                    <div class="col-sm-4">
+                      Ngày bắt đầu:
+                      <strong class="text-muted" style="margin-right: 10px">{{exam?.startDate | date : 'dd-MM-yyyy hh:mm:ss'}} </strong>
+                    </div>
+                    <div class="col-sm-4">
+                      Số người đã thi:
+                      <strong class="text-muted">{{numberComplted1}} </strong>
+                    </div>
+                  </div>
+                  <div class="row" style="margin-top: 15px">
+                    <div class="col-sm-4"> Số lượng câu hỏi: <strong class="text-muted">
+                        {{exam?.questionNum}} </strong></div>
+                    <div class="col-sm-4">
+                      Ngày kết thúc:
+                      <strong class="text-muted">{{exam?.endDate | date : 'dd-MM-yyyy hh:mm:ss'}} </strong>
+                      
+                    </div>
+                    <div class="col-sm-4">
+                      Số người chưa thi:<strong class="text-muted">{{numberComplted0}}
+                    </strong>
+                  </div>
+                  </div>
+                  <div class="row" style="margin-top: 15px">
+                    <div class="col-sm-4">
+                      Ngày tạo: <strong class="text-muted"
+                        style="margin-right: 455px">{{exam?.createdAt | date : 'dd-MM-yyyy hh:mm:ss'}} </strong> </div>
+                    <div class="col-sm-4"></div>
+                  </div>
+                  <!-- <ul class="list-group textview">
+                    <li class="list-group-item  justify-content-between align-items-center" >
+                      Tên bài thi: <strong class="text-muted" style="margin-left: 380px">{{exam?.name}}</strong>
+                     
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      Số lượng câu hỏi: <strong class="text-muted" style="margin-right: 560px"> {{exam?.questionNum}} </strong>
+                      <strong class="text-muted"></strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center" >
+                      Ngày tạo: <strong class="text-muted" style="margin-right: 455px">{{exam?.createdAt | date : 'dd-MM-yyyy hh:mm:ss'}} </strong>
+                      
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      Ngày bắt đầu:
+                      <strong class="text-muted" style="margin-right: 10px">{{exam?.startDate | date : 'dd-MM-yyyy hh:mm:ss'}} </strong>
+                      Số người đã thi:
+                      <strong class="text-muted">{{numberComplted1}} </strong>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      Ngày kết thúc:
+                      <strong class="text-muted">{{exam?.endDate | date : 'dd-MM-yyyy hh:mm:ss'}} </strong>
+                      Số người chưa thi:
+                      <strong class="text-muted">{{numberComplted0}}
+                      </strong>
+                    </li>
+                  </ul> -->
+                </div>
+              </div>
+              <div class="container" style="margin: 25px 0 0 -15px">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#home">Danh sách đã thi</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#menu1">Danh sách chưa thi</a>
+                  </li>
+                </ul>
+            
+                <!-- Tab panes -->
+                <div class="tab-content">
+                  <div id="home" class="container tab-pane active"><br>
+                    <div class="container mt-3">
+                      <div id="content" *ngIf="showTable">
+                        <table class=" table table-striped text-center" style="margin-top: 10px;">
+                          <thead>
+                            <tr style="background-color:#eee;">
+                              <th colspan="3">STT</th>
+                              <th style="text-align: left" colspan="3">FullName</th>
+                              <th style="text-align: left" colspan="3">Email</th>
+                              <th style="text-align: left" colspan="3">Time</th>
+                              <th style="text-align: left" colspan="3">Total Score</th>
+                              <th style="text-align: left" colspan="3">CorrectNum</th>
+                              <th style="text-align: left" colspan="3">Pass</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="
+                                let item of (examUsers1
+                                  | paginate: { itemsPerPage: [perPage], currentPage: p });
+                                trackBy: trackByFn;
+                                let myIndex = index">
+                              <td colspan="3">{{ myIndex +1 }}</td>
+                              <td style="text-align: left" colspan="3">{{item.fullName}}</td>
+                              <td style="text-align: left" colspan="3">{{item.mobile}}</td>
+                              <td style="text-align: left" colspan="3">{{item.time}}</td>
+                              <td style="text-align: left" colspan="3">{{item.total_score}}</td>
+                              <td style="text-align: left" colspan="3">{{item.correct_num}}</td>
+                              <td style="text-align: left" colspan="3">
+                                <span class="badge badge-success" *ngIf="item.pass ;else block"  style="width: 80px">Pass</span>
+                              </td>
+                              <ng-template #block>
+                                <span class="badge badge-danger" style="width: 80px">Fail</span>
+                              </ng-template>
+            
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="menu1" class="container tab-pane fade"><br>
+                    <div class="container mt-3 ">
+                      <div id="content" *ngIf="showTable">
+                        <table class=" table table-striped text-center" style="margin-top: 10px;">
+                          <thead>
+                            <tr style="background-color:#eee;">
+                              <th colspan="3">STT</th>
+                              <th style="text-align: left" colspan="3">FullName</th>
+                              <th style="text-align: left" colspan="3">Email</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="
+                                  let item1 of examUsers
+                                  let myIndex = index">
+                              <td colspan="3">{{ myIndex +1 }}</td>
+                              <td style="text-align: left" colspan="3">{{item1.fullName}}</td>
+                              <td style="text-align: left" colspan="3">{{item1.mobile}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>         
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="card-deck" style="margin-top:20px">
+    <div class="card">
+      <div class="card-header text-center text-white bg-info">
+        <h3>DANH SÁCH ĐÃ THI</h3>
+      </div>
+      <div class="card-body ">
+        <div class="container mt-3">
+          <div id="content" *ngIf="showTable">
+            <table class=" table table-striped text-center" style="margin-top: 10px;">
+              <thead>
+                <tr style="background-color:#eee;">
+                  <th colspan="3">STT</th>
+                  <th style="text-align: left" colspan="3">FullName</th>
+                  <th style="text-align: left" colspan="3">Email</th>
+                  <th style="text-align: left" colspan="3">Time</th>
+                  <th style="text-align: left" colspan="3">Total Score</th>
+                  <th style="text-align: left" colspan="3">CorrectNum</th>
+                  <th style="text-align: left" colspan="3">Pass</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="
+                  let item of (examUsers1
+                    | paginate: { itemsPerPage: [perPage], currentPage: p });
+                  trackBy: trackByFn;
+                  let myIndex = index">
+                  <td colspan="3">{{ myIndex +1 }}</td>
+                  <td style="text-align: left" colspan="3">{{item.fullName}}</td>
+                  <td style="text-align: left" colspan="3">{{item.mobile}}</td>
+                  <td style="text-align: left" colspan="3">{{item.time}}</td>
+                  <td style="text-align: left" colspan="3">{{item.total_score}}</td>
+                  <td style="text-align: left" colspan="3">{{item.correct_num}}</td>
+                  <td style="text-align: left" colspan="3">
+                    <span class="badge badge-success" *ngIf="item.pass ;else block">Pass</span>
+                  </td>
+                  <ng-template #block>
+                    <span class="badge badge-danger">Fail</span>
+                  </ng-template>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+<!-- <div class="card">
+      <div class="card-header text-center text-white bg-warning">
+        <h3>DANH SÁCH CHƯA THI</h3>
+      </div>
+      <div class="card-body ">
+        <div class="container mt-3 ">
+          <div id="content" *ngIf="showTable">
+            <table class=" table table-striped text-center" style="margin-top: 10px;">
+              <thead>
+                <tr style="background-color:#eee;">
+                  <th colspan="3">STT</th>
+                  <th style="text-align: left" colspan="3">FullName</th>
+                  <th style="text-align: left" colspan="3">Email</th>
+                  <th style="text-align: left" colspan="3">School</th>
+                  <th style="text-align: left" colspan="3">Time</th>
+                  <th style="text-align: left" colspan="3">Total Score</th>
+                  <th style="text-align: left" colspan="3">CorrectNum</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="
+                    let item1 of examUsers
+                    let myIndex = index">
+                  <td colspan="3">{{ myIndex +1 }}</td>
+                  <td style="text-align: left" colspan="3">{{item1.fullName}}</td>
+                  <td style="text-align: left" colspan="3">{{item1.mobile}}</td>
+                  <td style="text-align: left" colspan="3">{{item1.school}}</td>
+                  <td style="text-align: left" colspan="3">{{item1.time}}</td>
+                  <td style="text-align: left" colspan="3">{{item1.total_score}}</td>
+                  <td style="text-align: left" colspan="3">{{item1.correct_num}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->

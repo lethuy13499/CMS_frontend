@@ -1,0 +1,70 @@
+<div class="content-container">
+    <div class="col-md-12">
+      <div class="widget">
+        <header class="widget-header">
+          <h4 class="widget-title">Quản lý User Role</h4>
+        </header>
+        <hr class="widget-separator">
+        <div class="widget-body">
+          <div class="row">
+            <div id="fu" class="col-md-3">
+                <input
+                (keyup)="onSearch($event)"
+                class="form-control"
+                type="search"
+                placeholder="Search"
+                aria-label="Search" 
+                style="width: 300px"
+              />
+                
+             <div style="margin-top: 15px"></div> 
+            </div>
+            <div class="col-md-12">
+                <table class="table table-bordered text-left">
+                    <thead>
+                      <tr>
+                        <th>Users/Role</th>
+                        <th style="text-align: center; width: 200px;" *ngFor="let role of Role">
+                          {{ role.value }}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        *ngFor="
+                          let p of Users
+                           
+                        "
+                      >
+                        <td>{{ p.value }} ({{ p.email }})</td>
+                        <td
+                          style="padding-left: 88px; width: 200px;"
+                          *ngFor="let check of Role"
+                        >
+                          <label class="container">
+                            <input
+                              name="checked"
+                              *ngIf="isCheck(p.email, check.value); else elseBlock"
+                              type="checkbox"
+                              checked
+                              (change)="onSelect(p.email, check.value, $event)"
+                            />
+                            <span class="checkmark"></span>
+                          </label>
+                          <ng-template #elseBlock>
+                            <input
+                              name="checked"
+                              type="checkbox"
+                              (change)="onSelect(p.email, check.value, $event)"
+                          /></ng-template>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+            </div>
+          </div>
+        </div>
+        
+    </div>
+  </div>
+

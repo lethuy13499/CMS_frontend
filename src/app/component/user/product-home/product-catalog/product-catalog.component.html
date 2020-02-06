@@ -1,0 +1,82 @@
+<div class="tong">
+  <div class="row floating-callout triple-nav clearfix" style=" margin-top: 50px;">
+    <div class="col-sm-4"><a [routerLink]="['/hometotal/product/Khóa học']"><button class="btn btn-nav btn-orange">KHÓA
+          HỌC</button></a></div>
+    <div class="col-sm-4"><a [routerLink]="['/hometotal/product/Kì thi']"><button class="btn btn-nav btn-green">THI
+          CỬ</button></a></div>
+    <div class="col-sm-4"><a [routerLink]="['/hometotal/product/book']"><button class="btn btn-nav btn-blue">TÀI
+          LIỆU</button></a></div>
+  </div>
+  <div class="container-fluid bg-f1f2f2">
+    <div class="container">
+      <div class="conent-page">
+        <div class="grid">
+          <h2 class="title-page" style="text-transform:none">Danh sách {{tit}}</h2>
+          <div class="c20"></div>
+          <div id="products" class="row view-group">
+            <ng-container *ngFor="let product of (products
+                          | paginate: { itemsPerPage: [perPage], currentPage: p });
+                            trackBy: trackByFn  ">
+              <div class="item col-xs-3 col-lg-3">
+                  <div class="card class-choice animate">
+                      <div class="card-block">
+                        <div class="card-img-top">
+                            <a [routerLink]="['/hometotal/product/detail',product.productId]"><img
+                              src="{{ baseURL }}/resources/images/thumbnail/{{ product.thumbnail}}" 
+                              width="100%"></a>
+                        </div>
+                        <a [routerLink]="['/hometotal/product/detail',product.productId]" style="font-size: 20px;
+                            text-decoration: none;
+                            font-weight: 400;
+                            min-height: 3em;">{{product.name}}</a>
+                             <div class="intro-cathome">{{product.briefInfo | truncate: 30 }}</div>
+                             <button [routerLink]="['/hometotal/product/detail',product.productId]"
+                             class="btnDk" style="margin-top: 15px;" *ngIf="product.contentType !=='Book' ; else tmp">Đăng kí</button>
+                             <ng-template #tmp>
+                             <button [routerLink]="['/hometotal/product/detail',product.productId]"
+                          class="btnDk" style="margin-top: 15px;"> Ðọc
+                          ngay</button>
+                          </ng-template>
+                      </div>
+                    </div>
+                <!-- <div class="item-cat">
+                  <div class="pro-home-img">
+                    <a [routerLink]="['/hometotal/product/detail',product.productId]"><img
+                        src="{{ baseURL }}/resources/images/thumbnail/{{ product.thumbnail}}" height="155px"
+                        width="100%"></a>
+                  </div>
+                  <div class="item-cat-content item-height">
+                    <h2 class="cat-name-home"><a
+                        [routerLink]="['/hometotal/product/detail',product.productId]">{{product.name}}</a></h2>
+                    <div class="intro-cathome">{{product.briefInfo}}</div>
+                    <div *ngIf="product.contentType !=='Book' ; else tmp">
+                      <a [routerLink]="['/hometotal/product/detail',product.productId]" class="btnDk">Đăng ký</a>
+                    </div>
+                    <ng-template #tmp>
+                      <a [routerLink]="['/hometotal/product/book/1']" class="btnDk"><i class="fa fa-edit"></i>&nbsp; Ðọc
+                        ngay</a>
+                    </ng-template>
+
+                  </div>
+                </div> -->
+              </div>
+            </ng-container>
+            <div class="phantrang">
+              <div class="lt">
+                <span for="sel1">Results per page: </span>
+                <select class="ft" id="sel1" (change)="onChange($event)">
+                  <option>8</option>
+                  <option>16</option>
+                </select>
+              </div>
+              <div class="pagi">
+                <pagination-controls style="float:right;" (pageChange)="p = $event"></pagination-controls>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

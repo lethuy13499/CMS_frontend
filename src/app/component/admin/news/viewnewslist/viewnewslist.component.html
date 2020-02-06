@@ -1,0 +1,123 @@
+<!-- NOTIFICATION -->
+<!-- <div id="snackbar" *ngIf="notificationVisibility" style="height: 300px;">{{ notification }}</div>
+
+<div class="noti1" *ngIf="notificationVisibilityWhenDelete"></div>
+<div class="noti" *ngIf="notificationVisibilityWhenDelete">
+  <div id="snackbard">
+    <div class="chu">{{ chu }}</div>
+    <div class="yn">
+      <div id="bss1" (click)="oncg(true)">Yes</div>
+      <div id="bss2" (click)="oncg(false)">No</div>
+    </div>
+  </div>
+</div> -->
+<popup #popupDelete (confirmClick)="confirmDeleteClick()">
+  Bạn có thay đổi trạng thái không ?
+</popup>
+<!-- <popup #popupDelete (confirmClick)="confirmDeleteClick1()">
+    Bạn có thay đổi trạng thái không ?
+</popup> -->
+<!-- <popup #popupDelete (confirmClick)="confirmDeleteClick2()">
+      Bạn có thay đổi trạng thái không ?
+    </popup> -->
+<!-- NOTIFICATION -->
+<div class="content-container">
+  <div class="col-md-12">
+    <div class="widget">
+      <header class="widget-header">
+        <h4 class="widget-title">Quản lý tin tức</h4>
+      </header>
+      <hr class="widget-separator">
+      <div class="widget-body">
+        <div class="row">
+          <div id="fu" class="col-md-12">
+            <input (keyup)="onSearch($event)" [(ngModel)]="keySearch" class="form-control mr-sm-2 searchform"
+              type="search" placeholder="Search" aria-label="Search" /><i (click)="xoaSearch()" *ngIf="keySearch !== ''"
+              style="margin-left: 5px;font-size: 42px; color: red; cursor: pointer;" class="fa fa-close">
+            </i>
+            <a class="addbutton" [routerLink]="['/cms/createnew']">
+              + Thêm tin tức
+            </a>
+            <ng-template #disable></ng-template>
+          </div>
+        </div>
+        <div id="zz" style="display: table">
+          <table class="table table-bordered text-center maintable">
+            <thead>
+              <th class="th1" scope="col">Ảnh</th>
+
+              <th style="text-align: left" class="th2" scope="col" (click)="onSort(1)">
+                Tiêu đề <i class="fa fa-sort float-right" aria-hidden="true"></i>
+              </th>
+
+              <th style="text-align: left" class="th3" scope="col" (click)="onSort(3)">
+                Mô tả<i class="fa fa-sort float-right" aria-hidden="true"></i>
+              </th>
+
+              <th style="text-align: left" class="th4" scope="col" (click)="onSort(5)">
+                Ngày viết <i class="fa fa-sort float-right" aria-hidden="true"></i>
+              </th>
+              <th style="text-align: center" class="th4" scope="col">Trạng thái</th>
+              <th class="th6" scope="col">Thiết lập</th>
+            </thead>
+
+            <tbody *ngFor="
+          let new of (viewNewsList
+            | paginate: { itemsPerPage: [perPage], currentPage: p });
+          trackBy: trackByFn,let i = index
+        ">
+              <td class="th1" (click)="onViews(new.id)">
+                <img src="{{ baseURL }}/resources/images/new/{{ new.linkimage }}"
+                  onerror="this.src='../../../../../../../assets/images/default_news_avatar.png'" />
+              </td>
+
+              <td style="text-align: left; cursor: pointer" id="th2" class="th2" (click)="onViews(new.id)">
+                {{ new.title }}
+              </td>
+
+              <td style="text-align: left; cursor: pointer" id="th3" class="th3" (click)="onViews(new.id)">
+                {{ new.description }}
+              </td>
+
+              <td style="text-align: center" class="th4">
+                {{ new.createDate | date: 'dd/MM/yyy' }}
+              </td>
+              <!--
+        <td style="text-align: left" id="th5" class="th5">{{ new.tags }}</td> -->
+              <td>
+                <span *ngIf="new.upStatus == 'reject'" class="labelStatus inactive">Not Published </span>
+                <span *ngIf="new.upStatus == 'approve'" class="labelStatus active">Published</span>
+              </td>
+              <td class="th6">
+                <div class="form-group" style="font-size: 13px">
+                  <select class="form-control" [(ngModel)]="selectedAction" (change)="onChangeAction($event, new)"
+                    (mouseout)="focusOutFunction()">
+                    <option value="action" selected disabled>Action</option>
+                    <option value="view">View news</option>
+                    <option value="edit" *ngIf="checkRolePerMission('updatenews')">Update</option>
+                    <option value="delete" *ngIf="checkRolePerMission('updatenews')">Published/Not Published</option>
+                  </select>
+                </div>
+              </td>
+            </tbody>
+          </table>
+
+          <div class="widget-footer">
+            <div class="lt">
+              <span for="sel1">Results per page: </span>
+              <select class="ft" id="sel1" (change)="onChange($event)">
+                <option disabled style="visibility: hidden">{{perPage}}</option>
+                <option>5</option>
+                <option>10</option>
+                <option>15</option>
+              </select>
+            </div>
+            <div class="pagi">
+              <pagination-controls style="float:right;" (pageChange)="p = $event"></pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

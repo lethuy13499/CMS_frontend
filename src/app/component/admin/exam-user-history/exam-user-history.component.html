@@ -1,0 +1,125 @@
+<div class="row floating-callout triple-nav clearfix" style=" margin-top: 30px;">
+</div>
+<div class="divtrong">
+  <div class="divphai">
+    <h1>
+      <div [ngStyle]="{ 'background-color': thucHanhSatus ? '#2869bd' : '' }" class="lichsuthuchanh"
+        (click)="xemBaiThucHanh(true)">
+        <span [ngStyle]="{ 'background-color': thucHanhSatus ? '#2869bd' : '' }" class="lichsuthuchanh">
+          <i [ngStyle]="{ color: thucHanhSatus ? 'white' : '' }" class="fa fa-tags"></i>
+          &nbsp;&nbsp;<span [ngStyle]="{ color: thucHanhSatus ? 'white' : '' }">THỰC HÀNH</span></span>
+      </div>
+      <div [ngStyle]="{ 'background-color': baiThiStatus ? '#2869bd' : '' }" class="lichsubaithi"
+        (click)="xemBaiThi(true)">
+        <span [ngStyle]="{ 'background-color': baiThiStatus ? '#2869bd' : '' }" class="lichsubaithi">
+          <i [ngStyle]="{ color: baiThiStatus ? 'white' : '' }" class="fa fa-tags"></i>
+          &nbsp;&nbsp;<span [ngStyle]="{ color: baiThiStatus ? 'white' : '' }">BÀI THI</span></span>
+      </div>
+    </h1>
+    <!-- Dsach các bài đã thi -->
+    <div *ngIf="baiThiStatus" class="tenbaithiuserdathi1">
+
+      <div class="content" style="margin-top:60px; margin-left: 20px; margin-right: 20px;">
+        <div *ngFor="let exam of listExamDone">
+          <div class="testtags" [style.border-color]="exam[7] > 0.7 ? 'rgb(30, 112, 22)' : 'gray'">
+            <div class="testtagsli" [style.color]="exam[7] > 0.7 ? 'rgb(30, 112, 22)' : 'gray'">
+              <div class="testtag_top" [style.border-color]="exam[7] > 0.7 ? 'rgb(30, 112, 22)' : 'gray'">
+                <div class="test_datetaken">
+                  <span>{{ exam[5] | date: 'hh:mm | dd/MM/yyy'}}</span>
+                  <span>NGÀY THI</span>
+                </div>
+                <div class="line" [style.border-color]="exam[7] > 0.7 ? 'rgb(30, 112, 22)' : 'gray'"></div>
+                <div class="test_score">
+                  <span>{{ exam[11] }}</span>
+                  <span class="test_datetakens "
+                    [style.border-color]="exam[7] > 0.7 ? 'rgb(30, 112, 22)' : 'gray'">{{ exam[10] }} CÂU HỎI</span>
+                </div>
+                <div class="line" [style.border-color]="exam[7] > 0.7 ? 'rgb(30, 112, 22)' : 'gray'"></div>
+                <div class="test_percent">
+                  <span>{{ tp[7] * 100 }}%</span>
+                  <span>TRẢ LỜI ĐÚNG</span>
+                </div>
+                <div class="line" [style.border-color]="tp[9] > 0.7 ? 'rgb(30, 112, 22)' : 'gray'"></div>
+                <div class="imms">
+                  <img class="im" *ngIf="tp[7] > 0.7" src="../../../../assets/images/Passed.jpg" alt="" />
+                  <img class="im" *ngIf="tp[7] < 0.7" src="../../../../assets/images/failed.jpg" alt="" />
+                </div>
+                <div class="line" [style.border-color]="exam[7] > 0.7 ? 'rgb(30, 112, 22)' : 'gray'"></div>
+                <div class="test_viewbutton">
+                  <button class="btn btn-default btn-sm"
+                    style="border: 1px solid rgb(88, 87, 85); color: rgb(88, 87, 85); width: 200px;"
+                    (click)="resultExam(exam[1],exam[0])"><span style="font-size: 15px;">Chi tiết</span>
+                  </button>
+                </div>
+              </div>
+              <div class="testtag_bottom" [style.color]="exam[7] > 0.7 ? 'rgb(30, 112, 22)' : 'gray'">
+                <span>{{ exam[3] }}</span>
+                <span>Thời gian làm bài: {{ exam[12] }} (phút:giây)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Dsach các bài thực hành đã thử -->
+    <div *ngIf="thucHanhSatus" class="tenbaithiuserdathi2">
+
+      <div class="content" style="margin-top:60px; margin-left: 20px; margin-right: 20px;">
+        <div *ngFor="let tp of listPracticeDone">
+          <div class="testtags" [style.border-color]="tp[9] > 0.7 ? 'rgb(30, 112, 22)' : 'gray'">
+            <div class="testtagsli" [style.color]="tp[9] > 0.7 ? 'rgb(30, 112, 22)' : 'gray'">
+              <div class="testtag_top" [style.border-color]="tp[9] > 0.7 ? 'rgb(30, 112, 22)' : 'gray'">
+                <div class="test_datetaken">
+                  <span>{{tp[6] | date: 'hh:mm | dd/MM/yyy'}}</span>
+                  <span>NGÀY THI</span>
+                </div>
+                <div class="line" [style.border-color]="tp[9] > 0.7 ? 'rgb(30, 112, 22)' : 'gray'"></div>
+                <div class="test_score">
+                  <span>{{ tp[11] }}</span>
+                  <span class="test_datetakens "
+                    [style.border-color]="tp[9] > 0.7 ? 'rgb(30, 112, 22)' : 'gray'">{{ tp[12] }} CÂU HỎI</span>
+                </div>
+                <div class="line" [style.border-color]="tp[9] > 0.7 ? 'rgb(30, 112, 22)' : 'gray'"></div>
+                <div class="test_percent">
+                  <span>{{ tp[9] * 100 }}%</span>
+                  <span>TRẢ LỜI ĐÚNG</span>
+                </div>
+                <div class="line" [style.border-color]="tp[9] > 0.7 ? 'rgb(30, 112, 22)' : 'gray'"></div>
+                <div class="imms">
+                  <img class="im" *ngIf="tp[9] > 0.7" src="../../../../assets/images/Passed.jpg" alt="" />
+                  <img class="im" *ngIf="tp[9] < 0.7" src="../../../../assets/images/failed.jpg" alt="" />
+                </div>
+                <div class="line" [style.border-color]="tp[9] > 0.7 ? 'rgb(30, 112, 22)' : 'gray'"></div>
+                <div class="test_viewbutton">
+                  <button class="btn btn-default btn-sm"
+                    style="border: 1px solid rgb(88, 87, 85); color: rgb(88, 87, 85); width: 200px;"
+                    (click)="resultExam(tp[0], tp[4])"><span style="font-size: 15px;">Chi tiết</span>
+                  </button>
+                </div>
+              </div>
+              <div class="testtag_bottom" [style.color]="tp[9] > 0.7 ? 'rgb(30, 112, 22)' : 'gray'">
+                <span>
+                  <span *ngIf="tp[14] === 0 && tp[13] ===0 && tp[15] === null">{{ tp[1] }}</span>
+                  <span *ngIf="tp[14] !== 0 && tp[15] === '' ">Theo domain | {{ tp[17] }}</span>
+                  <span *ngIf="tp[13] !==0 && tp[15] === ''">Theo chapter | {{ tp[16] }}</span>
+                  <span *ngIf="tp[15] !== ''">Theo keyword | {{ tp[15] }}</span>
+                </span>
+                <span>Thời gian làm bài: {{ tp[7] }} (phút:giây)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<popup #popupthilai (confirmClick)="oncg1()">
+  Bạn có chắc chắn muốn thi lại không?
+</popup>
+<popup #popuppractice (confirmClick)="oncg2()">
+  Bạn có chắc chắn muốn thi không?
+</popup>
+<popup #popupexam (confirmClick)="oncg3()">
+  Bạn có chắc chắn muốn thi không?
+</popup>

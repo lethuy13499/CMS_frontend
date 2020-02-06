@@ -1,0 +1,141 @@
+<div id="snackbar" class="{{ sh }}" [ngStyle]="{ visibility: hd }">
+  {{ noti }}
+</div>
+<div class="container">
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <h1>Chỉnh sửa hồ sơ</h1>
+  <hr />
+  <form [formGroup]="editForm" (ngSubmit)="onSubmitUpdate()" enctype="multipart/form-data">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="text-center">
+          <img width="100px" height="100px" *ngIf="img != null" class="avaimg" src="{{ img }}"
+            onerror="this.src='../../../../assets/images/default-avatar.png'" />
+          <input type="file" class="form-control" multiple accept='image/*'
+            value="{{ baseURL }}/resources/images/user/{{ us.userLogin.img }}" formControlName="img"
+            (change)="onChangeFile($event)" />
+        </div>
+      </div>
+      <!-- edit form column -->
+      <div class="col-md-9 personal-info">
+        <h3 class="col-lg-8 control-label">Chỉnh sửa thông tin</h3>
+
+        <!-- <div class="form-group">
+          <label class="col-lg-8 control-label"
+            >Họ và tên :
+            <label for="">
+              <mat-error *ngIf="
+              editForm.hasError('maxlength', ['fullname'])
+            "
+          >
+           Tên không được quá 50 kí tự!
+          </mat-error>
+               <mat-error *ngIf="editForm.get('fullname').hasError('whitespace')">
+                Tên không được nhập space!
+              </mat-error>
+            </label>
+          </label>
+
+        </div> -->
+        <div class="form-group">
+          <label class="col-lg-8 control-label"> Họ và tên *:
+          <input type="text" class="form-control" formControlName="fullname" (change)="checkSpaceFullName($event)" />
+        </label>
+        </div>
+        <div class="form-group alert alert-danger" role="alert" *ngIf="
+        editForm.get('fullname').errors &&
+        editForm.get('fullname').touched
+                            ">
+          <span *ngIf="
+          editForm.hasError('required', ['fullname'])
+                              ">
+            Tên không được để trống !
+          </span>
+          <span *ngIf="
+          editForm.get('fullname').hasError('whitespace')
+                              ">
+            Tên không được nhập space!
+          </span>
+          <span *ngIf="
+          editForm.hasError('maxlength', ['fullname'])
+                              ">
+            Tên không được quá 100 kí tự!
+          </span>
+          <span *ngIf="
+          editForm.hasError('minlength', ['fullname'])
+                              ">
+            Tên không được ít hơn 2 kí tự!
+          </span>
+        </div>
+
+
+        <div class="form-group">
+          <label class="col-lg-3 control-label">Email *:</label>
+          <div class="col-lg-8">
+            <input class="form-control" formControlName="email" readonly="true" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-lg-8 control-label">
+            <label> Ngày sinh:</label>
+
+            <input type="date" class="form-control" formControlName="birthday" />
+          </label>
+          </div>
+          <div class="form-group alert alert-danger" role="alert" *ngIf="
+          editForm.get('birthday').errors &&
+          editForm.get('birthday').touched
+                            ">
+            <span *ngIf="
+            editForm.hasError('required', ['birthday'])
+                              ">
+              Bạn không được để trống ngày sinh!
+            </span>
+            <span *ngIf="
+            editForm.get('birthday').hasError('response')
+                              ">
+              Ngày sinh không được vượt quá ngày hiện tại
+            </span>
+          </div>
+        <div class="form-group">
+          <label class="col-lg-8 control-label">Điện thoại *:
+              <mat-error
+              *ngIf="
+              editForm.get('phone').hasError('required') &&
+              editForm.get('phone').touched" style="color: red">không được để trống!
+            </mat-error>
+            <mat-error *ngIf="editForm.get('phone').hasError('pattern')">Chỉ được nhập số!</mat-error>
+            <mat-error *ngIf="editForm.get('phone').hasError('maxlength')">Không được quá 11 số!</mat-error>
+            <mat-error *ngIf="editForm.get('phone').hasError('minlength')">Không ít hơn 09 số!</mat-error>
+          </label>
+          <div class="col-lg-8">
+            <input class="form-control" type="phone" formControlName="phone" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-8 control-label">Địa chỉ: </label>
+          <div class="col-md-8">
+            <input class="form-control" type="text" formControlName="address" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-3 control-label"></label>
+          <div class="col-md-8">
+            <input type="submit" [disabled]="!editForm.valid" class="btn btn-primary btn-change" value="Lưu" />
+            <span></span>
+            <button class="btn btn-warning btn-change" (click)="cancel()">
+              Hủy
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<hr />
+<popup> bạn đã lưu thông tin thành công </popup>

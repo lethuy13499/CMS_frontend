@@ -1,0 +1,69 @@
+* {
+    outline: 0 !important;
+    font-size: 16px !important;
+  }
+  .fa {
+    color: gray;
+  }
+  #content {
+    margin: 2.5%;
+    height: auto;
+  }
+  .containers {
+    padding-top: 100px;
+    margin-left: 10%;
+    width: 80%;
+    height: auto;
+  }
+  #product {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  #search_product {
+    width: 300px;
+  }
+  #abtn {
+    position: relative;
+    float: right;
+  }
+  #trfu {
+    text-align: right !important;
+  }
+  
+  .phantrang {
+    width: 100%;
+    display: flex;
+  
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px 0 10px;
+  }
+  .lt span {
+    color: rgb(70, 68, 68);
+  }
+  .pagi {
+    position: relative;
+    top: 8px;
+  }
+  .checkbox {
+    width: 40px;
+    height: 40px;
+    margin: 0;
+    margin-left: 40%;
+     }
+.row{
+  margin-top: 2%;
+}
+.box, .widget {
+  background-color: #fff;
+  margin-bottom: 1.5rem;
+  -webkit-box-shadow: 0 1px 2px #ccc;
+  box-shadow: 0 1px 2px #ccc;
+}
+.widget-body, .widget-footer, .widget-header {
+  padding: 1rem;
+}
+.widget-header h4 { font-size: 25px !important;}
+hr { margin:  0 !important;}
+.content-container { margin-top: 30px;} 

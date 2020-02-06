@@ -1,0 +1,107 @@
+<div id="content">
+  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" cdkDropList (cdkDropListDropped)="drop($event)">
+    <mat-tree-node class="last-item" *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding cdkDrag
+      [cdkDragData]="node" (mouseenter)="dragHover(node)" (mouseleave)="dragHoverEnd()" (cdkDragStarted)="dragStart()"
+      (cdkDragReleased)="dragEnd(node)"
+      [ngStyle]="{'justify-content': node.title != 'create_' ? 'space-between' : 'center' }" (click)="newUnit(node)">
+
+      {{node.title != 'create_' ? node.title : ''}}
+      <div class="new-unit" *ngIf="node.title == 'create_'">
+        <mat-icon class="icon-option icon-add">
+          add_circle
+        </mat-icon>
+        New Unit
+      </div>
+      <div class="item-option" *ngIf="node.title != 'create_'">
+        <mat-icon class="icon-option" (click)="editUnit(node)">
+          edit
+        </mat-icon>
+        <mat-icon class="icon-option">
+          file_copy
+        </mat-icon>
+        <mat-icon class="icon-option">
+          delete
+        </mat-icon>
+        <mat-icon class="icon-option">
+          more_vert
+        </mat-icon>
+      </div>
+
+    </mat-tree-node>
+
+    <mat-tree-node class="not-last-item" matTreeNodeToggle *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding
+      cdkDrag [cdkDragData]="node" (mouseenter)="dragHover(node)" (mouseleave)="dragHoverEnd()"
+      (cdkDragStarted)="dragStart()" (cdkDragReleased)="dragEnd()">
+
+      <div class="item-container">
+        <div class="item-title">
+          <mat-icon>
+            {{treeControl.isExpanded(node) ? 'arrow_drop_down' : 'arrow_right'}}
+          </mat-icon>
+          {{node.title}}
+        </div>
+        <div class="item-title-note">
+          <mat-icon class="icon-check">
+            check
+          </mat-icon>
+          Released: 29/05/2019
+        </div>
+      </div>
+      <div class="item-option">
+        <mat-icon class="icon-option" >
+          edit
+        </mat-icon>
+        <mat-icon class="icon-option">
+          file_copy
+        </mat-icon>
+        <mat-icon class="icon-option">
+          delete
+        </mat-icon>
+        <mat-icon class="icon-option">
+          more_vert
+        </mat-icon>
+      </div>
+
+    </mat-tree-node>
+  </mat-tree>
+
+  <div class="new-chapter" (click)="newUnit()" data-toggle="modal" data-target="#centralModalInfo">
+    <mat-icon class="icon-option icon-add">
+      add_circle
+    </mat-icon>
+    New Chapter
+  </div>
+
+</div>
+
+<!-- Modal Add Chapter -->
+<div class="modal fade" id="centralModalInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-notify modal-info" role="document">
+    <!--Content-->
+    <div class="modal-content">
+      <!--Header-->
+      <div class="modal-header" style="background-color: #2869bd; color: white;">
+        <p class="heading lead">Create Chapter</p>
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" style="color: white;" class="white-text">&times;</span>
+        </button>
+      </div>
+
+      <!--Body-->
+      <div class="modal-body">
+        <div class="text-center">
+          
+        </div>
+      </div>
+
+      <!--Footer-->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+    <!--/.Content-->
+  </div>
+</div>
+<!-- Central Modal Medium Info-->

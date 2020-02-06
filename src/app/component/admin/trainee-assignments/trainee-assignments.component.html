@@ -1,0 +1,123 @@
+<div id="content">
+  <h1 id="hi">Trainee Assignments</h1>
+  <div id="fu">
+    <div id="filter_select">
+      <select class="form-control col-xs-2" (change)="filterByType($event)">
+        <option value="Hiện thị tất cả Assignment">Hiện thị tất cả assignment của lớp</option>
+        <option *ngFor="let ta of _chapters" [value]="ta.assignment">{{ta.assignment}}</option>
+      </select> &nbsp;&nbsp;
+      <i class="fas fa-filter"></i>
+    </div>
+  </div>
+  <table class="table table-bordered text-center " style="margin-top: 10px;">
+    <thead>
+      <tr>
+        <th style="text-align: center; vertical-align: middle"> STT</th>
+        <th style="text-align: center; vertical-align: middle"> Trainee </th>
+        <th style="text-align: center; vertical-align: middle"> Trainee Submit </th>
+        <th style="text-align: center; vertical-align: middle"> Evaluator </th>
+        <th style="text-align: center; vertical-align: middle"> Result </th>
+        <th style="text-align: center; vertical-align: middle"> Result Details </th>
+        <th colspan="3"> Time Eval</th>
+        <th colspan="3"> Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let o of (traineeAssignment| paginate: { itemsPerPage: [perPage], currentPage: p }) ;let i=index trackBy: trackByFn ">
+        <td style="text-align: center; vertical-align: middle">{{i+1}}</td>
+        <td style="text-align: center; vertical-align: middle">{{o.fullName}}</td>
+        <td style="text-align: center; vertical-align: middle;" title="Download bài nộp"><a (click)="downloadAssigment(o.id,o.file)"
+            href="javascript:function() { return false; }">
+            {{o.timeSubmit | date: 'yyyy-MM-dd'}}</a></td>
+        <td style="text-align: center; vertical-align: middle">{{o.evaluator}}</td>
+        <td style="text-align: center; vertical-align: middle">{{o.result}}</td>
+        <td style="text-align: center; vertical-align: middle">{{o.resultDetail}}</td>
+        <td style="text-align: center; vertical-align: middle">{{o.timeEval | date: 'yyyy-MM-dd'}}</td>
+        <td style="text-align: center; vertical-align: middle" colspan="3">
+          <div>
+            <button id="cmdActionInCourse" class="btn-add" data-toggle="modal" data-target="#traineeModalCenter"
+              (click)="onClickUpdate(o)" title="Đánh Giá">
+              <i class="fa fa-edit"></i>&nbsp; Evaluation
+            </button>
+          </div>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+  <div class="phantrang">
+    <div class="lt">
+      <span for="sel1">Results per page: </span>
+      <select class="ft" id="sel1" (change)="onChange($event)">
+        <option>5</option>
+        <option>10</option>
+        <option>15</option>
+      </select>
+    </div>
+    <div class="pagi">
+      <pagination-controls class="text-center" (pageChange)="p = $event">
+      </pagination-controls>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="traineeModalCenter" tabindex="-1" role="dialog" aria-labelledby="traineeModalCenterTitle"
+  aria-hidden="true">
+
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="traineeModalLongTitle">Đánh giá assignment</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form novalidate [formGroup]="updateForm" (ngSubmit)="updateForm.valid && onSubmitUpdate()">
+          <div class="form-group">
+            <label>Học viên:</label>
+            <input class="form-control" formControlName="fullName" type="text" value="traineeAss.fullName" disabled />
+          </div>
+          <div class="form-group">
+            <label>Bài assignment:</label>
+            <input formControlName="assignment" class="form-control" type="text" disabled />
+          </div>
+          <div class="form-group">
+            <label>Điểm đánh giá: *
+              <mat-error *ngIf = "updateForm.get('result').hasError('required')&&
+                                  updateForm.get('result').touched" style="color: red">
+                Điểm đánh giá không được để trống
+              </mat-error>
+              <mat-error *ngIf = "updateForm.get('result').hasError('maxlength')" style="color: red">
+                Điểm không quá 3 số
+              </mat-error>
+              <mat-error *ngIf = "updateForm.get('result').hasError('pattern')" style="color: red">
+                Điểm đánh giá chỉ là số
+              </mat-error>
+            </label>
+            <input type="text" class="form-control" name="result" formControlName="result">
+          </div>
+          <div class="form-group">
+            <label for="inputEmail4">Nhận xét: *
+              <mat-error *ngIf = "updateForm.get('resultDetail').hasError('required')&&
+                                  updateForm.get('resultDetail').touched" style="color:red ">
+              Đánh giá không được để trống!
+              </mat-error>
+              <mat-error *ngIf = "updateForm.get('resultDetail').hasError('maxlength')" style="color: red">
+              Đánh giá không quá 50 ký tự
+              </mat-error>
+            </label>
+            <textarea class="form-control" name="discription" formControlName="resultDetail"></textarea>
+          </div>
+          <div class="modal-footer">
+            <button [disabled]="!updateForm.valid" (click)="onSubmitUpdate()" type="submit" class="btn btn-primary"
+              data-dismiss="modal">Submit
+            </button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,115 @@
+ <!--all cua uesr da login -->
+
+
+<div class="tong" (window:resize)="onResize($event)" (click)="clickedOutside($event)">
+
+  <!-- Link den cac duong dan bang Router -->
+  <div class="routerout">
+    <router-outlet></router-outlet>
+  </div>
+  <footer class="">
+    <div class="footer_bottom">
+      <div [routerLink]="['/hometotal/home']">
+        <img style="width: 160px; height: 40px;margin-bottom: 5px;" src="../../../../assets/images/CMS.png" />
+      </div>
+      <div class="text-center">Copyright 2018 by CMC Corporation. All rights reserved!</div>
+    </div>
+  </footer>
+
+<nav class="navbar fixed-top navbar-expand-md custom-navbar navbar-dark">
+  <a [routerLink]="['/hometotal/home']"><img class="navbar-brand" src="../../../../assets/images/CMS.png" id="logo_custom" style="width: 180px;" alt="logo">
+  </a>
+  <button class="navbar-toggler navbar-toggler-right custom-toggler" type="button" data-toggle="collapse"
+    data-target="#collapsibleNavbar"  style="background: rgb(17, 148, 235)">
+    <span class="navbar-toggler-icon "></span>
+  </button>
+  <div class="collapse navbar-collapse " id="collapsibleNavbar">
+    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/hometotal/pagenews/news']">News</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link"[routerLink]="['/hometotal/examdemo']">Mock test</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link"[routerLink]="">Caree</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link"[routerLink]="">Document</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link"[routerLink]="">Contact</a>
+      </li>
+      
+    
+      <!-- <li class="nav-item">
+        <a class="nav-link" href="#">Course</a>
+      </li> -->
+      
+      <!-- <li class="nav-item"  *ngIf="us.userLogin.fullname !== ''">
+        <a class="nav-link" [routerLink]="['/hometotal/practice']">Thực hành</a>
+      </li> -->
+        <li class="nav-item" *ngIf="us.userLogin.fullname !== ''" >
+          <a class="nav-link" [routerLink]="['/hometotal/practice']">Exam practice</a>
+        </li>
+    </ul>
+    <form class="form-inline mr-0">
+      <div class="input-group">
+        <input type="text" class="search-query form-control" placeholder="Tìm test hoặc bài viết" (keyup.enter)="searchName()"
+          [(ngModel)]="keyword" />
+      </div>
+      <div class="dangki_dangnhap">
+          <div class="" *ngIf="
+              us.userLogin.fullname === null ||
+              us.userLogin.fullname === undefined ||
+              us.userLogin.fullname === ''
+            ">
+            <div id="navss" [routerLink]="['/hometotal/login']" class="btn btn-primary btn-sm">
+              <i class="fas fa-sign-in-alt"></i> ĐĂNG NHẬP
+            </div>
+          </div>
+          <div class="" *ngIf="
+              us.userLogin.fullname === null ||
+              us.userLogin.fullname === undefined ||
+              us.userLogin.fullname === ''
+            ">
+            <div id="navss" [routerLink]="['/hometotal/register']" class="btn btn-primary btn-sm">
+              <i class="fas fa-registered"></i> ĐĂNG KÝ
+            </div>
+          </div>
+        </div>
+      <div class="abc">
+          <div id="avas" *ngIf="us.userLogin.fullname !== ''">
+            <div class="namaes">
+              {{ us.userLogin.fullname | uppercase }} <i class="fa fa-angle-down"></i>
+            </div>
+
+            <!-- <div class="namaes">
+              {{ us.userLogin.id }} <i class="fa fa-angle-down"></i>
+            </div> -->
+            <div>
+              <img src="{{ img }}"
+                onerror="this.src='../../../../assets/images/default-avatar.png'" />
+            </div>
+          </div>
+          <!--menu user-->
+          <div style="text-align: left;" class="menumobilemoi">
+            <div *ngIf="us.userLogin.fullname !== ''" [routerLink]="['/hometotal/examhistory']" [ngStyle]="{ color: lichSu }">
+              <i class="fa fa-history"></i> <i>Quản Trị Đào Tạo</i>
+            </div>
+            <div *ngIf="us?.role" [routerLink]="['/cms']">
+              <i class="fas fa-toolbox"></i><i>CMS</i> <br />
+            </div>
+            <div [routerLink]="['/hometotal/profile-user']" [ngStyle]="{ color: profileUserIndicate }">
+              <i class="fa fa-address-card"></i> <i>Profile</i>
+            </div>
+            <div (click)="logout()"><i class="fa fa-sign-out"></i><i>Logout</i></div>
+          </div>
+
+        </div>
+
+
+    </form>
+  </div>
+</nav>
+</div>

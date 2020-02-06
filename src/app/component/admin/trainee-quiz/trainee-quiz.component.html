@@ -1,0 +1,125 @@
+
+<div class="container">
+  <h2>Trainee Quiz</h2>
+ 
+  <div class="container">
+    
+  <form>
+      <div class="form-group">
+        
+          <select class="form-control" (change)="onChange($event.target.value)">
+            <option *ngFor="let ct of list" [value]="ct.id" >{{ct.name}}</option>
+        
+          </select>
+        </div>
+  </form>
+
+  <table class="table table-bordered table-reponsive text-center " style="margin-top: 5%">
+    <thead>
+      <tr>
+        <th style="text-align: center">STT</th>
+        <th style="vertical-align: middle;text-align: left;" colspan="3">
+
+         Trainee
+        </th>
+        <th style="vertical-align: middle;text-align: left;" colspan="3">
+
+            Exam Name
+          </th>
+        <th style="vertical-align: middle;text-align: left;" colspan="3">
+         Quiz time
+        </th>
+        <th style="vertical-align: middle;text-align: left;" colspan="3">
+         Result
+        </th>
+        <th style="vertical-align: middle;text-align: left;" colspan="2">
+          Duration(min)
+        </th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let obj of (listchapter  | paginate: { itemsPerPage: [perPage], currentPage: p });
+      trackBy: trackByFn; let i = index">
+        <td style="text-align: center">{{i+1}}</td>
+        <td style="text-align: left" colspan="3">{{obj[6]}}
+        </td>
+
+        <td style="text-align: left" colspan="3">{{obj[4]}}</td>
+        <td style="text-align: left" colspan="3">
+          {{obj[3]}}
+        </td>
+        <td style="text-align: left" colspan="3">
+          {{obj[2]*100}}%
+        </td>
+        <td style="text-align: left" colspan="2">
+          {{obj[5]}}
+          </td>
+        <td class="text-center">
+          <a href="" (click) = "show()">Detail</a>
+           <div class="modal" id="myModal" [style.display]="showModal ? 'block' : 'none'">
+    <div class="modal-dialog" >
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title"></h4>
+          <button type="button" class="close" data-dismiss="modal" (click) = "hide()">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+         
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click) = "hide()">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+         
+        </td>
+      </tr>
+    </tbody>
+  </table>
+ 
+  <div class="phantrang">
+    <div class="lt">
+      <span for="sel1">Results per page: </span>
+      <select class="ft" id="sel1" (change)="onChangepage($event)">
+        <option>5</option>
+        <option>10</option>
+      
+      </select>
+    </div>
+    <div class="pagi">
+      <pagination-controls *ngIf="showTable" class="text-center" (pageChange)="p = $event"></pagination-controls>
+    </div>
+  </div>
+</div>
+</div>
+<!-- <div class="modal" id="myModal" [style.display]="showModal ? 'block' : 'none'">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    
+    
+      <div class="modal-header">
+        <h4 class="modal-title">{{ title }}</h4>
+        <button type="button" class="close" data-dismiss="modal" (click) = "hide()">&times;</button>
+      </div>
+      
+     
+      <div class="modal-body">
+        {{ content }}
+      </div>
+   
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click) = "hide()">Close</button>
+      </div>
+      
+    </div>
+  </div> -->
+<!-- </div> -->

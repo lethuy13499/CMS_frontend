@@ -1,0 +1,41 @@
+* {
+  outline: 0 !important;
+  font-size: 16px !important;
+}
+// Thông báo khi klick forget pass
+#filter_select {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  margin-right: 50% !important;
+  margin-left: 0px;
+}
+#fu {
+  display: flex;
+  justify-content: space-between;
+}
+#content {
+  margin: 2.5% !important;
+  height: auto;
+}
+#hi{
+  font-size: 25px !important;
+  color: #0984E3;
+  text-align: center;
+}
+.modal-header{
+  background-color: #0984E3;
+}
+#traineeModalLongTitle{
+  color: white;
+}
+
+.pagi {
+  position: relative;
+  top: 8px;
+}
+.btn-add{
+  background-color: #007BFF;
+  color: white;
+}

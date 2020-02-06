@@ -1,0 +1,400 @@
+<!-- Page Content -->
+<div class="content-container">
+  <div class="col-md-12">
+    <div class="widget">
+      <header class="widget-header">
+        <h4 class="widget-title">{{title}}</h4>
+      </header>
+      <hr class="widget-separator">
+      <div class="widget-body">
+        <div class="row" *ngIf="showTable">
+          <div id="fu" class="col-md-12">
+            <input id="search_box" class="form-control" type="search" placeholder="Tìm kiếm theo tên"
+              aria-label="Search" (keyup)="search($event)" />
+            <!-- <button type="button" class="btn btn-primary abtn" (click)="onClickAddNew()"
+                        *ngIf="showTable && checkRolePermission('insertusers'); else disable">
+                        + Thêm nội dung
+                      </button> -->
+            <a (click)="onClickAddNew()" *ngIf="showTable && checkRolePermission('insertusers'); else disable"
+              style="color: #0984E3; cursor: pointer; margin-top:14px;">Thêm người dùng</a>
+            <ng-template #disable></ng-template>
+          </div>
+          <div class="col-md-12">
+            <table class="table table-bordered " style="margin-top: 10px;">
+              <thead>
+                <tr>
+                  <th style="text-align: center">ID</th>
+                  <th style="text-align: center">Ảnh</th>
+                  <!-- <th style="vertical-align: middle;text-align: left;" (click)="sort('fullname')"> -->
+                  <th style="text-align: center">
+                    Họ và tên<i class="fa float-right" aria-hidden="true"></i>
+                  </th>
+                  <!-- <th style="vertical-align: middle;text-align: left;" (click)="sort('email')"> -->
+                  <th style="text-align: center">
+                    Email<i class="fa float-right" aria-hidden="true"></i>
+                  </th>
+                  <th>Điện thoại</th>
+                  <th style="vertical-align: middle;text-align: center;">Trạng thái</th>
+                  <th style="text-align: center">Thiết lập</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="
+                                let user of (listUser
+                                  | paginate: { itemsPerPage: [perPage], currentPage: p });
+                                trackBy: trackByFn
+                              ">
+                  <td style="text-align: center">{{ user.id }}</td>
+                  <td style="text-align: center">
+                    <img style="border-radius: 50%;width:50px; height:50px" class="avaimg"
+                      src="{{ baseURL }}/resources/images/user/{{ user.img }}"
+                      onerror="this.src='../../../../assets/images/default-avatar.png'" />
+                  </td>
+                  <td style="text-align: left">{{ user.fullname }}</td>
+                  <td style="text-align: left">{{ user.email }}</td>
+                  <td style="text-align: left">{{ user.phone }}</td>
+                  <td style="text-align: left;">
+                    <div style="text-align: center">
+                      <span *ngIf="user.status === 1" class="labelStatus active" style="width: 80px">Active</span>
+                      <span *ngIf="user.status === 0" class="labelStatus inactive" style="width: 80px">Inactive</span>
+                    </div>
+                  </td>
+                  <td style="text-align: center">
+                    <i class="fa fa-pencil btn btn-primary icon" (click)="onClickUpdate(user)" title="sửa user"></i>
+                    <i class="fa fa-info-circle btn btn-success icon" (click)="infor(user.id)" title="thông tin bài thi người dùng"></i>
+                    <i *ngIf="checkRolePermission('deleteusers'); else disable"
+                      class="fa fa-trash-o btn btn-danger icon" (click)="onClickDelete(user)" title="xóa user"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="phantrang">
+            <div class="lt">
+              <span for="sel1">Results per page: </span>
+              <select class="ft" id="sel1" (change)="onChange($event)">
+                <option>5</option>
+                <option>10</option>
+                <option>15</option>
+                <option>25</option>
+                <option>50</option>
+              </select>
+            </div>
+            <div class="pagi">
+              <pagination-controls *ngIf="showTable" class="text-center" (pageChange)="p = $event">
+              </pagination-controls>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="container">
+          <form [formGroup]="insertForm" (ngSubmit)="onSubmitInsert()" *ngIf="showInsertForm">
+            <div>
+              <div class="form-group">
+                <label> Họ và tên *:</label>
+                <input type="text" class="form-control" formControlName="fullname"
+                  (change)="checkSpaceFullName($event)" />
+              </div>
+              <div class="form-group alert alert-danger" role="alert" *ngIf="
+                                        insertForm.get('fullname').errors &&
+                                        insertForm.get('fullname').touched
+                                      ">
+                <span *ngIf="
+                                          insertForm.hasError('required', ['fullname'])
+                                        ">
+                  Tên không được để trống !
+                </span>
+                <span *ngIf="
+                                          insertForm.get('fullname').hasError('whitespace')
+                                        ">
+                  Tên không được nhập space!
+                </span>
+                <span *ngIf="
+                                          insertForm.hasError('maxlength', ['fullname'])
+                                        ">
+                  Tên không được quá 50 kí tự!
+                </span>
+              </div>
+
+              <div class="form-group">
+                <label> Email *</label>
+                <input type="text" class="form-control" formControlName="email" />
+              </div>
+              <div class="form-group alert alert-danger" role="alert" *ngIf="
+                                        insertForm.get('email').errors &&
+                                        insertForm.get('email').touched
+                                      ">
+                <span *ngIf="insertForm.hasError('required', ['email'])">
+                  Bạn không được để trống Email!
+                </span>
+                <span *ngIf="insertForm.hasError('maxlength', ['email'])">không được vượt quá 50 ký tự!</span>
+                <span *ngIf="insertForm.hasError('email', ['email']) &&
+                      insertForm.touched ">
+                  Email sai định dạng!
+                </span>
+                <span *ngIf="insertForm.hasError('pattern',['email'])">
+                  email không hợp lệ!</span>
+              </div>
+
+              <div class="form-group">
+                <label> Mật khẩu *</label>
+                <input type="password" class="form-control" formControlName="password" />
+              </div>
+              <div class="form-group alert alert-danger" role="alert" *ngIf="
+                                        insertForm.get('password').errors &&
+                                        insertForm.get('password').touched
+                                      ">
+                <span *ngIf="insertForm.hasError('required', ['password'])">
+                  không được để trống!
+                </span>
+                <span *ngIf="insertForm.hasError('minlength', ['password'])">
+                  tối thiểu 6 kí tự!
+                </span>
+                <span *ngIf="insertForm.hasError('maxlength', ['password'])">
+                  không được vượt quá 100 kí tự!
+                </span>
+                <span *ngIf="insertForm.get('password').hasError('pattern')">
+                  bao gồm số và chữ cái, không bao gồm dấu cách!
+                </span>
+              </div>
+              <div class="form-group">
+                <label> Địa chỉ:</label>
+                <input type="text" class="form-control" formControlName="address" />
+              </div>
+              <div class="form-group alert alert-danger" role="alert" *ngIf="
+                                        insertForm.get('address').errors &&
+                                        insertForm.get('address').touched
+                                      ">
+                <span *ngIf="insertForm.hasError('required', ['address'])">
+                  Bạn không được để trống!
+                </span>
+                <span *ngIf="insertForm.hasError('maxlength', ['address'])">
+                  không được quá 255 kí tự!
+                </span>
+                <span *ngIf="insertForm.hasError('pattern', ['address'])">
+                  bao gồm số và chữ cái, không bao gồm dấu cách ở đầu tiên!
+                </span>
+              </div>
+              <div class="form-group">
+                <label> Điện thoại *:</label>
+                <input type="text" class="form-control" formControlName="phone" />
+              </div>
+              <div class="form-group alert alert-danger" role="alert" *ngIf="
+                                        insertForm.get('phone').errors &&
+                                        insertForm.get('phone').touched
+                                      ">
+                <span *ngIf="insertForm.hasError('required', ['phone'])">
+                  Bạn không được để trống điện thoại!
+                </span>
+                <span *ngIf="insertForm.hasError('maxlength', ['phone'])">
+                  Điện thoại không được quá 11 kí tự!
+                </span>
+                <span *ngIf="insertForm.get('phone').hasError('pattern')">
+                  Điện thoại chỉ được nhập số!
+                </span>
+              </div>
+              <div class="form-group">
+                <label> Ngày sinh:</label>
+                <input type="date" class="form-control" formControlName="birthday" />
+              </div>
+              <div class="form-group alert alert-danger" role="alert" *ngIf="
+                                        insertForm.get('birthday').errors &&
+                                        insertForm.get('birthday').touched
+                                      ">
+                <span *ngIf="
+                                          insertForm.hasError('required', ['birthday'])
+                                        ">
+                  Bạn không được để trống ngày sinh!
+                </span>
+                <span *ngIf="
+                                          insertForm.get('birthday').hasError('response')
+                                        ">
+                  Ngày sinh không được vượt quá ngày hiện tại
+                </span>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-6">
+                  <label> Ảnh:</label>
+                  <input type="file" class="form-control" formControlName="img" (change)="onChangeFile($event)" />
+                </div>
+                <div class="col-md-6">
+                  <img *ngIf="!showMedia" style="width: 120px;height: 80px;"
+                    [src]="imageSrc || 'http://placehold.it/180'" alt="your image"
+                    onerror="this.src='../../../../assets/images/default-avatar.png'" />
+                </div>
+              </div>
+              <div class="form-group alert alert-danger" role="alert" *ngIf="errorExistEmail !== ''">
+                <span> {{ errorExistEmail }} </span>
+              </div>
+            </div>
+            <div>
+              <button type="submit" class="btn btn-success">
+                Thêm mới
+              </button>
+              &nbsp;
+              <button type="button" class="btn btn-secondary" (click)="onClickCloseForm()">
+                Đóng
+              </button>
+            </div>
+          </form>
+          <!-- Form update -->
+          <form [formGroup]="updateForm" (ngSubmit)="onSubmitUpdate()" *ngIf="showUpdateForm">
+            <div>
+              <div class="form-group">
+                <label> Tên:</label>
+                <input type="text" class="form-control" formControlName="fullname"
+                  (change)="checkSpaceFullName($event)" />
+              </div>
+              <div class="form-group alert alert-danger" role="alert" *ngIf="
+                                        updateForm.get('fullname').errors &&
+                                        updateForm.get('fullname').touched
+                                      ">
+                <span *ngIf="
+                                          updateForm.hasError('required', ['fullname'])
+                                        ">
+                  Bạn không được để trống tên!
+                </span>
+                <span *ngIf="
+                                          updateForm.hasError('maxlength', ['fullname'])
+                                        ">
+                  Tên không được quá 50 kí tự!
+                </span>
+                <span *ngIf="updateForm.get('name').hasError('pattern')">
+                  Tên không được nhập space!
+                </span>
+              </div>
+
+              <div class="form-group">
+                <label> Email:</label>
+                <input type="text" class="form-control" formControlName="email" readonly="true;" />
+              </div>
+              <div class="form-group">
+                <label> Địa chỉ:</label>
+                <input type="text" class="form-control" formControlName="address" />
+              </div>
+              <div class="form-group alert alert-danger" role="alert" *ngIf="
+                                        updateForm.get('address').errors &&
+                                        updateForm.get('address').touched
+                                      ">
+                <span *ngIf="updateForm.hasError('required', ['address'])">
+                  Bạn không được để trống địa chỉ!
+                </span>
+                <span *ngIf="updateForm.hasError('maxlength', ['address'])">
+                  Địa chỉ không được quá 255 kí tự!
+                </span>
+              </div>
+              <div class="form-group">
+                <label> Điện thoại:</label>
+                <input type="phone" class="form-control" formControlName="phone" />
+              </div>
+              <div class="form-group alert alert-danger" role="alert" *ngIf="
+                                        updateForm.get('phone').errors &&
+                                        updateForm.get('phone').touched
+                                      ">
+                <span *ngIf="updateForm.hasError('required', ['phone'])">
+                  Bạn không được để trống điện thoại!
+                </span>
+                <span *ngIf="updateForm.hasError('minlength', ['phone'])">
+                    Điện thoại không được ít hơn 9 kí tự!
+                  </span>
+                <span *ngIf="updateForm.hasError('maxlength', ['phone'])">
+                  Điện thoại không được quá 12 kí tự!
+                </span>
+              </div>
+              <div class="form-group">
+                <label>
+                  Status <span class="required_field"></span></label>
+                <!-- <select class="form-control" formControlName="status">
+                        <option *ngFor="let choose of selectForm" value="{{ choose.id }}">{{ choose.name }}</option>
+                        >
+                      </select> -->
+                <div class="row" style="margin-left: 0px;">
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="inlineRadio1">Active</label>
+                    &nbsp;
+                    <input class="form-check-input" type="radio" id="inlineRadio1" [value]="1" formControlName="status">
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <label class="form-check-label" for="inlineRadio2">InActive</label>
+                    &nbsp;
+                    <input class="form-check-input" type="radio" id="inlineRadio2" [value]="0" formControlName="status">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-6">
+                  <label> Ảnh:</label>
+                  <input type="file" class="form-control" formControlName="img" (change)="onChangeFile($event)" />
+                </div>
+                <div class="col-md-6">
+                  <img *ngIf="!showMedia" style="width: 120px;height: 80px;"
+                    [src]="imageSrc || 'http://placehold.it/180'" alt="your image"
+                    onerror="this.src='../../../../assets/images/default-avatar.png'" />
+                  <img *ngIf="showMedia" src="{{ baseURL }}/resources/images/user/{{
+                                            user.img
+                                          }}" alt="" style="width: 120px;height: 80px;"
+                    onerror="this.src='../../../../assets/images/default-avatar.png'" />
+                </div>
+              </div>
+              <div class="form-group alert alert-danger" role="alert" *ngIf="errorExistEmail !== ''">
+                <span> {{ errorExistEmail }} </span>
+              </div>
+            </div>
+            <div>
+              <!-- <input type="submit" class="btn btn-primary" value="Thay đổi " (click) ="onClickUpdate().showFormPassWord = true"/> -->
+           <div class="con">
+              <form style="padding:0px" [formGroup]="updateChange" (ngSubmit)="changePassWord()"
+              enctype="multipart/form-data" class="col-md-12" *ngIf="showFormPassWord">
+              <div class="form-group" formGroupName="pass">
+                <label>Mật khẩu mới:
+                  <mat-error *ngIf="
+                    updateChange.get('pass.password').hasError('required') &&
+                    updateChange.get('pass.password').touched
+                  " style="color: red">
+                    Không được để trống!
+                  </mat-error>
+                  <mat-error *ngIf="updateChange.get('pass.password').hasError('maxlength')">Không được quá 6 kí tự
+                  </mat-error>
+                  <mat-error *ngIf="updateChange.get('pass.password').hasError('pattern')">Mật khẩu phải bao gồm ít
+                    nhất 1 số, không được có dấu cách, từ 6 đến 20 kí tự</mat-error>
+                </label>
+                <input type="password" class="form-control" formControlName="password" value="" />
+              </div>
+              <div class="form-group" formGroupName="pass">
+                <label>Xác nhận mật khẩu:
+                    <mat-error *ngIf="updateChange.hasError('passwordNotMatch', ['pass'])">
+                      Mật khẩu không khớp!
+                    </mat-error>
+                  <mat-error *ngIf="errMessage !== ''" style="color: red;font-size: 18px">
+                    {{ errMessage }}
+                  </mat-error>
+                </label>
+                <input type="password" class="form-control" formControlName="confirmPassword" value="" />
+              </div>
+              <div class="loginbutton">
+                <input type="submit" [disabled]="!updateChange.valid" class="btn btn-primary" value="Thay đổi mật khẩu" />
+              </div>
+            </form>
+           </div>
+              <br>
+              <button type="submit" class="btn btn-success">
+                Cập nhật User
+              </button>
+              &nbsp;
+              <button type="button" class="btn btn-secondary" (click)="onClickCloseForm()">
+                Đóng
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<popup #popupDelete (confirmClick)="confirmDeleteClick()">
+  Bạn có chắc chắn muốn xóa ?
+</popup>
+
+<popup #popupApplyFailed> Cần ít nhất 2 bản ghi được kích hoạt ! </popup>

@@ -1,0 +1,113 @@
+
+<div class="container">
+  <div class="container">
+    <!-- form update -->
+    <form [formGroup]="updateForm" (ngSubmit)="updateForm.valid " enctype="multipart/form-data"
+      >
+      <div style="text-align: center">
+        <h4>Cập nhật lớp học</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label> Tên bài thi<span class="required_field">*</span></label>
+          <input type="text" class="form-control" formControlName="name"
+            [ngClass]="{'is-invalid': updateForm.get('name').touched && updateForm.get('name').invalid}" required />
+          <div class="invalid-feedback">
+            <div *ngIf="updateForm.hasError('whitespace', ['name'])">Không được để trống!!</div>
+            <div *ngIf="updateForm.hasError('maxlength', ['name'])">Độ dài không vượt quá 50 kí tự</div>
+          </div>
+        </div>
+        <div class="row">
+        <div class="form-group col-md-6">
+          <label> Sản Phẩm <span class="required_field">*</span></label>
+
+          <select class="form-control" formControlName="product"
+            [ngClass]="{'is-invalid': updateForm.get('product').touched && updateForm.get('product').invalid}" required>
+            <option *ngFor ="let products of product"  [value]="products.productId" >{{products.name}}</option>
+          </select>
+          <div class="invalid-feedback">
+            <div>Không được để trống!!</div>
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <label> Status <span class="required_field">*</span></label>
+
+          <select class="form-control" formControlName="status"
+            required>
+            <option  value="1">Active</option>
+            <option  value="0">Pending</option>
+          </select>
+          <div class="invalid-feedback">
+            <div>Không được để trống!!</div>
+          </div>
+        </div>
+      </div>
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label> Trainner:</label>
+            <ng-multiselect-dropdown [placeholder]="'custom placeholder'" [data]="user" 
+            [(ngModel)]="trainner_before"
+              [settings]="dropdownSettingUser" 
+              (onSelect)="onItemSelect($event)" 
+              (onSelectAll)="onSelectAll($event)"
+              formControlName="trainner">       
+            </ng-multiselect-dropdown>
+          </div>
+          <div class="form-group col-md-6">
+            <label> Manager :</label>
+
+            <ng-multiselect-dropdown [placeholder]="'custom placeholder'" [data]="user" [(ngModel)]="selectedManager"
+              [settings]="dropdownSettingManage" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)"
+              formControlName="manager">
+            </ng-multiselect-dropdown>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-6" formGroupName="date">
+            <label> Ngày bắt đầu<span class="required_field">*</span></label>
+            <input class="form-control" type="date"  formControlName="start_date"
+            [ngClass]="{'is-invalid': updateForm.get('date.start_date').touched && updateForm.get('date.start_date').invalid}"
+              required>
+            <div class="invalid-feedback" *ngIf="updateForm.get('date.start_date').hasError('required')">
+              <div>Không được để trống!!</div>
+            </div>
+            <!-- <div class="invalid-feedback" *ngIf="updateForm.get('date.start_date').hasError('datenotsatisfy') && updateForm.get('date.start_date').hasError('required')=== false" >
+                            <div>Ngày bắt đầu không nhỏ hơn ngày hiện tại!!</div>
+                          </div> -->
+          </div>
+          <div class="form-group col-md-6" formGroupName="date">
+            <label> Ngày kết thúc<span class="required_field">*</span></label>
+            <input class="form-control" type="date" formControlName="end_date"
+            [ngClass]="{'is-invalid': updateForm.get('date.end_date').touched && updateForm.get('date.end_date').invalid}"
+              required>
+            <div class="invalid-feedback" *ngIf="updateForm.get('date.end_date').hasError('required')">
+              <div>Không được để trống!!</div>
+            </div>
+            <!-- <div class="invalid-feedback" *ngIf="updateForm.get('date.end_date').hasError('datenotsatisfy') && updateForm.get('date.end_date').hasError('required')=== false" >
+                                  <div>Ngày kết thúc không nhỏ hơn ngày hiện tại!!</div>
+                                </div> -->
+          </div>
+        </div>
+
+        <div class="form-group alert alert-danger" role="alert"
+          *ngIf="updateForm.get('date').errors && (updateForm.get('date.start_date').valid && updateForm.get('date.end_date').valid)">
+          <span *ngIf="updateForm.hasError('twodatenotmatch', ['date'])">
+            Ngày kết thúc không nhỏ hơn ngày bắt đầu!!
+          </span>
+
+        </div>
+        <div class="form-group alert alert-danger" role="alert" *ngIf="showNoti">
+          <span> {{ error }} </span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button [disabled]="!updateForm.valid" type="submit" class="btn btn-success" (click)="onSubmitUpdate()">
+          Cập nhật
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="onClickCloseForm()">
+          Đóng
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

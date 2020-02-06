@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Nhập code</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <input type="text" matInput [(ngModel)]="code">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()" >No Thanks</button>
+  <button mat-button [mat-dialog-close]="code" cdkFocusInitial>Ok</button>
+</div>

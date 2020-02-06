@@ -1,0 +1,112 @@
+<!-- <div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="form-group">
+          <label>Status</label>
+          <input type="text" placeholder="status" class="form-control" [(ngModel)]="registrantion.status">
+          <br/>
+         <label>Class</label>
+          <select class="form-control">
+            <option>GDP02</option>
+            <option>GDP03</option>
+            <option>GDP04</option>
+          </select> -->
+
+<!-- </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-warning"  data-dismiss="modal" (click)="onSubmit(registrantion.registrantionId,registrantion)">Save</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+<div class="content-container">
+  <div class="col-md-12">
+    <div class="widget">
+      <header class="widget-header">
+        <h4 class="widget-title">Product</h4>
+      </header>
+      <hr class="widget-separator">
+      <div class="widget-body">
+        <div id="content" *ngIf="showTable">
+          <div class="form-group">
+            <input type="search" placeholder="Search Product Name" class="form-control" aria-label="Search"
+              [(ngModel)]="sort.keyword" style="width: 27%;" (keyup)="getValue($event.target.value)"
+              [ngModelOptions]="{standalone: true}" />
+          </div>
+          <table class="table table-bordered text-center" style="margin-top: 10px;">
+            <thead>
+              <tr>
+                <th colspan="3">ID<i class="fa fa-sort float-right" aria-hidden="true"
+                    (click)="clickSort('registrantionId',sort)"></i></th>
+                <th style="text-align: left" colspan="3">Product Name</th>
+                <th style="text-align: left" colspan="3">Full Name</th>
+                <th style="text-align: left" colspan="3">Email</th>
+                <th style="text-align: left" colspan="3">Time Start<i class="fa fa-sort float-right" aria-hidden="true"
+                    (click)="clickSort('startDate',sort)"></i></th>
+                <th style="text-align: left" colspan="3">Time End<i class="fa fa-sort float-right" aria-hidden="true"
+                    (click)="clickSort('endDate',sort)"></i></th>
+                <th style="text-align: left" colspan="3">Description</th>
+                <th style="text-align: left" colspan="3">Status<i class="fa fa-sort float-right" aria-hidden="true"
+                    (click)="clickSort('status',sort)"></i></th>
+                <!-- <th>Thiết lập</th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="
+        let registrantion of (registrantions
+          | paginate: { itemsPerPage: [perPage], currentPage: p });
+        trackBy: trackByFn;
+        let myIndex = index">
+                <td colspan="3">{{ myIndex +1 }}</td>
+                <td style="text-align: left" colspan="3">{{registrantion?.product?.name }}</td>
+                <td style="text-align: left" colspan="3">{{registrantion?.user?.fullname }}</td>
+                <td style="text-align: left" colspan="3">{{registrantion?.user?.email }}</td>
+                <td style="text-align: left" colspan="3">{{registrantion.startDate | date: 'dd/MM/yyyy'}}</td>
+                <td style="text-align: left" colspan="3">{{registrantion.endDate | date: 'dd/MM/yyyy'}}</td>
+                <td style="text-align: left" colspan="3">{{registrantion.discription}}</td>
+                <td style="text-align: left" colspan="3">
+                  <div class="btn-group" *ngIf="registrantion.status === 1 || registrantion.status === 0">
+                    <button type="button" class="btn btn-block" [ngClass]="{
+                    'btn-success' : registrantion.status === 1,
+                    'btn-warning' : registrantion.status === 0
+                  }" (click)="updateStatus(registrantion.registrantionId, registrantion.status)">
+                      {{registrantion.status===1?'Approved':'Draft'}}
+                    </button>
+                  </div>
+                  <div class="btn-group" *ngIf="registrantion.status === 2">
+                    <button type="button" class="btn btn-danger btn-block">
+                      Is used
+                    </button>
+                  </div>
+                </td>
+
+                <!-- <td>
+          <i style="color:white" class="fa fa-pencil btn btn-primary" (click)="getRegistrantion(registrantion.registrantionId)" data-toggle="modal"  data-target="#myModal"></i>
+          <i style="color:white; margin-left: 10px;" class="fa fa-trash-o btn btn-danger"></i>
+        </td> -->
+              </tr>
+            </tbody>
+          </table>
+          <div class="phantrang">
+            <div class="lt">
+              <span for="sel1">Results per page: </span>
+              <select class="ft" id="sel1" (change)="onChange($event)">
+                <option>5</option>
+                <option>10</option>
+                <!-- <option>15</option> -->
+              </select>
+            </div>
+            <div class="pagi">
+              <pagination-controls *ngIf="showTable" class="text-center" (pageChange)="p = $event">
+              </pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

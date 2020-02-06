@@ -1,0 +1,33 @@
+<div class="divtintuchinh">
+  <div class="newstitle">
+    <a>{{ newpost.title }}</a>
+  </div>
+  <hr />
+  <div class="">
+    <div class="newsimage_descrip">
+      <div class="newsimage_descripimg">
+        <img
+          src="{{ baseURL }}/resources/images/new/{{ newpost.linkimage }}"
+          onerror="this.src='../../../../../../../assets/images/default_news_avatar.png'"
+        />
+      </div>
+      <div class="newsdes_date">
+        <div class="descrip">{{ newpost.description }}</div>
+        <div class="note-sp">
+          Đăng ngày: {{ newpost.confirmDate | date: 'dd/MM/yyyy' }} - Người
+          đăng: {{ newpost.confirmLeader }} - Tác giả: {{ newpost.creator }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div class="newscontent" [innerHTML]="newpost.content"></div>
+  <div class="btn btn-dark" (click)="onback()">
+    <i class="fa fa-arrow-left"></i> Back
+  </div>
+  <hr />
+  <div class="tags">Tác giả: {{ newpost.creator }}</div>
+  <hr />
+
+  <hr />
+</div>

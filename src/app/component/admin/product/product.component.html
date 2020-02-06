@@ -1,0 +1,375 @@
+<div class="content-container">
+  <div class="col-md-12">
+    <div class="widget">
+      <header class="widget-header">
+        <h4 class="widget-title">Product</h4>
+      </header>
+      <hr class="widget-separator">
+      <div class="widget-body">
+        <div id="content" *ngIf="showTable">
+          <div id="product">
+            <input id="search_product" class="form-control" type="search" placeholder="Tìm kiếm theo tên"
+              aria-label="Search" (keyup)="search($event)" />
+            <button type="button" class="btn btn-primary abtn" (click)="onClickAddNew()"
+              *ngIf="showTable && checkRolePermission('insertProduct')">
+              + Thêm product
+            </button>
+            <ng-template #disable></ng-template>
+          </div>
+          <table class="table table-bordered text-center " style="margin-top: 10px;">
+            <thead>
+              <tr>
+                <th style="text-align: center">Name</th>
+                <th style="vertical-align: middle;text-align: left;" colspan="3">
+                  Subject<i class="float-right" aria-hidden="true"></i>
+                </th>
+                <th style="vertical-align: middle;text-align: left;" colspan="3">
+                  Content Type<i class="float-right" aria-hidden="true"></i>
+                </th>
+                <th style="vertical-align: middle;text-align: left;" colspan="3">
+                  Brief Info
+                </th>
+                <th style="vertical-align: middle;text-align: left;" colspan="3">
+                  Start Date
+                </th>
+                <th style="vertical-align: middle;text-align: left;" colspan="3">
+                  End Date
+                </th>
+
+                <th>Thiết lập</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="
+            let pro of (listProduct
+              | paginate: { itemsPerPage: [perPage], currentPage: p });
+            trackBy: trackByFn
+          ">
+                <td style="text-align: center">{{ pro.name }}</td>
+                <td style="text-align: left" colspan="3">{{ pro.subjects.name }}</td>
+                <td style="text-align: left" colspan="3">{{ pro.contentType }}</td>
+                <td style="text-align: left" colspan="3">{{ pro.briefInfo }}</td>
+                <td style="text-align: left" colspan="3">
+                  {{ pro.startDate | date: 'yyyy-MM-dd'  }}
+                </td>
+                <td style="text-align: left" colspan="3">
+                  {{ pro.endDate | date: 'yyyy-MM-dd' }}
+                </td>
+                <td>
+                  <i style="color:white" *ngIf="checkRolePermission('updateProduct')"
+                    class="fa fa-pencil btn btn-primary" (click)="onClickUpdate(pro)"></i>
+
+                  <i style="color:white; margin-left: 10px;" *ngIf="checkRolePermission('deleteProduct')"
+                    class="fa fa-trash-o btn btn-danger" (click)="onClickDelete(pro)"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="phantrang">
+            <div class="lt">
+              <span for="sel1">Results per page: </span>
+              <select class="ft" id="sel1" (change)="onChange($event)">
+                <option>5</option>
+                <option>10</option>
+                <!-- <option>15</option> -->
+              </select>
+            </div>
+            <div class="pagi">
+              <pagination-controls *ngIf="showTable" class="text-center" (pageChange)="p = $event">
+              </pagination-controls>
+            </div>
+          </div>
+        </div>
+
+        <div class="container">
+          <form [formGroup]="insertForm" (ngSubmit)="onSubmitInsert()" enctype="multipart/form-data"
+            *ngIf="showInsertForm">
+            <div style="text-align: center; font-size: 24px !important; margin-top: 2%;">
+              <h1 style="font-size: 24px !important;">Create Product</h1>
+            </div>
+            <div>
+              <label>Name<span class="required_field">*</span></label>
+              <input class="form-control" formControlName="name" type="text" />
+            </div>
+            <div class="form-group alert alert-danger" role="alert"
+              *ngIf="insertForm.get('name').errors && insertForm.get('name').touched">
+              <span *ngIf="insertForm.hasError('required', ['name'])">
+                Bạn không được để trống tên product!
+              </span>
+              <span *ngIf="insertForm.hasError('maxlength', ['name'])">
+                Tên product không được quá 50 kí tự!
+              </span>
+              <span *ngIf="insertForm.hasError('minlength', ['name'])">
+                Tên product phải dài hơn 6 kí tự!
+              </span>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <label>Thumbnail<span class="required_field">*</span></label>
+                <input class="form-control" formControlName="thumbnail" type="file" (change)="onChangeFile($event)" />
+              </div>
+              <div class="col-md-8">
+                <label>Tag line:</label>
+                <input class="form-control" formControlName="tagLine" type="text" placeholder="Enter tag-line" />
+              </div>
+              <div class="form-group alert alert-danger col-md-8" role="alert"
+                *ngIf="insertForm.get('tagLine').errors && insertForm.get('tagLine').touched">
+                <span *ngIf="insertForm.hasError('maxlength', ['tagLine'])">
+                  Tag-line không được quá 100 kí tự!
+                </span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div>
+                  <label>Full-Info<span class="required_field">*</span></label>
+                  <textarea class="form-control" rows="6" formControlName="fullInfo" placeholder="Enter full-info"
+                    style="height:90%;"></textarea>
+                </div>
+                <div class="form-group alert alert-danger" role="alert"
+                  *ngIf="insertForm.get('fullInfo').errors && insertForm.get('fullInfo').touched">
+                  <span *ngIf="insertForm.hasError('required', ['fullInfo'])">
+                    Bạn không được để trống Full-Info!
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <label>Brief-Info<span class="required_field">*</span></label>
+                  <textarea class="form-control" formControlName="briefInfo"></textarea>
+                </div>
+                <div class="form-group alert alert-danger" role="alert"
+                  *ngIf="insertForm.get('briefInfo').errors && insertForm.get('briefInfo').touched">
+                  <span *ngIf="insertForm.hasError('required', ['briefInfo'])">
+                    Bạn không được để trống Brief-Info!
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <label>Subject<span class="required_field">*</span></label>
+                <select class="form-control" formControlName="subject" (change)="onChangeSubject($event)">
+                  <option *ngFor="let sub of listSubject" [value]="sub.id" selected>{{sub.name}}</option>
+                </select>
+              </div>
+              <div class="form-group alert alert-danger col-md-4" role="alert"
+                *ngIf="insertForm.get('subject').errors && insertForm.get('subject').touched">
+                <span *ngIf="insertForm.hasError('required', ['subject'])">
+                  Bạn cần chọn Subject!
+                </span>
+              </div>
+              <div class="col-md-4">
+                <label>Exam:</label>
+                <select class="form-control" formControlName="exam">
+                  <option *ngFor="let ex of listExam" [value]="ex['0']" selected>{{ex['8']}}</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label>Content Type<span class="required_field">*</span></label>
+                <select class="form-control" formControlName="contentType">
+                  <option disabled>..... Choose Content Type .....</option>
+                  <option *ngFor="let ct of contenttype" [value]="ct.value" selected>{{ct.value}}</option>
+                </select>
+              </div>
+              <div class="form-group alert alert-danger col-md-4" role="alert"
+                *ngIf="insertForm.get('contentType').errors && insertForm.get('contentType').touched">
+                <span *ngIf="insertForm.hasError('required', ['contentType'])">
+                  Bạn cần chọn Content Type!
+                </span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-6" formGroupName="date">
+                <label>Start Date<span class="required_field">*</span></label>
+                <input class="form-control" formControlName="startDate" type="date"
+                  [ngClass]="{'is-invalid': insertForm.get('date.startDate').touched && insertForm.get('date.startDate').invalid}"
+                  required />
+                <div class="invalid-feedback" *ngIf="insertForm.get('date.startDate').hasError('required')">
+                  <div>Không được để trống!!</div>
+                </div>
+              </div>
+              <div class="form-group col-md-6" formGroupName="date">
+                <label>End Date<span class="required_field">*</span></label>
+                <input class="form-control" formControlName="endDate" type="date"
+                  [ngClass]="{'is-invalid': insertForm.get('date.endDate').touched && insertForm.get('date.endDate').invalid}"
+                  required />
+                <div class="invalid-feedback" *ngIf="insertForm.get('date.endDate').hasError('required')">
+                  <div>Không được để trống!!</div>
+                </div>
+              </div>
+              <div class="form-group alert alert-danger col-md-6" role="alert"
+                *ngIf="insertForm.get('date').errors && insertForm.get('date.startDate').valid && insertForm.get('date.endDate').valid">
+                <span *ngIf="insertForm.hasError('twodatenotmatch', ['date'])">
+                  Ngày kết thúc không nhỏ hơn ngày bắt đầu!!
+                </span>
+              </div>
+            </div>
+            <div class="row end">
+              <div class="col-md-10">
+                <label>Document link:</label>
+                <input class="form-control" formControlName="documentLink" type="url" placeholder="Enter link" />
+              </div>
+              <div class="col-md-2">
+                <label for="checkbox">Is Hot<span class="required_field">*</span></label>
+                <input type="checkbox" class="form-control checkbox" formControlName="isHot" />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" [disabled]="!insertForm.valid" class="btn btn-success">Create</button>
+              <button type="button" (click)="onClickCloseForm()" class="btn btn-warning">Exit</button>
+            </div>
+          </form>
+          <form [formGroup]="updateForm" (ngSubmit)="onSubmitUpdate()" enctype="multipart/form-data"
+            *ngIf="showUpdateForm">
+            <div style="text-align: center; font-size: 24px !important; margin-top: 2%;">
+              <h1 style="font-size: 24px !important;">Update Product</h1>
+            </div>
+            <div>
+              <label>Name<span class="required_field">*</span></label>
+              <input class="form-control" formControlName="name" type="text" />
+            </div>
+            <div class="form-group alert alert-danger" role="alert"
+              *ngIf="updateForm.get('name').errors && updateForm.get('name').touched">
+              <span *ngIf="updateForm.hasError('required', ['name'])">
+                Bạn không được để trống tên product!
+              </span>
+              <span *ngIf="updateForm.hasError('maxlength', ['name'])">
+                Tên product không được quá 50 kí tự!
+              </span>
+              <span *ngIf="updateForm.hasError('minlength', ['name'])">
+                Tên product phải dài hơn 6 kí tự!
+              </span>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <label>Thumbnail<span class="required_field">*</span></label>
+                <input class="form-control" formControlName="thumbnail" type="file" (change)="onChangeFile($event)" />
+                <img width="200px" height="200px"
+                  src="http://localhost:8080/resources/images/thumbnail/{{this.product.thumbnail}}" alt="">
+              </div>
+              <div class="col-md-8">
+                <label>Tag line:</label>
+                <input class="form-control" formControlName="tagLine" type="text" placeholder="Enter tag-line" />
+              </div>
+              <div class="form-group alert alert-danger col-md-8" role="alert"
+                *ngIf="updateForm.get('tagLine').errors && updateForm.get('tagLine').touched">
+                <span *ngIf="updateForm.hasError('maxlength', ['tagLine'])">
+                  Tag-line không được quá 100 kí tự!
+                </span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div>
+                  <label>Full-Info<span class="required_field">*</span></label>
+                  <textarea class="form-control" rows="6" formControlName="fullInfo" placeholder="Enter full-info"
+                    style="height:90%;"></textarea>
+                </div>
+                <div class="form-group alert alert-danger" role="alert"
+                  *ngIf="updateForm.get('fullInfo').errors && updateForm.get('fullInfo').touched">
+                  <span *ngIf="updateForm.hasError('required', ['fullInfo'])">
+                    Bạn không được để trống Full-Info!
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div>
+                  <label>Brief-Info<span class="required_field">*</span></label>
+                  <textarea class="form-control" formControlName="briefInfo"></textarea>
+                </div>
+                <div class="form-group alert alert-danger" role="alert"
+                  *ngIf="updateForm.get('briefInfo').errors && updateForm.get('briefInfo').touched">
+                  <span *ngIf="updateForm.hasError('required', ['briefInfo'])">
+                    Bạn không được để trống Brief-Info!
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <label>Subject<span class="required_field">*</span></label>
+                <select class="form-control" formControlName="subject" (change)="onChangeSubject($event)">
+                  <option selected="product.subjects.id">{{product.subjects.name}}</option>
+                  <option *ngFor="let sub of listSubject" [value]="sub.id" selected>{{sub.name}}</option>
+                </select>
+              </div>
+              <div class="form-group alert alert-danger col-md-4" role="alert"
+                *ngIf="updateForm.get('subject').errors && updateForm.get('subject').touched">
+                <span *ngIf="updateForm.hasError('required', ['subject'])">
+                  Bạn cần chọn Subject!
+                </span>
+              </div>
+              <div class="col-md-4">
+                <label>Exam:</label>
+                <select class="form-control" formControlName="exam">
+                  <option selected="product.exams.id">{{product.exams.name}}</option>
+                  <option *ngFor="let ex of listExam" [value]="ex['0']" selected>{{ex['8']}}</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label>Content Type<span class="required_field">*</span></label>
+                <select class="form-control" formControlName="contentType">
+                  <option disabled>..... Choose Content Type .....</option>
+                  <option *ngFor="let ct of contenttype" [value]="ct.value" selected>{{ct.value}}</option>
+                </select>
+              </div>
+              <div class="form-group alert alert-danger col-md-4" role="alert"
+                *ngIf="updateForm.get('contentType').errors && updateForm.get('contentType').touched">
+                <span *ngIf="updateForm.hasError('required', ['contentType'])">
+                  Bạn cần chọn Content Type!
+                </span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-6" formGroupName="date">
+                <label>Start Date<span class="required_field">*</span></label>
+                <input class="form-control" formControlName="startDate" [value]="product.startDate | date: 'yyyy-MM-dd'"
+                  type="date"
+                  [ngClass]="{'is-invalid': updateForm.get('date.startDate').touched && updateForm.get('date.startDate').invalid}"
+                  required />
+                <div class="invalid-feedback" *ngIf="updateForm.get('date.startDate').hasError('required')">
+                  <div>Không được để trống!!</div>
+                </div>
+              </div>
+              <div class="form-group col-md-6" formGroupName="date">
+                <label>End Date<span class="required_field">*</span></label>
+                <input class="form-control" formControlName="endDate" [value]="product.endDate | date: 'yyyy-MM-dd'"
+                  type="date"
+                  [ngClass]="{'is-invalid': updateForm.get('date.endDate').touched && updateForm.get('date.endDate').invalid}"
+                  required />
+                <div class="invalid-feedback" *ngIf="updateForm.get('date.endDate').hasError('required')">
+                  <div>Không được để trống!!</div>
+                </div>
+              </div>
+              <div class="form-group alert alert-danger col-md-6" role="alert"
+                *ngIf="updateForm.get('date').errors && updateForm.get('date.startDate').valid && updateForm.get('date.endDate').valid">
+                <span *ngIf="updateForm.hasError('twodatenotmatch', ['date'])">
+                  Ngày kết thúc không nhỏ hơn ngày bắt đầu!!
+                </span>
+              </div>
+            </div>
+            <div class="row end">
+              <div class="col-md-10">
+                <label>Document link:</label>
+                <input class="form-control" formControlName="documentLink" type="url" placeholder="Enter link" />
+              </div>
+              <div class="col-md-2">
+                <label for="checkbox">Is Hot<span class="required_field">*</span></label>
+                <input type="checkbox" class="form-control checkbox" formControlName="isHot" [value]="product.isHot" />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" [disabled]="!updateForm.valid" class="btn btn-success">Update</button>
+              <button type="button" (click)="onClickCloseForm()" class="btn btn-warning">Exit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<popup #popupDelete (confirmClick)="confirmDeleteClick()">
+  Bạn có chắc chắn muốn xóa ?
+</popup>

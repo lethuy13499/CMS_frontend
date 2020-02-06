@@ -1,0 +1,177 @@
+<div class="tong">
+  <div class="row floating-callout triple-nav clearfix" style=" margin-top: 50px;">
+    <div class="col-sm-4"><a [routerLink]="['Khóa học']"><button class="btn btn-nav btn-orange">KHÓA HỌC</button></a>
+    </div>
+    <div class="col-sm-4"><a [routerLink]="['Kì thi']"><button class="btn btn-nav btn-green">THI CỬ</button></a></div>
+    <div class="col-sm-4"><a [routerLink]="['book']"><button class="btn btn-nav btn-blue">TÀI LIỆU</button></a></div>
+  </div>
+  <div class="container-fluid bg-f1f2f2">
+    <div class="container">
+      <div class="conent-page ">
+        <div class="grid">
+          <div *ngIf="products.length==0 && news == 0">
+            <h2 class="title-page" style="text-transform:none">Không tìm thấy dữ liệu</h2>
+          </div>
+          <div *ngIf="productCourse.length > 0">
+            <h2 class="title-page" style="text-transform:none">Danh sách khóa học</h2>
+            <div class="c20"></div>
+            <div id="products" class="row view-group">
+              <ng-container *ngFor="let product of (productCourse
+                      | paginate: { itemsPerPage: [perPage], currentPage: p1, id : 'first' });
+                        trackBy: trackByFn  ">
+                <div class="item col-xs-3 col-lg-3">
+                  <!-- <div class="item-cat">
+                    <div class="pro-home-img">
+                      <a [routerLink]="['detail',product.productId]"><img
+                          src="{{ baseURL }}/resources/images/thumbnail/{{ product.thumbnail}}" height="155px"
+                          width="100%"></a>
+                    </div>
+                    <div class="item-cat-content item-height">
+                      <h2 class="cat-name-home"><a [routerLink]="['detail',product.productId]">{{product.name}}</a></h2>
+                      <div class="intro-cathome">{{product.briefInfo}}</div>
+                      <a [routerLink]="['detail',product.productId]" class="btnDk">Đăng ký</a>
+                    </div>
+                  </div> -->
+                  <div class="card class-choice animate">
+                    <div class="card-block">
+                      <div class="card-img-top">
+                          <a [routerLink]="['detail',product.productId]"><img
+                            src="{{ baseURL }}/resources/images/thumbnail/{{ product.thumbnail}}" 
+                            width="100%"></a>
+                      </div>
+                      <a [routerLink]="['/hometotal/product/detail',product.productId]" style="font-size: 20px;
+                          text-decoration: none;
+                          font-weight: 400;
+                          min-height: 3em;">{{product.name}}</a>
+                           <div class="intro-cathome">{{product.briefInfo | truncate: 30}}</div>
+                      <button [routerLink]="['/hometotal','product','detail',product.productId]"
+                        class="btnDk" style="margin-top: 15px;">Đăng kí</button>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+              <div class="phantrang">
+                <div class="lt">
+                </div>
+                <div class="pagi">
+                  <pagination-controls style="float:right;" id="first" (pageChange)="p1 = $event"></pagination-controls>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="productExam.length > 0">
+            <div class="c20"></div>
+            <h2 class="title-page" style="text-transform:none">Danh sách kì thi</h2>
+            <div class="c20"></div>
+            <div id="products" class="row view-group">
+              <ng-container *ngFor="let product of (productExam
+                      | paginate: { itemsPerPage: [perPage], currentPage: p2, id : 'exam' });
+                        trackBy: trackByFn  ">
+                <div class="item col-xs-3 col-lg-3">
+                    <div class="card class-choice animate">
+                        <div class="card-block">
+                          <div class="card-img-top">
+                              <a [routerLink]="['detail',product.productId]"><img
+                                src="{{ baseURL }}/resources/images/thumbnail/{{ product.thumbnail}}" 
+                                width="100%"></a>
+                          </div>
+                          <a [routerLink]="['/hometotal/product/detail',product.productId]" style="font-size: 20px;
+                              text-decoration: none;
+                              font-weight: 400;
+                              min-height: 3em;">{{product.name}}</a>
+                               <div class="intro-cathome">{{product.briefInfo | truncate: 30}}</div>
+                          <button [routerLink]="['/hometotal','product','detail',product.productId]"
+                            class="btnDk" style="margin-top: 15px;">Đăng kí</button>
+                        </div>
+                      </div>
+                </div>
+              </ng-container>
+              <div class="phantrang">
+                <div class="lt">
+                </div>
+                <div class="pagi">
+                  <pagination-controls style="float:right;" id="exam" (pageChange)="p2 = $event"></pagination-controls>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="productBook.length > 0">
+            <div class="c20"></div>
+            <h2 class="title-page" style="text-transform:none">Danh sách tài liệu</h2>
+            <div class="c20"></div>
+            <div id="products" class="row view-group">
+              <ng-container *ngFor="let product of (productBook
+                        | paginate: { itemsPerPage: [perPage], currentPage: p3,id : 'book' });
+                          trackBy: trackByFn  ">
+                <div class="item col-xs-3 col-lg-3">
+                    <div class="card class-choice animate">
+                        <div class="card-block">
+                          <div class="card-img-top">
+                              <a [routerLink]="['detail',product.productId]"><img
+                                src="{{ baseURL }}/resources/images/thumbnail/{{ product.thumbnail}}" 
+                                width="100%"></a>
+                          </div>
+                          <a [routerLink]="['/hometotal/product/detail',product.productId]" style="font-size: 20px;
+                              text-decoration: none;
+                              font-weight: 400;
+                              min-height: 3em;">{{product.name}}</a>
+                               <div class="intro-cathome">{{product.briefInfo | truncate: 30 }}</div>
+                          <button [routerLink]="['/hometotal/product/detail',product.productId]"
+                            class="btnDk" style="margin-top: 15px;"> Ðọc
+                            ngay</button>
+                        </div>
+                      </div>
+                </div>
+              </ng-container>
+              <div class="phantrang">
+                <div class="lt">
+                </div>
+                <div class="pagi">
+                  <pagination-controls style="float:right;" id="book" (pageChange)="p3 = $event"></pagination-controls>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="content-page">
+        <div class="grid" style="padding-top: 20px" *ngIf="news.length > 0">
+          <div class="flex-container flex-space-between">
+            <div class="cell-3-4 tab-cell-1-1 col-right">
+              <h1 class="title-page">Tin tức</h1>
+              <div class="c20"></div>
+
+              <div class="item-new" *ngFor="
+                      let new of (news
+                        | paginate: { itemsPerPage: [perPage], currentPage: p, id : 'new' });
+                      trackBy: trackByFn
+                    ">
+                <div class="flex-container flex-space-between">
+                  <div class="cell-1-3 pad-cell-1-3 tab-cell-1-2 mobile-cell-1-1">
+                    <a [routerLink]="['/hometotal/pagenews/news/viewnews/',new.newsId]"><img
+                        style="border-radius: 3px;width: 100%;" src="{{ new.imgUrl }}"
+                        onerror="this.src='../../../../../../../assets/images/default_news_avatar.png'"></a>
+                  </div>
+                  <div class="cell-2-3 pad-cell-2-3 tab-cell-1-2 mobile-cell-1-1">
+                    <h2 class="new-name"><a
+                        [routerLink]="['/hometotal/pagenews/news/viewnews/',new.newsId]">{{new.title}}</a></h2>
+                    <div class="createdate">{{ new.confirmDate | date: 'dd/MM/yyyy' }}</div>
+                    <div class="intro-service  hide-on-mobile" align="justify">{{new.description}}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="phantrang">
+                <div class="lt">
+                </div>
+                <div class="pagi">
+                  <pagination-controls style="float:right;" id="new" (pageChange)="p = $event"></pagination-controls>
+                </div>
+              </div>
+              <div class="c20"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

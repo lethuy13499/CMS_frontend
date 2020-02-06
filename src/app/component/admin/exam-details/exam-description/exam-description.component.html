@@ -1,0 +1,27 @@
+<div class="row ">
+  <div class="col-md-10 offset-md-1">
+    <form [formGroup]="briefForm">
+      <div class="form-group">
+        <label for="title">Brief</label>
+        <!-- <input type="text" class="form-control" formControlName="title" id="title" placeholder="Brief of exam"> -->
+        <textarea rows="3" type="text" class="form-control" id="title" formControlName="title"
+          placeholder="Enter title here..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <angular-editor id="description" formControlName="description" [config]="config"></angular-editor>
+        <!-- <input type="text" class="form-control" formControlName="description" id="description"
+          placeholder="Description">
+        <small id="emailHelp" class="form-text text-muted">Description of exam</small> -->
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 form-group">
+          <button type="submit" (click)="updateDescription()" class=" col-md-5  btn btn-primary">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+</div>

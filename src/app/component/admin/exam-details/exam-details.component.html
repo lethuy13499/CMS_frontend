@@ -1,0 +1,72 @@
+<!-- <div id="content"> -->
+<div class="content-container">
+  <div class="col-md-12">
+    <div class="widget">
+      <header class="widget-header">
+        <h4 class="widget-title">
+          Chi tiết Đề thi
+        </h4>
+      </header>
+      <hr class="widget-separator">
+      <div class="widget-body">
+        <div class="row ">
+          <div id="fu" class="col-md-12">
+            <div class="container">
+
+              <!-- <ul class="nav nav-tabs">
+    <li><a href="javascript:void(0)" class="active" routerLink="/cms/exam/details/overview">Overview</a></li>
+    <li><a href="javascript:void(0)" routerLink="/cms/exam/details/description"> Description</a></li>
+
+  </ul> -->
+              <!-- <nav class="nav nav-pills nav-fill">
+      <a data-toggle="tab" href="#exam-detail" class="nav-item nav-link active"
+        (click)="onClick('overview')">Overview</a>
+      <a data-toggle="tab" href="#exam-detail" class="nav-item nav-link"
+        (click)="onClick('description')">Description</a>
+      <a data-toggle="tab" href="#exam-detail" class="nav-item nav-link"
+        [routerLink]="['/cms','exam','details',examId,'random']">Random
+        Question</a>
+      <a data-toggle="tab" href="#exam-detail" class="nav-item nav-link"
+        [routerLink]="['/cms','exam','details',examId,'selected']">Selected Question</a>
+      <a data-toggle="tab" href="#exam-detail" class="nav-item nav-link"
+        [routerLink]="['/cms','exam','details',examId,'user_exam']">User
+        Exam</a>
+    </nav> -->
+
+              <ul class="nav nav-tabs">
+                <li class="nav-item">
+                  <a data-toggle="tab" href="#exam-detail" class="nav-link active "
+                    (click)="onClick('overview')">Overview</a>
+                </li>
+                <li *ngIf="examId " class="nav-item">
+                  <a data-toggle="tab" href="#exam-detail" class="nav-link"
+                    (click)="onClick('description')">Description</a>
+                </li>
+                <li *ngIf="examId &&config==0" class="nav-item">
+                  <a data-toggle="tab" href="#exam-detail" class="nav-link"
+                    [routerLink]="['/cms','exam','details',examId,'random']">Random
+                    Question</a>
+                </li>
+                <li *ngIf="examId &&config==1" class="nav-item">
+                  <a data-toggle="tab" href="#exam-detail" class="nav-link"
+                    [routerLink]="['/cms','exam','details',examId,'selected']">Selected Question</a>
+                </li>
+                <li *ngIf="examId" class="nav-item">
+                  <a data-toggle="tab" href="#exam-detail" class="nav-link"
+                    [routerLink]="['/cms','exam','details',examId,'user_exam']">User
+                    Exam</a>
+                </li>
+              </ul>
+
+              <br>
+
+              <div id="exam-detail" class="routerout">
+                <router-outlet></router-outlet>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

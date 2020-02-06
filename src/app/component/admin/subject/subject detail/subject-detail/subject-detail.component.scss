@@ -1,0 +1,48 @@
+.valid-color{
+    color: red;
+}
+.form-check-input{
+    margin-left: 40px;
+}
+.box, .widget {
+    background-color: #fff;
+    margin-bottom: 1.5rem;
+    -webkit-box-shadow: 0 1px 2px #ccc;
+    box-shadow: 0 1px 2px #ccc;
+  }
+  .widget-body, .widget-footer, .widget-header {
+    padding: 1rem;
+  }
+  .widget-header h4 { font-size: 20px !important;}
+  hr { margin:  0 !important;}
+  .content-container { margin-top: 30px;}
+  .icon {
+    margin-left: 10px;
+    color: #fff;
+  }
+  .labelStatus {
+    display: block;
+    width: 50px;
+    text-align: center !important ;
+    display: inline-block;
+    margin: 10px 10px 0 0;
+    padding: 0px 0px;
+    border-radius: 4px;
+  }
+  .labelStatus {
+    display: block;
+    width: 50px;
+    text-align: center !important ;
+    display: inline-block;
+    margin: 10px 10px 0 0;
+    padding: 0px 0px;
+    border-radius: 4px;
+  }
+  .active1 {
+    background-color: #009432;
+    color: white;
+  }
+  .inactive {
+    background-color: #f50057;
+    color: white;
+  }

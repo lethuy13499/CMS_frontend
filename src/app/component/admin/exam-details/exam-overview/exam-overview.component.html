@@ -1,0 +1,168 @@
+<div class="row">
+  <div class="col-md-10 offset-md-1">
+    <form [formGroup]="examForm">
+
+      <div class="form-group">
+        <label for="exam-name">Exam Name</label>
+        <input formControlName="examName" type="text" class="form-control" id="exam-name" aria-describedby="emailHelp"
+          placeholder="Enter exam name"
+          [ngClass]="{'is-invalid': examForm.get('examName').touched && examForm.get('examName').invalid}" required>
+        <div class="invalid-feedback">
+          <div *ngIf="examForm.hasError('maxlength', ['examName'])">Độ dài không vượt quá 250 kí tự</div>
+          <div *ngIf="examForm.hasError('whitespace', ['examName'])">Không được để trống</div>
+        </div>
+      </div>
+
+
+      <div class="form-group ">
+
+        <label> Change thumbnail</label>
+
+        <input class="form-control" (change)="readURL($event)" type="file" name="pic" accept=".png, .jpg, .jpeg">
+
+      </div>
+
+      <div class="form-group ">
+        <!-- <img src="{{ new.linkimage }}" onerror="this.src='../../../../../../../assets/images/default-thumb.jpg'" /> -->
+        <img style="width: 120px;height: 80px;" class="form-control" class="img-fluid" [src]=img
+          onerror="this.src='../../../../../../../assets/images/default_news_avatar.png'">
+      </div>
+
+
+      <div class="form-group">
+        <label for="subject">Subject</label>
+        <select [ngClass]="{'is-invalid': examForm.get('subject').touched && examForm.get('subject').invalid}"
+          formControlName="subject" class="form-control" id="subject">
+          <option [value]="subject.id" *ngFor="let subject of listSubject">{{
+              subject.name
+            }}</option>
+
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="num_question">Number Questions </label>
+        <input [ngClass]="{'is-invalid': examForm.get('numQuestions').touched && examForm.get('numQuestions').invalid}"
+          formControlName="numQuestions" type="number" class="form-control" id="num_question"
+          aria-describedby="emailHelp" placeholder="Enter number of questions">
+        <div class="invalid-feedback">
+
+          <div *ngIf="examForm.hasError('whitespace', ['numQuestions'])">Không được để trống</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="questions-config">Questions Config</label>
+            <select
+              [ngClass]="{'is-invalid': examForm.get('questionsConfig').touched && examForm.get('questionsConfig').invalid}"
+              formControlName="questionsConfig" class="form-control" id="questions-config">
+              <option value=0>Random</option>
+              <option value=1>Manual</option>
+            </select>
+          </div>
+          <div class="form-group" formGroupName="examTrial">
+            <label for="start-time">Start
+              time</label>
+
+            <input [attr.disabled]="examForm.get('examTrial').get('examType').value == 2 ? null : ''"
+              [ngClass]="{'is-invalid': examForm.get('examTrial').get('startTime').touched && examForm.get('examTrial').get('startTime').invalid}"
+              formControlName="startTime" class="form-control" type="datetime-local" id="start-time">
+            <div class="invalid-feedback">
+              <div *ngIf="examForm.hasError('nothavetrial', ['examTrial'])">
+                Thời gian bắt đầu không được trống
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="duration">Duration(minutes)</label>
+            <input [ngClass]="{'is-invalid': examForm.get('duration').touched && examForm.get('duration').invalid}"
+              formControlName="duration" type="number" class="form-control" id="duration" aria-describedby="emailHelp"
+              placeholder="Enter duration">
+            <div class="invalid-feedback">
+              <div *ngIf="examForm.hasError('whitespace', ['duration'])">Không được để trống</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="pass-rate">Pass Rate</label>
+            <input [ngClass]="{'is-invalid': examForm.get('passRate').touched && examForm.get('passRate').invalid}"
+              formControlName="passRate" type="number" class="form-control" id="pass-rate" aria-describedby="emailHelp"
+              placeholder="Pass Rate">
+            <div class="invalid-feedback">
+
+              <div *ngIf="examForm.hasError('whitespace', ['passRate'])">Không được để trống</div>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-md-6">
+          <div class="form-group" formGroupName="examTrial">
+            <label for="exam-type">Mode</label>
+            <!-- [ngClass]="{'is-invalid': examForm.get('examType').touched && examForm.get('examType').invalid}" -->
+            <select (change)="changeExamMode()" formControlName="examType" class="form-control" id="exam-type">
+              <option value=0>Demo Exam</option>
+              <option value=1>Entry Test</option>
+              <option value=2>Exam</option>
+            </select>
+          </div>
+          <div class="form-group" formGroupName="examTrial">
+            <label for="end-time">End
+              time</label>
+
+            <input [attr.disabled]="examForm.get('examTrial').get('examType').value == 2 ? null : ''"
+              [ngClass]="{'is-invalid': examForm.get('examTrial').get('endTime').touched && examForm.get('examTrial').get('endTime').invalid}"
+              formControlName="endTime" class="form-control" type="datetime-local" id="end-time">
+            <div class="invalid-feedback">
+              <div *ngIf="examForm.hasError('nothavetrial', ['examTrial'])">
+                Thời gian kết thúc không được trống
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" formGroupName="examTrial">
+            <label for="number-trial">Number of trials</label>
+
+            <input formControlName="numberTrial" type="number" class="form-control" id="number-trial"
+              [attr.disabled]="examForm.get('examTrial').get('examType').value == 2 ? null : ''"
+              placeholder="Number of trials">
+            <div class="invalid-feedback">
+              <div *ngIf="examForm.hasError('nothavetrial', ['examTrial'])">
+                Số lần thi không được để trống
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="status">Status</label>
+            <select [attr.disabled]="examId==null ? '' : null" formControlName="status" class="form-control"
+              id="status">
+              <option value="0">Pending</option>
+              <option value="1">Active</option>
+              <option value="2">Block</option>
+            </select>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 form-group">
+          <button [disabled]="!examForm.valid" *ngIf="examId==null" (click)="submitExam()" type="button "
+            class="col-md-5 form-control btn btn-success">Submit</button>
+          <button [disabled]="!examForm.valid" *ngIf="examId!=null" (click)="updateExam()" type="button "
+            class="col-md-5 form-control btn btn-success">Update</button>
+          <button type="button" class="offset-md-2 col-md-5 form-control btn btn-warning" (click)="back()">Back</button>
+        </div>
+
+        <!-- <div class="col-md-6 form-group">
+          <button type="submit" class="btn btn-primary form-control">Submit</button>
+        </div>
+        <div class="col-md-6 form-group">
+          <button type="submit" class="btn btn-primary form-control">Back</button>
+        </div> -->
+      </div>
+
+    </form>
+  </div>
+</div>
