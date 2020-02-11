@@ -102,7 +102,7 @@ export class ChapterLessonComponent implements OnInit {
 
   ngOnInit() {
     this.searchKey = '';
-    this.titleService.setTitle('Testonline System - Chapter');
+    this.titleService.setTitle('CMS - Chapter');
     this.insertForm = this.fb.group({
       // tslint:disable-next-line:max-line-length
       name: ['', [Validators.required, Validators.maxLength(50), Validators.pattern('^[a-zA-Z0-9.\-_$@*!,_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹýẾế\\s]+$')]],

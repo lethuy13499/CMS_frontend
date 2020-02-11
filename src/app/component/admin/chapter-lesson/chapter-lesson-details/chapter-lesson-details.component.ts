@@ -99,7 +99,7 @@ export class ChapterLessonDetailsComponent implements OnInit {
   ngOnInit() {
     this.getAll();
 
-    this.titleService.setTitle('Testonline System - Chapter');
+    this.titleService.setTitle('CMS - Chapter');
     this.insertChapter = this.fb.group({
       name: [
         '',

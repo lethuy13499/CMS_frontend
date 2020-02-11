@@ -181,7 +181,7 @@ export class ExamComponent implements OnInit {
     this.mapMode.set(2, 'Exam');
     this.mapMode.set(3, 'Registered');
 
-    this.titleService.setTitle('Testonline System - Exam');
+    this.titleService.setTitle('CMS - Exam');
     this.insertForm = this.fb.group({
       title: [
         '',

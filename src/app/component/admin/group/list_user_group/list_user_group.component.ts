@@ -55,7 +55,7 @@ export class ListUserGroupComponent implements OnInit {
   }
 
    ngOnInit() {
-    this.titleService.setTitle('Testonline System - List User');
+    this.titleService.setTitle('CMS - Group');
     const idGroup = this.activatedRoute.snapshot.paramMap.get('id');
     this.groupService.listUserGroup(+idGroup,this.keySearch).subscribe(res => {
       this.groupDTO = res;

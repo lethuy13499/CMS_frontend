@@ -106,7 +106,7 @@
               </div>
               <div class="form-group">
                 <label> Parent</label>
-                <select class="form-control" formControlName="parent_name">
+                <select class="form-control" formControlName="name">
                   <option value="0"> </option>
                   <option *ngFor="let ct of list" value="{{ ct.id }}" selected>
                     {{ ct.name }}

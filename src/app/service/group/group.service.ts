@@ -20,15 +20,15 @@ export class GroupService {
       headers: head
     });
   }
-  getListGroup2() {
-    const tk = localStorage.getItem('access_token');
-    let head = new HttpHeaders();
-    head = head
-        .set('TOKEN', 'Token' + tk)
-    return this.http.get<Object[]>(Constant.API_LIST2_GROUP, {
-      headers: head
-    });
-  }
+  // getListGroup2() {
+  //   const tk = localStorage.getItem('access_token');
+  //   let head = new HttpHeaders();
+  //   head = head
+  //       .set('TOKEN', 'Token' + tk)
+  //   return this.http.get<Object[]>(Constant.API_LIST2_GROUP, {
+  //     headers: head
+  //   });
+  // }
   insertGroup(formdata: FormData): Observable<any> {
     const tk = localStorage.getItem('access_token');
     let head = new HttpHeaders();

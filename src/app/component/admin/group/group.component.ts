@@ -49,7 +49,7 @@ export class GroupComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.titleService.setTitle('Testonline System - Group');
+    this.titleService.setTitle('Group - Group');
     this.insertForm = this.fb.group({
       // tslint:disable-next-line:max-line-length
       name: ['', [Validators.required, Validators.maxLength(50), Validators.pattern('^[a-zA-Z0-9.\-_$@*!,_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹýẾế\\s]+$')]],
@@ -65,10 +65,11 @@ export class GroupComponent implements OnInit {
     });
     let menuSuccess = await this.menuFilter.checkMenu();
     if (menuSuccess === 1) {
-    this.groupService.getListGroup2().subscribe(res => {
+    this.groupService.getListGroup().subscribe(res => {
       this.listGroup = res;
     });
     this.groupService.getListGroup().subscribe(res => (this.listGroup2 = res));
+    console.log(this.listGroup);
   }
   }
   onClickAddNew() {
@@ -96,7 +97,7 @@ export class GroupComponent implements OnInit {
       formdata.append('group', JSON.stringify(gro));
       this.groupService
         .insertGroup(formdata)
-        .pipe(concatMap(_ => this.groupService.getListGroup2()))
+        .pipe(concatMap(_ => this.groupService.getListGroup()))
         .subscribe(
           res => {
             this.groupService.getListGroup().subscribe(resp => (this.listGroup2 = resp));
@@ -137,7 +138,7 @@ export class GroupComponent implements OnInit {
   confirmDeleteClick() {
     this.groupService
       .deleteGroup(this.deleteId)
-      .pipe(concatMap(_ => this.groupService.getListGroup2()))
+      .pipe(concatMap(_ => this.groupService.getListGroup()))
       .subscribe(
         res => {
           this.groupService.getListGroup().subscribe(resp => (this.listGroup2 = resp));
@@ -176,7 +177,7 @@ export class GroupComponent implements OnInit {
       formdata.append('group', JSON.stringify(data));
       this.groupService
         .updateGroup(formdata)
-        .pipe(concatMap(_ => this.groupService.getListGroup2()))
+        .pipe(concatMap(_ => this.groupService.getListGroup()))
         .subscribe(
           res => {
             this.groupService.getListGroup().subscribe(resp => (this.listGroup2 = resp));
@@ -209,7 +210,7 @@ export class GroupComponent implements OnInit {
         );
     } else {
       this.groupService
-        .getListGroup2()
+        .getListGroup()
         .subscribe(res => (this.listGroup = res));
     }
   }

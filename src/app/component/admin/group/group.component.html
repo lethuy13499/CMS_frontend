@@ -46,10 +46,10 @@
                       | paginate: { itemsPerPage: [perPage], currentPage: p });
                     trackBy: trackByFn
                   ">
-                  <td colspan="3">{{ group['0'] }}</td>
-                  <td style="text-align: left" colspan="3">{{ group['1'] }}</td>
+                  <td colspan="3">{{group.id }}</td>
+                  <td style="text-align: left" colspan="3">{{ group.name }}</td>
                   <td style="text-align: left" colspan="3">
-                    {{ group['3'] == 1 ? 'Deparment' : 'Group' }}
+                    {{ group.parent_name == 1 ? 'Deparment' : 'Group' }}
                   </td>
                   <td style="text-align: left" colspan="3">{{ group['7'] }}</td>
                   <td style="text-align: left" colspan="3">

@@ -191,7 +191,7 @@ export class HomeComponent implements OnInit {
     }
     this.notificationVisibilityWhenVaoThi = false;
     this.notificationVisibilityWhenMaxAttemptExcess = false;
-    this.titleService.setTitle('Testonline System - Home');
+    this.titleService.setTitle('CMS - Home');
     // Get listPINNED NEWS
     this.newpostService
       .getListPageNewsNews()
@@ -228,7 +228,7 @@ export class HomeComponent implements OnInit {
     } else {
       this.adminName = '';
     }
-    this.titleService.setTitle('Testonline System-Exam');
+    this.titleService.setTitle('CMS-Home');
   //  this.loadProducts();
     this.examService.getListExam(this.searchKey,this.selectedType).subscribe(res=>{
       this.listExam = res;

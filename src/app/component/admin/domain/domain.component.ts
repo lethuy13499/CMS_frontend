@@ -51,7 +51,7 @@ export class DomainComponent implements OnInit {
 
    async ngOnInit() {
     this.getList();
-    this.titleService.setTitle('Testonline System - Domain');
+    this.titleService.setTitle('CMS - Domain');
     this.insertForm = this.fb.group({
       name: [
         '',

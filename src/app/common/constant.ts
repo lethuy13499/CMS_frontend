@@ -286,7 +286,6 @@ export class Constant {
 
   // Group
   public static readonly API_LIST_GROUP = Constant.BASE_URL + '/group/list';
-  public static readonly API_LIST2_GROUP = Constant.BASE_URL + '/group/list2';
   public static readonly API_INSERT_GROUP = Constant.BASE_URL + '/group/insert';
   public static readonly API_UPDATE_GROUP = Constant.BASE_URL + '/group/update';
   public static readonly API_DELETE_GROUP_BY_ID =
