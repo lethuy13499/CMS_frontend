@@ -366,7 +366,8 @@ export class Constant {
     public static readonly API_GET_EXAMSETTING_BY_EXAMID =
     Constant.BASE_URL + '/exam/getExamSettingByExamId';
 
-
+//thuy
+public static readonly API_GET_LIST_EXAM = Constant.BASE_URL + '/exam/getListExam';
   //  MR DUC EXAM
   public static readonly API_GET_PRACTICE_HOMEPAGE =
     Constant.BASE_URL + '/practice/pacticehomepage';

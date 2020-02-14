@@ -711,4 +711,15 @@ export class ExamService {
       }
     );
   }
+
+  
+  getListExam1(){
+    const tk = localStorage.getItem('access_token');
+    let head = new HttpHeaders();
+    head = head
+      .set('TOKEN', 'Token' + tk);
+    return this.http.get<Exam[]>(Constant.API_GET_LIST_EXAM , {
+      headers: head
+    });
+  }
 }

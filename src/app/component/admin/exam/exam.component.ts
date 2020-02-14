@@ -105,7 +105,7 @@ export class ExamComponent implements OnInit {
   config: any;
   file: any;
   listExam: Object[] = [];
-  listExam1: Exams;
+  listExam1: Exam[] = [];
   listSubject: subject[] = [];
   listGroup: Group[] = [];
   listUser: User[] = [];
@@ -259,7 +259,8 @@ export class ExamComponent implements OnInit {
       creator: ['']
     });
     const menuSuccess = await this.menuFilter.checkMenu();
-
+          this.examService.getListExam1().subscribe(res => {this.listExam1=res});
+          
       // this.examService
       //   .getListExam(this.searchKey, this.selectedType)
       //   .subscribe(res => {

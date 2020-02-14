@@ -42,16 +42,16 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let exam of (listExam| paginate: config); let i=index trackBy: trackByFn"
+      <tr *ngFor="let exam of (listExam1| paginate: config); let i=index trackBy: trackByFn"
         [ngStyle]="{'font-weight': mapType.get(exam['15'])==='Practice'? '400': '500'}">
-        <td style="text-align: center; vertical-align: middle">{{exam['id']}}</td>
+        <td style="text-align: center; vertical-align: middle">{{exam.id}}</td>
         <!-- <td style="text-align: left; vertical-align: middle">{{mapType.get(exam['15'])}}</td> -->
         <td style="text-align: left; vertical-align: middle">{{ exam['name']}}
-          <br> {{ exam['subject'] }}</td>
+          <br> {{ exam.subject }}</td>
         <td style="text-align: left; vertical-align: middle">{{mapMode.get(exam['mode'])}}
-          <br>{{ exam['owner']}} </td>
-        <td style="text-align: left; vertical-align: middle">{{exam['startDate']| date: 'dd/MM/yyyy'}}
-          <br>{{exam['endDate'] | date: 'dd/MM/yyyy'}}</td>
+          <br>{{ exam.owner}} </td>
+        <td style="text-align: left; vertical-align: middle">{{exam.startDate| date: 'dd/MM/yyyy'}}
+          <br>{{exam.endDate | date: 'dd/MM/yyyy'}}</td>
         <td style="text-align: center; vertical-align: middle" colspan="3">{{ exam['duration'] }}</td>
         <td style="text-align: left" colspan="3">
           <div style="text-align: center">
@@ -59,7 +59,7 @@
             <span *ngIf="exam['status']===1 " class="labelStatus active">Published</span>
             <span *ngIf="exam['status']===2 " class="labelStatus deleted">Blocked</span>
           </div>
-          <!-- <div style="text-align: center" *ngIf="exam['0'] !== statusID">
+          <div style="text-align: center" *ngIf="exam['0'] !== statusID">
             <span *ngIf="exam['9']===0 " class="labelStatus pending">Pending</span>
             <span *ngIf="exam['9']===1 " class="labelStatus active">Published</span>
             <span *ngIf="exam['9']===2 " class="labelStatus deleted">Blocked</span>
@@ -72,15 +72,16 @@
               <option value="1">Published </option>
               <option value="2">Blocked </option>
             </select>
-          </div> -->
+          </div>
                     </td>
-                    <td sty0le="text-align: left; vertical-align: middle" colspan="3">
-                      <i [routerLink]="['/cms/exam/details/'+ exam['id']]" style="color:white"
-                        class="fa fa-pencil btn btn-primary" title="chỉnh sửa" (click)="onClickUpdate(exam)"
-                        *ngIf="exam['tested'] === false ? showEdit : !showEdit"></i>
+                    <td style="text-align: left; vertical-align: middle" colspan="3">
+                     
 
           <i style="color:white;font-size: 10px !important; padding-bottom: 10px;padding-top: 10px;" class="fa fa-graduation-cap btn btn-success" title="kết quả"
           [routerLink]="['/cms','examdetailadmin',exam['id']]" *ngIf="exam['tested'] !== false ? showResult : !showResult"></i>
+          <i [routerLink]="['/cms/exam/details/'+ exam['id']]" style="color:white"
+          class="fa fa-pencil btn btn-primary" title="chỉnh sửa" (click)="onClickUpdate(exam)"
+          *ngIf="exam['tested'] === false ? showEdit : !showEdit"></i>
           <!-- <div class="form-group " style="margin-top:8px;">
             <select class="form-control text-center" [(ngModel)]="selectedAction" (change)="onChangeAction($event,exam)"
               (mouseout)="focusOutFunction()">

@@ -166,7 +166,7 @@
               <div class="form-group">
                 <label> Parent</label>
                 <select class="form-control" formControlName="parent_name">
-                  <option value="0"> </option>
+                 <option value="0"></option>
                   <option *ngFor="let ct of listUpdate" value="{{ ct.id }}" selected>
                     {{ ct.name }}
                   </option>
@@ -179,12 +179,12 @@
                   </option>
                 </select>
               </div>
-              <div class="form-group alert alert-danger" role="alert" *ngIf="
+              <!-- <div class="form-group alert alert-danger" role="alert" *ngIf="
           insertForm.get('subject_name').hasError('required') &&
           insertForm.get('subject_name').touched
         ">
-                <span> Bạn không được để trống bộ môn! </span>
-              </div>
+                <span> Bạn không được để trống bộ môn! </span> -->
+              <!-- </div> -->
               <div class="form-group alert alert-danger" role="alert" *ngIf="errChapter != ''">
                 <span> {{ errChapter }} </span>
               </div>

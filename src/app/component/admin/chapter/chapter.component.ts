@@ -176,7 +176,7 @@ export class ChapterComponent implements OnInit {
       const formdata = new FormData();
       formdata.append('chapter', JSON.stringify(data));
       this.chapterService
-        .updateChapter(formdata)
+        .updateChapter2(formdata)
         .pipe(concatMap(_ => this.chapterService.getListChapter()))
         .subscribe(
           res => {
