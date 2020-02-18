@@ -23,3 +23,10 @@
   .widget-header h4 { font-size: 25px !important;}
   hr { margin:  0 !important;}
   .content-container { margin-top: 30px;} 
+  #fu {
+    display: flex;
+    justify-content: space-between;
+  }
+  #search_box {
+    width: 300px;
+  }
