@@ -119,6 +119,7 @@ export class DomainComponent implements OnInit {
             this.errDomain = 'Không được trùng cả tên domain và subject';
           }
         );
+        console.log(value)
     }
     if (this.insertForm.invalid) {
       return;
@@ -153,16 +154,17 @@ export class DomainComponent implements OnInit {
     this.popupDelete.hide();
   }
 
-  onClickUpdate(dom: Object) {
-    // this.updateForm.patchValue(dom);
-    // this.domain = dom;
-    this.updateForm.get('id').setValue(dom['0']);
-    this.updateForm.get('name').setValue(dom['1']);
-    this.updateForm.get('subject_name').setValue(dom['4']);
+  onClickUpdate(dom: domain) {
+    this.updateForm.patchValue(dom);
+    this.domain = dom;
     this.showUpdateForm = true;
     this.showTable = false;
     this.showInsertForm = false;
     this.errDomain = '';
+  }
+
+  private newMethod() {
+    return this;
   }
 
   onSubmitUpdate() {
@@ -252,6 +254,7 @@ export class DomainComponent implements OnInit {
   getList() {
     this.domainSerVice.getAllListDomain(this.sort).subscribe((domains: domain[]) => {
       this.domains = domains;
+      // console.log(this.domains)
     });
   }
   clickSort(value, sort) {

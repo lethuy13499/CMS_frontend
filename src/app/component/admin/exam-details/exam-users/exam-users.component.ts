@@ -89,7 +89,7 @@ export class ExamUsersComponent implements OnInit {
         this.examService.getRestUser(this.data).subscribe(res => {
           this.users = res;
         });
-        this.groupService.getListGroup2().subscribe(res => {
+        this.groupService.getListGroup().subscribe(res => {
           this.groups = res;
         })
         this.showTable = true;
@@ -161,7 +161,7 @@ export class ExamUsersComponent implements OnInit {
       this.examService.getRestUser(this.data).subscribe(res => {
         this.users = res;
       });
-      this.groupService.getListGroup2().subscribe(res => {
+      this.groupService.getListGroup().subscribe(res => {
         this.groups = res;
       })
     });
@@ -184,7 +184,7 @@ export class ExamUsersComponent implements OnInit {
       this.examService.getRestUser(this.data).subscribe(res => {
         this.users = res;
       });
-      this.groupService.getListGroup2().subscribe(res => {
+      this.groupService.getListGroup().subscribe(res => {
         this.groups = res;
       })
     });

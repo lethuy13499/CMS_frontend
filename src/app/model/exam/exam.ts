@@ -1,5 +1,10 @@
 import { User } from '../user/users';
 import { ExamUser } from '../ExamUser';
+import { Subject } from 'rxjs';
+import { subject } from '../subject/subject';
+
+
+
 export interface Exam {
   id: number;
   code: string;
@@ -16,7 +21,7 @@ export interface Exam {
   max_attempt: number;
   percent_passing: number;
   start_date: Date;
-  subject_id: number;
+  subject: subject;
   creator: number;
   create_type: number;
   type: number;
