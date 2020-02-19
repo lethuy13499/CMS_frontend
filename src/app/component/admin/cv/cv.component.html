@@ -5,7 +5,74 @@
         <h4 class="widget-title">CV</h4>
       </header>
       <hr class="widget-separator">
-      <div class="widget-body"></div>
+      <div class="widget-body">
+        <div class="row">
+          <div id="fu" class="col-md-12">
+            <input id="search_box" class="form-control" type="search" placeholder="Tìm kiếm theo tên"
+              aria-label="Search" (keyup)="search($event)" />
+            <!-- <a href="#" style="float:right;" data-toggle="modal"
+              data-target="#myModal" *ngIf="showTable && checkRolePermission('insertusers'); else disable">
+              Thêm nội dung</a>
+            <ng-template #disable></ng-template> -->
+          </div>
+          <div class="col-md-12">
+            <table class="table table-bordered " style="margin-top: 10px;">
+              <thead>
+                <tr>
+                  <th style="text-align: center">STT</th>
+                  <th style="vertical-align: middle;text-align: left;">
+                    Name
+                  </th>
+                  <th style="vertical-align: middle;text-align: left;">
+                    Created Date
+                  </th>
+                  <th>Update Date</th>
+                  <th style="vertical-align: middle;text-align: center;">Trạng thái</th>
+                  <th style="text-align: center">Thiết lập</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr >
+                  <td style="text-align: center">dđ</td>
+                  <td style="text-align: left">frfg</td>
+                  <td style="text-align: left">ẻ</td>
+                  <td style="text-align: left"> rfrf</td>
+                                         
+                  <td style="text-align: left;">
+                    <div style="text-align: center">
+                        <span class="labelStatus active" *ngIf="sub?.status===1 ;else block" style="width: 80px">Active</span>
+                        <ng-template #block>
+                          <span class="labelStatus inactive" style="width: 80px">InActive</span>
+                        </ng-template>
+                      
+                    </div>
+                  </td>
+                  <td style="text-align: center">                     
+                    <i class="fa fa-pencil btn btn-primary icon" ></i>
+                    <i 
+                      class="fa fa-trash-o btn btn-danger icon" ></i>             
+                  </td>
+              </tbody>
+            </table>
+
+          </div>
+
+
+        </div>
+        <div class="widget-footer">
+          <div class="phantrang">
+            <div class="lt">
+              <span for="sel1">Results per page: </span>
+              <select class="ft" id="sel1" (change)="onChange($event)">
+                <option>5</option>
+                <option>10</option>            
+              </select>
+            </div>
+            <div class="pagi">
+              <pagination-controls *ngIf="showTable" class="text-center" (pageChange)="p = $event"></pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</div>
