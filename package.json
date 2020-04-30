@@ -39,7 +39,7 @@
     "compass-mixins": "^0.12.10",
     "core-js": "^2.5.4",
     "file-saver": "^2.0.2",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "jwt-decode": "^2.2.0",
     "ng-click-outside": "^4.0.0",
     "ng-multiselect-dropdown": "^0.2.3",
